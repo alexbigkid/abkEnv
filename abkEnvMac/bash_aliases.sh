@@ -30,4 +30,4 @@ alias brew_cu="brew update && brew cu"
 # git aliases
 alias gs="git status"
 alias gp="git pull"
-alias sap="git push"
+alias snp="git push"
