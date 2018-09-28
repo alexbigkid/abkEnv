@@ -6,8 +6,8 @@ if [ -f ~/env/bash_aliases.sh ]; then
 fi
 
 #-------------------------
-# git posh config
+# abk prompt config
 #-------------------------
-if [ -f ~/env/git-prompt.sh ]; then
-    source ~/env/git-prompt.sh
+if [ -f ~/env/abk_prompt.sh ]; then
+    source ~/env/abk_prompt.sh
 fi
