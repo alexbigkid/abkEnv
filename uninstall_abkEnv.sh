@@ -4,9 +4,9 @@
 TRACE=1
 
 # define here installation directory
-BIN_DIR=$HOME/bin2
+BIN_DIR=$HOME/bin
 [ $TRACE != 0 ] && echo \$BIN_DIR = $BIN_DIR
-ENV_DIR=$HOME/env2
+ENV_DIR=$HOME/env
 [ $TRACE != 0 ] && echo \$ENV_DIR = $ENV_DIR
 SH_DIR=""
 [ $TRACE != 0 ] && echo \$SH_DIR = $SH_DIR
