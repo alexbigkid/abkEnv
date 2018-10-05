@@ -1,11 +1,14 @@
+dos2unix
 flyway
 gdbm
+gettext
 git
 icu4c
 mysql
 node
 openssl
 p7zip
+pcre2
 python
 readline
 rsync

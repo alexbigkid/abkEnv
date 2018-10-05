@@ -1,6 +1,7 @@
 caffeine
-gnucash
 google-chrome
+launchcontrol
+p4merge
 safeincloud-password-manager
 sequel-pro
 skype
