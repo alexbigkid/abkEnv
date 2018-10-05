@@ -1,0 +1,12 @@
+caffeine
+gnucash
+google-chrome
+safeincloud-password-manager
+sequel-pro
+skype
+sourcetree
+sqlitemanager
+sweet-home3d
+visual-studio-code
+vlc
+whatsapp

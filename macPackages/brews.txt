@@ -1,0 +1,13 @@
+flyway
+gdbm
+git
+icu4c
+mysql
+node
+openssl
+p7zip
+python
+readline
+rsync
+sqlite
+xz
