@@ -194,3 +194,7 @@ for FILE in ${FILES}
 do
     CreateLink $FILE $ENV_DIR/$(basename $FILE)
 done
+
+#
+# xargs brew install < ./macPackages/brews.txt
+# xargs brew cask install < ./macPackages/casks.txt
