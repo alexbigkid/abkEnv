@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 # enable trace here
-TRACE=1
+TRACE=0
 
 # define here installation directory
 BIN_DIR=$HOME/bin
@@ -14,7 +14,10 @@ SH_BIN_DIR="macBin"
 [ $TRACE != 0 ] && echo \$SH_BIN_DIR= $SH_BIN_DIR
 SH_ENV_DIR="macEnv"
 [ $TRACE != 0 ] && echo \$SH_ENV_DIR= $SH_ENV_DIR
-# echo "dirname/readlink: $(dirname $(path -n $0))"
+
+NEW_BASH_PROFILE="bash_profile.sh"
+ORG_BASH_PROFILE=".bash_profile"
+
 REFRESH=0
 
 
@@ -23,6 +26,7 @@ ERROR_CODE_SUCCESS=0
 ERROR_CODE_GENERAL_ERROR=1
 ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=2
 ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=3
+ERROR_CODE_NOT_BASH_SHELL=4
 
 function PrintUsage ()
 {
@@ -49,8 +53,67 @@ function GetPathFromLink ()
     echo $RESULT_PATH
 }
 
+function CreateLink ()
+{
+    if [ $# -ne 2 ]; then
+        echo "ERROR: invalid number of parameters"
+        false
+    fi
+    [ $TRACE != 0 ] && echo "\$2 = $2"
+    [ -L $2 ] && unlink $2
+    ln -s $1 $2
+    # LINK_RESULT=$([ $? == 0 ] && echo "SUCCESS" || echo "FAILED")
+    LINK_RESULT=$([ $? == 0 ] && echo true || echo false )
+    echo "[$LINK_RESULT]: $2 -> $1"
+    $LINK_RESULT
+}
+
+function CreateNewBashProfile ()
+{
+    if [ -f $HOME/$ORG_BASH_PROFILE ]; then
+        echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
+        mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
+        cat > $1 << EOF_NEW_BASH_PROFILE_IF
+# the original .bash_profile is copied to $ENV_DIR/$ORG_BASH_PROFILE
+# in order to completely remove abk environment and restore the
+# previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
+
+#-------------------------
+# setting previous environment
+#-------------------------
+if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then
+  . $ENV_DIR/$ORG_BASH_PROFILE
+fi
+EOF_NEW_BASH_PROFILE_IF
+    else
+        echo "[no original $HOME/$ORG_BASH_PROFILE found]"
+        cat > $1 << EOF_NEW_BASH_PROFILE_ELSE
+# there was no original .bash_profile so it was not copied to $ENV_DIR/$ORG_BASH_PROFILE
+# in order to completely remove abk environment and restore the
+# previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
+EOF_NEW_BASH_PROFILE_ELSE
+    fi
+
+    cat >> $1 << EOF_NEW_BASH_PROFILE_COMMON
+#-------------------------
+# setting up abk environment
+#-------------------------
+if [ -f $ENV_DIR/bash_abk_env.sh ]; then
+  . $ENV_DIR/bash_abk_env.sh
+fi
+EOF_NEW_BASH_PROFILE_COMMON
+
+    CreateLink $ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
+}
+
 #-------  main -------------
 [ $TRACE != 0 ] && echo "\$# = $#, \$1 = $1"
+[ $TRACE != 0 ] && echo \$SHELL = $SHELL
+
+# check if it is bash shell
+if [[ $SHELL != "/bin/bash" ]]; then
+    PrintUsage $ERROR_CODE_NOT_BASH_SHELL
+fi
 
 # check if 1 parameter and it is --help
 if [[ $# -eq 1 && $1 == "--help" ]]; then
@@ -99,47 +162,35 @@ SH_ENV_DIR=$SH_DIR/$SH_ENV_DIR
 [ $TRACE != 0 ] && echo "\$SH_ENV_DIR=$SH_ENV_DIR"
 
 
+# if newly created
+if [ $REFRESH == 0 ]; then
+    CreateNewBashProfile $SH_ENV_DIR/$NEW_BASH_PROFILE
+fi
+
+
 # create/update links
 echo ""
 echo "[links in $BIN_DIR to $SH_DIR ...]"
 FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    SH_BIN_FULL_NAME=$BIN_DIR/$(basename $FILE)
-    [ $TRACE != 0 ] && echo "\$SH_BIN_FULL_NAME = $SH_BIN_FULL_NAME"
-    #delete previous link association if needed
-    [ -L $SH_BIN_FULL_NAME ] && unlink $SH_BIN_FULL_NAME
-    ln -s $FILE $SH_BIN_FULL_NAME
-    LINK_RESULT=$([ $? == 0 ] && echo "SUCCESS" || echo "FAILED")
-    echo "[$LINK_RESULT]: $SH_BIN_FULL_NAME -> $FILE"
+    CreateLink $FILE $BIN_DIR/$(basename $FILE)
 done
 
-# create/update links in macBin
+# create/update links to macBin
 echo ""
 echo "[links in $BIN_DIR to $SH_BIN_DIR ...]"
 FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    SH_BIN_FULL_NAME=$BIN_DIR/$(basename $FILE)
-    [ $TRACE != 0 ] && echo "\$SH_BIN_FULL_NAME = $SH_BIN_FULL_NAME"
-    #delete previous link association if needed
-    [ -L $SH_BIN_FULL_NAME ] && unlink $SH_BIN_FULL_NAME
-    ln -s $FILE $SH_BIN_FULL_NAME
-    LINK_RESULT=$([ $? == 0 ] && echo "SUCCESS" || echo "FAILED")
-    echo "[$LINK_RESULT]: $SH_BIN_FULL_NAME -> $FILE"
+    CreateLink $FILE $BIN_DIR/$(basename $FILE)
 done
 
-# create/update links in macEnv
+# create/update links to macEnv
 echo ""
 echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
 FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    SH_ENV_FULL_NAME=$ENV_DIR/$(basename $FILE)
-    [ $TRACE != 0 ] && echo "\$SH_ENV_FULL_NAME = $SH_ENV_FULL_NAME"
-    #delete previous link association if needed
-    [ -L $SH_ENV_FULL_NAME ] && unlink $SH_ENV_FULL_NAME
-    ln -s $FILE $SH_ENV_FULL_NAME
-    LINK_RESULT=$([ $? == 0 ] && echo "SUCCESS" || echo "FAILED")
-    echo "[$LINK_RESULT]: $SH_ENV_FULL_NAME -> $FILE"
+    CreateLink $FILE $ENV_DIR/$(basename $FILE)
 done
