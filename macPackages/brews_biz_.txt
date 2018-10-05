@@ -1,0 +1,14 @@
+dos2unix
+flyway
+gdbm
+gettext
+git
+icu4c
+openssl
+p7zip
+pcre2
+python
+readline
+rsync
+sqlite
+xz

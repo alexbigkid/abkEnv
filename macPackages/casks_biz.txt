@@ -1,0 +1,6 @@
+caffeine
+google-chrome
+launchcontrol
+sourcetree
+sqlitemanager
+visual-studio-code
