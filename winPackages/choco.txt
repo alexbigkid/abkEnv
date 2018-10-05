@@ -1,0 +1,16 @@
+7zip
+agentransack
+beyondcompare
+fsviewer
+git
+greenshot
+make
+notepadplusplus
+poshgit
+postman
+python2
+python3
+SourceTree
+vlc
+vscode
+rsync
