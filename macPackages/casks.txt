@@ -1,4 +1,5 @@
 caffeine
+cakebrew
 google-chrome
 launchcontrol
 p4merge
@@ -8,6 +9,8 @@ skype
 sourcetree
 sqlitemanager
 sweet-home3d
+the-unarchiver
+viscosity
 visual-studio-code
 vlc
 whatsapp
