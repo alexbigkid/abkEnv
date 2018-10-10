@@ -13,4 +13,7 @@ python
 readline
 rsync
 sqlite
+tree
+wget
 xz
+
