@@ -3,11 +3,11 @@ cakebrew
 google-chrome
 launchcontrol
 p4merge
+postman
 safeincloud-password-manager
 sequel-pro
 skype
 sourcetree
-sqlitemanager
 sweet-home3d
 the-unarchiver
 viscosity
