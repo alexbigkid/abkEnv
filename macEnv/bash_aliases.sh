@@ -30,5 +30,5 @@ alias brew_cu="brew update && brew cu"
 
 # git aliases
 alias gs="git status"
-alias gp="git pull"
+alias gpull="git pull"
 alias snp="git push"
