@@ -10,9 +10,6 @@ alias cdg="cd $HOME/dev/git"
 alias rgrep="find_text.sh"
 alias rfind="find_file.sh"
 
-# ssh
-alias ssh_ABKweb="ssh -p 17177 ABKweb"
-
 # apps aliases
 alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 alias dm="/Applications/abk_tools/DiffMerge/diffmerge.sh"
