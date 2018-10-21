@@ -82,7 +82,7 @@ function CreateNewBashProfile ()
 # setting previous environment
 #-------------------------
 if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then
-  . $ENV_DIR/$ORG_BASH_PROFILE
+  source $ENV_DIR/$ORG_BASH_PROFILE
 fi
 EOF_NEW_BASH_PROFILE_IF
     else
@@ -99,7 +99,7 @@ EOF_NEW_BASH_PROFILE_ELSE
 # setting up abk environment
 #-------------------------
 if [ -f $ENV_DIR/bash_abk_env.sh ]; then
-  . $ENV_DIR/bash_abk_env.sh
+  source $ENV_DIR/bash_abk_env.sh
 fi
 EOF_NEW_BASH_PROFILE_COMMON
 
