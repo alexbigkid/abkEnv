@@ -8,7 +8,7 @@ ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=3
 ERROR_CODE_NOT_VALID_PARAMETER=4
 ERROR_FILE_DOES_NOT_EXIST=5
 ERROR_FILE_NOT_IN_PNG_FORMAT=6
-
+ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED=7
 ERROR_CODE=$ERROR_CODE_SUCCESS
 
 # echo "\$0 = $0"
@@ -43,18 +43,21 @@ fi
 if [[ $(command -v brew) == "" ]]; then
     echo "ERROR: Hombrew is not installed, please install with:"
     echo "/usr/bin/ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
+    PrintUsage $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
 fi
 
 # is imagemagick installed?
 if [[ $(command -v convert) == "" ]]; then
     echo "ERROR: imagemagick is not installed, please install with:"
     echo "brew install imagemagick"
+    PrintUsage $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
 fi
 
 # is potrace installed?
 if [[ $(command -v potrace) == "" ]]; then
     echo "ERROR: potrace is not installed, please install with:"
     echo "brew install potrace"
+    PrintUsage $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
 fi
 
 # check if file exist
@@ -78,7 +81,7 @@ if [ $ext_name != "png" ] || [ $(file -b --mime-type $1) != "image/png" ]; then
     PrintUsage $ERROR_FILE_NOT_IN_PNG_FORMAT
 fi
 
-# execute find command
+# execute png to svg conversion
 pnm_file=$dir_name/$file_name.pnm
 svg_file=$dir_name/$file_name.svg
 # echo \$pnm_file = $pnm_file
