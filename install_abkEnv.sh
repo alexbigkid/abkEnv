@@ -74,7 +74,7 @@ function CreateNewBashProfile ()
         echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
         mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
         cat > $1 << EOF_NEW_BASH_PROFILE_IF
-# the original .bash_profile is copied to $ENV_DIR/$ORG_BASH_PROFILE
+# the original .bash_profile is MOVED to $ENV_DIR/$ORG_BASH_PROFILE
 # in order to completely remove abk environment and restore the
 # previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
 
@@ -88,7 +88,7 @@ EOF_NEW_BASH_PROFILE_IF
     else
         echo "[no original $HOME/$ORG_BASH_PROFILE found]"
         cat > $1 << EOF_NEW_BASH_PROFILE_ELSE
-# there was no original .bash_profile so it was not copied to $ENV_DIR/$ORG_BASH_PROFILE
+# there was no original .bash_profile so it was not MOVED to $ENV_DIR/$ORG_BASH_PROFILE
 # in order to completely remove abk environment and restore the
 # previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
 EOF_NEW_BASH_PROFILE_ELSE
