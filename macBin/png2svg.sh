@@ -67,25 +67,25 @@ if [ ! -f $1 ]; then
 fi
 
 # check for file is image/png format
-dir_name=$(dirname $1)
-base_name=$(basename $1)
-file_name=${base_name%.*}
-ext_name=${base_name##*.}
+DIR_NAME=$(dirname $1)
+BASE_NAME=$(basename $1)
+FILE_NAME=${BASE_NAME%.*}
+EXT_NAME=${BASE_NAME##*.}
 # echo "input file = $1"
-# echo "\$dir_name  = $dir_name"
-# echo "\$base_name = $base_name"
-# echo "\$file_name = $file_name"
-# echo "\$ext_name  = $ext_name"
-if [ $ext_name != "png" ] || [ $(file -b --mime-type $1) != "image/png" ]; then
+# echo "\$DIR_NAME  = $DIR_NAME"
+# echo "\$BASE_NAME = $BASE_NAME"
+# echo "\$FILE_NAME = $FILE_NAME"
+# echo "\$EXT_NAME  = $EXT_NAME"
+if [ $EXT_NAME != "png" ] || [ $(file -b --mime-type $1) != "image/png" ]; then
     echo "ERROR: file $1 is NOT png file!"
     PrintUsage $ERROR_FILE_NOT_IN_PNG_FORMAT
 fi
 
 # execute png to svg conversion
-pnm_file=$dir_name/$file_name.pnm
-svg_file=$dir_name/$file_name.svg
-# echo \$pnm_file = $pnm_file
-# echo \$svg_file = $svg_file
-convert $1 $pnm_file
-potrace $pnm_file -s -o $svg_file
-rm $pnm_file
+PNM_FILE=$DIR_NAME/$FILE_NAME.pnm
+SVG_FILE=$DIR_NAME/$FILE_NAME.svg
+# echo \$PNM_FILE = $PNM_FILE
+# echo \$SVG_FILE = $SVG_FILE
+convert $1 $PNM_FILE
+potrace $PNM_FILE -s -o $SVG_FILE
+rm $PNM_FILE
