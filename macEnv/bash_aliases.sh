@@ -34,8 +34,5 @@ alias gs="git status"
 alias gp="git pull"
 alias snp="git push"
 alias gpt="git push origin"
-<<<<<<< Updated upstream
 alias cdcd="cd /Users/mobciuser/Library/Application\ Support/Go\ Agent/pipelines"
 alias psg="ps -ax | grep"
-=======
->>>>>>> Stashed changes
