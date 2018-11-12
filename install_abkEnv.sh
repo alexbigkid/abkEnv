@@ -15,8 +15,9 @@ SH_BIN_DIR="macBin"
 SH_ENV_DIR="macEnv"
 [ $TRACE != 0 ] && echo \$SH_ENV_DIR= $SH_ENV_DIR
 
-NEW_BASH_PROFILE="bash_profile.sh"
+NEW_BASH_PROFILE="bash_profile.env"
 ORG_BASH_PROFILE=".bash_profile"
+ABK_BASH_PROFILE="bash_abk.env"
 
 REFRESH=0
 
@@ -98,8 +99,8 @@ EOF_NEW_BASH_PROFILE_ELSE
 #-------------------------
 # setting up abk environment
 #-------------------------
-if [ -f $ENV_DIR/bash_abk_env.sh ]; then
-  source $ENV_DIR/bash_abk_env.sh
+if [ -f $ENV_DIR/$ABK_BASH_PROFILE ]; then
+  source $ENV_DIR/$ABK_BASH_PROFILE
 fi
 EOF_NEW_BASH_PROFILE_COMMON
 
@@ -189,7 +190,7 @@ done
 # create/update links to macEnv
 echo ""
 echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
-FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.sh')
+FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env')
 for FILE in ${FILES}
 do
     CreateLink $FILE $ENV_DIR/$(basename $FILE)

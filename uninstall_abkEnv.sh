@@ -117,7 +117,7 @@ SH_ENV_DIR=$SH_DIR/$SH_ENV_DIR
 
 echo ""
 echo "[uninstalling links in $ENV_DIR to $SH_ENV_DIR ...]"
-FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.sh')
+FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env')
 for FILE in ${FILES}
 do
     DeleteLink $FILE $ENV_DIR/$(basename $FILE)
