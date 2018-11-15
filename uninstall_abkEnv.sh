@@ -148,5 +148,7 @@ RestoreOldBashProfile
 echo ""
 echo "[deleting directory $BIN_DIR if empty ...]"
 rmdir $BIN_DIR
+[ $? == 0 ] && echo "$BIN_DIR deleted" || echo "$BIN_DIR failed to delete"
 echo "[deleting directory $ENV_DIR if empty ...]"
 rmdir $ENV_DIR
+[ $? == 0 ] && echo "$BIN_ENV_DIRDIR deleted" || echo "$ENV_DIR failed to delete"
