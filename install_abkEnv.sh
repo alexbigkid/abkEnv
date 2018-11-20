@@ -75,23 +75,23 @@ function CreateNewBashProfile ()
         echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
         mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
         cat > $1 << EOF_NEW_BASH_PROFILE_IF
-# the original .bash_profile is MOVED to $ENV_DIR/$ORG_BASH_PROFILE
+# the original .bash_profile is MOVED to \$HOME/env/$ORG_BASH_PROFILE
 # in order to completely remove abk environment and restore the
-# previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
+# previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
 
 #-------------------------
 # setting previous environment
 #-------------------------
-if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then
-  source $ENV_DIR/$ORG_BASH_PROFILE
+if [ -f \$HOME/env/$ORG_BASH_PROFILE ]; then
+  source \$HOME/env/$ORG_BASH_PROFILE
 fi
 EOF_NEW_BASH_PROFILE_IF
     else
         echo "[no original $HOME/$ORG_BASH_PROFILE found]"
         cat > $1 << EOF_NEW_BASH_PROFILE_ELSE
-# there was no original .bash_profile so it was not MOVED to $ENV_DIR/$ORG_BASH_PROFILE
+# there was no original .bash_profile so it was not MOVED to \$HOME/env/$ORG_BASH_PROFILE
 # in order to completely remove abk environment and restore the
-# previous bash settings, please execute $BIN_DIR/uninstall_abkEnv.sh
+# previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
 EOF_NEW_BASH_PROFILE_ELSE
     fi
 
@@ -99,8 +99,8 @@ EOF_NEW_BASH_PROFILE_ELSE
 #-------------------------
 # setting up abk environment
 #-------------------------
-if [ -f $ENV_DIR/$ABK_BASH_PROFILE ]; then
-  source $ENV_DIR/$ABK_BASH_PROFILE
+if [ -f \$HOME/env/$ABK_BASH_PROFILE ]; then
+  source \$HOME/env/$ABK_BASH_PROFILE
 fi
 EOF_NEW_BASH_PROFILE_COMMON
 
@@ -190,7 +190,7 @@ done
 # create/update links to macEnv
 echo ""
 echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
-FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env')
+FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
 for FILE in ${FILES}
 do
     CreateLink $FILE $ENV_DIR/$(basename $FILE)
