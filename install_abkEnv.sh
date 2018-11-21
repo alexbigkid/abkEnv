@@ -1,34 +1,16 @@
 #!/bin/bash
 
-# enable trace here
+#---------------------------
+# variables definitions
+#---------------------------
 TRACE=0
-
-# define here installation directory
-BIN_DIR=$HOME/bin
-[ $TRACE != 0 ] && echo \$BIN_DIR = $BIN_DIR
-ENV_DIR=$HOME/env
-[ $TRACE != 0 ] && echo \$ENV_DIR = $ENV_DIR
-SH_DIR=""
-[ $TRACE != 0 ] && echo \$SH_DIR= $SH_DIR
-SH_BIN_DIR="macBin"
-[ $TRACE != 0 ] && echo \$SH_BIN_DIR= $SH_BIN_DIR
-SH_ENV_DIR="macEnv"
-[ $TRACE != 0 ] && echo \$SH_ENV_DIR= $SH_ENV_DIR
-
-NEW_BASH_PROFILE="bash_profile.env"
-ORG_BASH_PROFILE=".bash_profile"
-ABK_BASH_PROFILE="bash_abk.env"
-
 REFRESH=0
+ABK_FUNCTION_LIB_FILE="abk_lib.sh"
+[ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
 
-
-# exit error codes
-ERROR_CODE_SUCCESS=0
-ERROR_CODE_GENERAL_ERROR=1
-ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=2
-ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=3
-ERROR_CODE_NOT_BASH_SHELL=4
-
+#---------------------------
+# functions
+#---------------------------
 function PrintUsage ()
 {
     echo "$0 will create or refresh all links in $BIN_DIR, $ENV_DIR and brew packages"
@@ -37,36 +19,6 @@ function PrintUsage ()
     echo "  $0 --help           - display this info"
     echo "errorExitCode = $1"
     exit $1
-}
-
-function GetAbsolutePath ()
-{
-    local DIR_NAME=$(dirname $1)
-    pushd "$DIR_NAME" > /dev/null
-    local RESULT_PATH=$PWD
-    popd > /dev/null
-    echo $RESULT_PATH
-}
-
-function GetPathFromLink ()
-{
-    local RESULT_PATH=$(dirname $([ -L $1 ] && readlink -n $1))
-    echo $RESULT_PATH
-}
-
-function CreateLink ()
-{
-    if [ $# -ne 2 ]; then
-        echo "ERROR: invalid number of parameters"
-        false
-    fi
-    [ $TRACE != 0 ] && echo "\$2 = $2"
-    [ -L $2 ] && unlink $2
-    ln -s $1 $2
-    # LINK_RESULT=$([ $? == 0 ] && echo "SUCCESS" || echo "FAILED")
-    LINK_RESULT=$([ $? == 0 ] && echo true || echo false )
-    echo "[$LINK_RESULT]: $2 -> $1"
-    $LINK_RESULT
 }
 
 function CreateNewBashProfile ()
@@ -85,6 +37,7 @@ function CreateNewBashProfile ()
 if [ -f \$HOME/env/$ORG_BASH_PROFILE ]; then
   source \$HOME/env/$ORG_BASH_PROFILE
 fi
+
 EOF_NEW_BASH_PROFILE_IF
     else
         echo "[no original $HOME/$ORG_BASH_PROFILE found]"
@@ -92,6 +45,7 @@ EOF_NEW_BASH_PROFILE_IF
 # there was no original .bash_profile so it was not MOVED to \$HOME/env/$ORG_BASH_PROFILE
 # in order to completely remove abk environment and restore the
 # previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
+
 EOF_NEW_BASH_PROFILE_ELSE
     fi
 
@@ -102,14 +56,33 @@ EOF_NEW_BASH_PROFILE_ELSE
 if [ -f \$HOME/env/$ABK_BASH_PROFILE ]; then
   source \$HOME/env/$ABK_BASH_PROFILE
 fi
+
 EOF_NEW_BASH_PROFILE_COMMON
 
-    CreateLink $ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
+    CreateLink $SH_ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
 }
 
-#-------  main -------------
-[ $TRACE != 0 ] && echo "\$# = $#, \$1 = $1"
-[ $TRACE != 0 ] && echo \$SHELL = $SHELL
+#---------------------------
+# main
+#---------------------------
+if [ -f ./$ABK_FUNCTION_LIB_FILE ]; then
+    source ./$ABK_FUNCTION_LIB_FILE
+else
+    echo "ERROR: ./$ABK_FUNCTION_LIB_FILE does not exist"
+    echo "Make sure you installed abk environment: ./install_abkEnv.sh"
+    echo "All binaries, shell scripts are going to be located in ~/bin"
+    exit 1
+fi
+
+if [ $TRACE != 0 ]; then
+    echo "\$# = $#, \$0 = $0, \$1 = $1"
+    echo \$SHELL   = $SHELL
+    echo \$BIN_DIR = $BIN_DIR
+    echo \$ENV_DIR = $ENV_DIR
+    echo \$SH_DIR  = $SH_DIR
+    echo ""
+fi
+
 
 # check if it is bash shell
 if [[ $SHELL != "/bin/bash" ]]; then
@@ -158,18 +131,20 @@ else
 fi
 SH_BIN_DIR=$SH_DIR/$SH_BIN_DIR
 SH_ENV_DIR=$SH_DIR/$SH_ENV_DIR
-[ $TRACE != 0 ] && echo "\$SH_DIR    =$SH_DIR"
-[ $TRACE != 0 ] && echo "\$SH_BIN_DIR=$SH_BIN_DIR"
-[ $TRACE != 0 ] && echo "\$SH_ENV_DIR=$SH_ENV_DIR"
 
+if [ $TRACE != 0 ]; then
+    echo "\$REFRESH   =$REFRESH"
+    echo "\$SH_DIR    =$SH_DIR"
+    echo "\$SH_BIN_DIR=$SH_BIN_DIR"
+    echo "\$SH_ENV_DIR=$SH_ENV_DIR"
+fi
 
-# if newly created
+# if installing, not refreshing
 if [ $REFRESH == 0 ]; then
     CreateNewBashProfile $SH_ENV_DIR/$NEW_BASH_PROFILE
 fi
 
-
-# create/update links
+# create/update links in project dir
 echo ""
 echo "[links in $BIN_DIR to $SH_DIR ...]"
 FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
@@ -196,7 +171,4 @@ do
     CreateLink $FILE $ENV_DIR/$(basename $FILE)
 done
 
-#
-# xargs brew install < ./macPackages/brews.txt
-# xargs brew cask install < ./macPackages/casks.txt
-# brew cleanup
+exit $ERROR_CODE

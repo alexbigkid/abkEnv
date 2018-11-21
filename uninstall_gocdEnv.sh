@@ -1,12 +1,16 @@
 #!/bin/bash
 
-# enable trace here
+#---------------------------
+# variables definitions
+#---------------------------
 TRACE=0
-
-ABK_FUNCTION_LIB_FILE="abk_lib.sh"
-
 EXECUTED_FROM_BIN=0
+ABK_FUNCTION_LIB_FILE="abk_lib.sh"
+[ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
 
+#---------------------------
+# functions
+#---------------------------
 function PrintUsage ()
 {
     echo "$0 will uninstall link in $GOCD_INSTALLATION_DIR to $GOCD_OVERRIDE_FILE"
@@ -17,11 +21,9 @@ function PrintUsage ()
     exit $1
 }
 
-#-------  main -------------
-[ $TRACE != 0 ] && echo "\$# = $#, \$0 = $0, \$1 = $1"
-[ $TRACE != 0 ] && echo \$SHELL = $SHELL
-
-# abk library inclusion
+#---------------------------
+# main
+#---------------------------
 if [ -f ./$ABK_FUNCTION_LIB_FILE ]; then
     source ./$ABK_FUNCTION_LIB_FILE
 else
@@ -31,9 +33,13 @@ else
     exit 1
 fi
 
-[ $TRACE != 0 ] && echo \$GOCD_INSTALLATION_DIR = $GOCD_INSTALLATION_DIR
-[ $TRACE != 0 ] && echo \$GOCD_OVERRIDE_FILE = $GOCD_OVERRIDE_FILE
-[ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
+if [ $TRACE != 0 ]; then
+    echo "\$# = $#, \$0 = $0, \$1 = $1"
+    echo \$SHELL = $SHELL
+    echo \$GOCD_INSTALLATION_DIR = $GOCD_INSTALLATION_DIR
+    echo \$GOCD_OVERRIDE_FILE = $GOCD_OVERRIDE_FILE
+    echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
+fi
 
 # check if it is bash shell
 if [[ $SHELL != "/bin/bash" ]]; then
@@ -83,5 +89,6 @@ if [ -f "$ABS_GOCD_OVERRIDE_FILE" ]; then
         ERROR_CODE=$([ $? -eq 0 ] && echo $ERROR_CODE_SUCCESS || echo $ERROR_CODE_GENERAL_ERROR )
     fi
 fi
+
 [ $TRACE != 0 ] && echo "\$ERROR_CODE = $ERROR_CODE"
 exit $ERROR_CODE
