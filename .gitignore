@@ -3,3 +3,4 @@ macPackages/casks_*.txt
 macPackages/brews_*.txt
 macPackages/bi_*.txt
 macEnv/bash_profile.env
+macEnv/bash_aliases_abkp.env
