@@ -4,3 +4,4 @@ macPackages/brews_*.txt
 macPackages/bi_*.txt
 macEnv/bash_profile.env
 macEnv/bash_aliases_abkp.env
+macPackages/*_brew_update.txt
