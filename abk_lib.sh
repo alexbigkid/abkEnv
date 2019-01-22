@@ -12,6 +12,7 @@ BIN_DIR=$HOME/bin
 ENV_DIR=$HOME/env
 SH_BIN_DIR="macBin"
 SH_ENV_DIR="macEnv"
+SH_PACKAGES_DIR="macPackages"
 SH_DIR=""
 
 # abkEnv bash profile file names
