@@ -90,12 +90,13 @@ function InstallOrUpdate ()
             fi
         fi
 
-        if [[ $LCL_UPDATE == 1 ]]; then
+        if [[ $LCL_UPDATE -eq 1 ]]; then
             echo "updating $LCL_BREW_PACKAGE $LCL_CASK"
             UpdateBrewAndWriteHeader $LCL_BREW_PACKAGE $LCL_LOG_FILE
-            $TOOL_EXE $LCL_CASK upgrade $BLCL_REW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
-            # $TOOL_EXE unlink $BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
-            # $TOOL_EXE link $BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+            [ $TRACE != 0 ] && echo "$TOOL_EXE $LCL_CASK upgrade $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE"
+            $TOOL_EXE $LCL_CASK upgrade $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+            # $TOOL_EXE unlink $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+            # $TOOL_EXE link $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
             # $TOOL_EXE cleanup
         else
             echo "$LCL_BREW_PACKAGE installed and up to date!"
