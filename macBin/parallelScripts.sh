@@ -29,15 +29,28 @@ function PrintUsage ()
     exit $1
 }
 
-# homebrew installed?
+# parallel installed?
 if [[ $(command -v $TOOL_EXE) == "" ]]; then
     echo "ERROR: $TOOL_EXE is not installed, please install with:"
-    echo "brew install $0"
-    exit $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
+    echo "bInstall.sh $TOOL_EXE"
+    echo "or with:"
+    echo "brew install $TOOL_EXE"
+    PrintUsage $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
 fi
+
+# if not 1 parameters
+if [ $# -eq 0 ]; then
+    echo "no parametres passed in"
+    PrintUsage $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
+fi
+
 
 # echo "\$@ = $@"
 [ $TRACE != 0 ] && echo "\$@ = $@"
+time $TOOL_EXE -j+0 -k --eta $@
+# -j+0   to run only the number of the available CPUs
+# --eta  estimation
+# -k     trace output will be done in order nt concurrently
+# time $TOOL_EXE -j+0 -k --eta $@
 
-# time $TOOL_EXE -j+0 --eta $@
 # ls *.zip | parallel 'mkdir {.} && cd {.} && unzip ../{}'
