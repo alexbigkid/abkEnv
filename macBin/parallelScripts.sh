@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#---------------------------
-# variables definitions
-#---------------------------
 TRACE=0
 TOOL_EXE=parallel
 
@@ -23,8 +20,7 @@ function PrintUsage ()
     echo "usage: $0 <list of jobs to run>"
     echo "  $0 --help   - display this info"
     echo "  <lis of jobs> - could be script files or piped through parameters"
-    echo "  example: ls *.gz | parallel.sh 'zcat {} | bzip2 -9 >{.}.bz2'"
-    echo "  example: ls LuxorBuild*.sh | parallel.sh"
+    echo "  example: ls LuxorBuild*.sh | $0 {}"
     echo "errorExitCode = $1"
     exit $1
 }
@@ -38,19 +34,16 @@ if [[ $(command -v $TOOL_EXE) == "" ]]; then
     PrintUsage $ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED
 fi
 
-# if not 1 parameters
+# if not at least 1 parameters
 if [ $# -eq 0 ]; then
     echo "no parametres passed in"
     PrintUsage $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
 fi
 
 
-# echo "\$@ = $@"
+# -j+0                  to run only the number of the available CPUs
+# --eta                 estimation
+# -k                    trace output will be done in order called
+# --halt now,fail=1     exit when the first job fails. Kill running jobs.
 [ $TRACE != 0 ] && echo "\$@ = $@"
-time $TOOL_EXE -j+0 -k --eta $@
-# -j+0   to run only the number of the available CPUs
-# --eta  estimation
-# -k     trace output will be done in order nt concurrently
-# time $TOOL_EXE -j+0 -k --eta $@
-
-# ls *.zip | parallel 'mkdir {.} && cd {.} && unzip ../{}'
+time $TOOL_EXE -j+0 --eta --halt now,fail=1 $@
