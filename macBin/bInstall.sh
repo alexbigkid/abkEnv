@@ -3,7 +3,7 @@
 #---------------------------
 # variables definitions
 #---------------------------
-TRACE=0
+TRACE=1
 EXECUTED_FROM_BIN=0
 BIN_DIR=$HOME/bin
 ABK_FUNCTION_LIB_FILE="abk_lib.sh"
@@ -29,7 +29,7 @@ TOOL_EXE=brew
 BREW_PACKAGE=$1
 BREW_CASK=$2
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 - installs brew package and logs in bi_<package name>.txt file"
     echo "usage: $0 <brew package name> [cask]"
@@ -40,7 +40,7 @@ function PrintUsage ()
     exit $1
 }
 
-function UpdateBrewAndWriteHeader ()
+UpdateBrewAndWriteHeader ()
 {
     local LCL_BREW_PACKAGE=$1
     local LCL_LOG_FILE=$2
@@ -59,7 +59,7 @@ function UpdateBrewAndWriteHeader ()
     [ $TRACE != 0 ] && echo "<- UpdateBrewAndWriteHeader"
 }
 
-function InstallOrUpdate ()
+InstallOrUpdate ()
 {
     local LCL_BREW_PACKAGE=$1
     local LCL_LOG_FILE=$2
@@ -108,10 +108,10 @@ function InstallOrUpdate ()
 #-------  main -------------
 # installed in user/bin directory?
 if [ -f $BIN_DIR/$ABK_FUNCTION_LIB_FILE ]; then
-    source $BIN_DIR/$ABK_FUNCTION_LIB_FILE
+    . $BIN_DIR/$ABK_FUNCTION_LIB_FILE
 else
     if [ -f $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE ]; then
-        source $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE
+        . $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE
     else
         echo "ERROR: cannot find library: $ABK_FUNCTION_LIB_FILE"
         echo "Make sure you installed abk environment: $SCRIPT_PATH/../install_abkEnv.sh"
@@ -130,7 +130,7 @@ if [ $TRACE != 0 ]; then
 fi
 
 # check if it is bash shell
-if [[ $SHELL != "/bin/bash" ]]; then
+if [ $SHELL != "/bin/bash" ]; then
     PrintUsage $ERROR_CODE_NOT_BASH_SHELL
 fi
 
@@ -140,7 +140,7 @@ if [ $# -eq 1 ] && [ $1 = "--help" ]; then
 fi
 
 # if not 1 parameters
-if [[ ( $# -ne 1 ) && ! ( $# -eq 2 && "$2" == "cask" ) ]]; then
+if [ $# -ne 1 ] && ! [ $# -eq 2 && "$2" == "cask" ]; then
     echo "number of parametres passed in: $#"
     echo "parameters: $@"
     PrintUsage $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
