@@ -11,7 +11,7 @@ ABK_FUNCTION_LIB_FILE="abk_lib.sh"
 #---------------------------
 # functions
 #---------------------------
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 will create or refresh all links in $BIN_DIR, $ENV_DIR and brew packages"
     echo "the script $0 must be called without any parameters"
@@ -21,7 +21,7 @@ function PrintUsage ()
     exit $1
 }
 
-function CreateNewBashProfile ()
+CreateNewBashProfile ()
 {
     if [ -f $HOME/$ORG_BASH_PROFILE ]; then
         echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"

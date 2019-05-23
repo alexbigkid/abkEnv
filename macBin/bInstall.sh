@@ -29,7 +29,7 @@ TOOL_EXE=brew
 BREW_PACKAGE=$1
 BREW_CASK=$2
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 - installs brew package and logs in bi_<package name>.txt file"
     echo "usage: $0 <brew package name> [cask]"
@@ -40,7 +40,7 @@ function PrintUsage ()
     exit $1
 }
 
-function UpdateBrewAndWriteHeader ()
+UpdateBrewAndWriteHeader ()
 {
     local LCL_BREW_PACKAGE=$1
     local LCL_LOG_FILE=$2
@@ -59,7 +59,7 @@ function UpdateBrewAndWriteHeader ()
     [ $TRACE != 0 ] && echo "<- UpdateBrewAndWriteHeader"
 }
 
-function InstallOrUpdate ()
+InstallOrUpdate ()
 {
     local LCL_BREW_PACKAGE=$1
     local LCL_LOG_FILE=$2

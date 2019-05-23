@@ -15,7 +15,7 @@ echo "\$3 = $3"
 echo "\$4 = $4"
 echo "\$@ = $@"
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 - searches for string in all files"
     echo "usage: $0 <fileName>"

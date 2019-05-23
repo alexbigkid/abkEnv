@@ -15,7 +15,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 # echo "\$1 = $1"
 # echo "\$@ = $@"
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 converts png to svg image"
     echo "usage: $0 <PngFileName>"

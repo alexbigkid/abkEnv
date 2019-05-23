@@ -14,7 +14,7 @@ ERROR_FILE_NOT_IN_PNG_FORMAT=6
 ERROR_REQUIRED_TOOL_IS_NOT_INSTALLED=7
 ERROR_CODE=$ERROR_CODE_SUCCESS
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 - runs jobs in concurrently depending on number of cores"
     echo "usage: $0 <list of jobs to run>"

@@ -35,7 +35,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 #---------------------------
 # functions
 #---------------------------
-function GetAbsolutePath ()
+GetAbsolutePath ()
 {
     local DIR_NAME=$(dirname "$1")
     pushd "$DIR_NAME" > /dev/null
@@ -44,13 +44,13 @@ function GetAbsolutePath ()
     echo $RESULT_PATH
 }
 
-function GetPathFromLink ()
+GetPathFromLink ()
 {
     local RESULT_PATH=$(dirname $([ -L "$1" ] && readlink -n "$1"))
     echo $RESULT_PATH
 }
 
-function CreateLink ()
+CreateLink ()
 {
     if [ $# -ne 2 ]; then
         echo "ERROR: invalid number of parameters"
@@ -71,7 +71,7 @@ function CreateLink ()
     $LINK_RESULT
 }
 
-function DeleteLink ()
+DeleteLink ()
 {
     if [ $# -ne 1 ]; then
         echo "ERROR: invalid number of parameters"

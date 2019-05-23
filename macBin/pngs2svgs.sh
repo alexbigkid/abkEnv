@@ -13,7 +13,7 @@ ERROR_PARAMETER_IS_NOT_A_DIRECTORY=8
 ERROR_CODE=$ERROR_CODE_SUCCESS
 
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 converts all png files to svg images in a given directory"
     echo "usage: $0 <DirWithPngFiles>"

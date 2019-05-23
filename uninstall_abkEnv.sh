@@ -11,7 +11,7 @@ ABK_FUNCTION_LIB_FILE="abk_lib.sh"
 #---------------------------
 # functions
 #---------------------------
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 will unlink all installed script files in $BIN_DIR and $ENV_DIR and brew packages"
     echo "the script $0 must be called without any parameters"
@@ -21,7 +21,7 @@ function PrintUsage ()
     exit $1
 }
 
-function RestoreOldBashProfile ()
+RestoreOldBashProfile ()
 {
     DeleteLink $HOME/$ORG_BASH_PROFILE
     if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then

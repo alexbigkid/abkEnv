@@ -15,7 +15,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 # echo "\$4 = $4"
 # echo "\$@ = $@"
 
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 searches for file recursively"
     echo "usage: $0 <fileName>"

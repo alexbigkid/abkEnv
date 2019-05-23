@@ -11,7 +11,7 @@ ABK_FUNCTION_LIB_FILE="abk_lib.sh"
 #---------------------------
 # functions
 #---------------------------
-function PrintUsage ()
+PrintUsage ()
 {
     echo "$0 will create link in $GOCD_INSTALLATION_DIR to $GOCD_OVERRIDE_FILE"
     echo "the script $0 must be called without any parameters"
