@@ -49,8 +49,6 @@ UpdateBrewAndWriteHeader ()
     [ $TRACE != 0 ] && echo "\$LCL_BREW_PACKAGE = $LCL_BREW_PACKAGE"
     [ $TRACE != 0 ] && echo "\$LCL_LOG_FILE  = $LCL_LOG_FILE"
 
-    echo "updating brew installation"
-    $TOOL_EXE update
     echo "$LCL_BREW_PACKAGE package installation or update is logged in $LCL_LOG_FILE"
     echo "" 2>&1 | tee -a $LCL_LOG_FILE
     echo "--------------------------------------------------------------------------------" 2>&1 | tee -a $LCL_LOG_FILE

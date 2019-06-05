@@ -32,6 +32,8 @@ ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=3
 ERROR_CODE_NOT_BASH_SHELL=4
 ERROR_CODE=$ERROR_CODE_SUCCESS
 
+
+
 #---------------------------
 # functions
 #---------------------------
@@ -85,4 +87,37 @@ DeleteLink ()
     LINK_RESULT=$([ $? == 0 ] && echo true || echo false )
     echo "[$LINK_RESULT]: $1 -> $LINKED_TO"
     $LINK_RESULT
+}
+
+IsParameterHelp ()
+{
+    echo "-> IsParameterHelp ($@)"
+    local NUMBER_OF_PARAMETERS=$1
+    local PARAMETER=$2
+    if [[ $NUMBER_OF_PARAMETERS -eq 1 && $PARAMETER == "--help" ]]; then
+        echo "<- IsParameterHelp (TRUE)"
+        return $TRUE
+    else
+        echo "<- IsParameterHelp (FALSE)"
+        return $FALSE
+    fi
+}
+
+CheckNumberOfParameters ()
+{
+    echo "-> CheckNumberOfParameters ($@)"
+    local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
+    local LCL_ALL_PARAMS=($@)
+    local LCL_PARAMETERS_PASSED_IN=(${LCL_ALL_PARAMS[@]:1:$#})
+    if [ $LCL_EXPECTED_NUMBER_OF_PARAMS -ne ${#LCL_PARAMETERS_PASSED_IN[@]} ]; then
+        echo "ERROR: invalid number of parameters."
+        echo "  expected number:  $LCL_EXPECTED_NUMBER_OF_PARAMS"
+        echo "  passed in number: ${#LCL_PARAMETERS_PASSED_IN[@]}"
+        echo "  parameters passed in: ${LCL_PARAMETERS_PASSED_IN[@]}"
+        echo "<- CheckNumberOfParameters (FALSE)"
+        return $FALSE
+    else
+        echo "<- CheckNumberOfParameters (TRUE)"
+        return $TRUE
+    fi
 }
