@@ -64,7 +64,7 @@ echo "BREW_PACKAGES = $BREW_PACKAGES"
 for BREW_PACKAGE in ${BREW_PACKAGES[@]}; do
     echo "updating brew package: $BREW_PACKAGE"
     echo "------------------------------------"
-    ./bInstall.sh $BREW_PACKAGE
+    bInstall.sh $BREW_PACKAGE
 done
 
 FASTLANE_PACKAGE="fastlane"
@@ -82,7 +82,7 @@ for BREW_CASK_PACKAGE in ${BREW_CASK_PACKAGES[@]}; do
     else
         echo "updating brew package: $BREW_CASK_PACKAGE"
         echo "------------------------------------"
-        ./bInstall.sh $BREW_CASK_PACKAGE cask
+        bInstall.sh $BREW_CASK_PACKAGE cask
     fi
 done
 
