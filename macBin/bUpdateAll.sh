@@ -11,8 +11,6 @@ ABK_FUNCTION_LIB_FILE="abk_lib.sh"
 SCRIPT_NAME=$(basename $0)
 SCRIPT_PATH=$(dirname $0)
 
-
-
 #---------------------------
 # functions
 #---------------------------
@@ -25,7 +23,6 @@ PrintUsageAndExitWithCode ()
     echo "errorExitCode = $1"
     exit $1
 }
-
 
 #---------------------------
 # main
@@ -60,24 +57,36 @@ CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWi
 brew update
 
 BREW_PACKAGES=$(brew outdated)
-echo "BREW_PACKAGES = $BREW_PACKAGES"
+echo "===================================="
+echo "brew packages to update"
+echo "===================================="
+echo "$BREW_PACKAGES"
 for BREW_PACKAGE in ${BREW_PACKAGES[@]}; do
+    echo ""
     echo "updating brew package: $BREW_PACKAGE"
     echo "------------------------------------"
     bInstall.sh $BREW_PACKAGE
 done
 
-FASTLANE_PACKAGE="fastlane"
-SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
+EXCEPT_FASTLANE_PACKAGE="fastlane"
+EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
 BREW_CASK_PACKAGES=$(brew cask outdated --greedy)
+echo "===================================="
+echo "brew cask packages to update"
+echo "===================================="
+echo "$BREW_CASK_PACKAGES"
 for BREW_CASK_PACKAGE in ${BREW_CASK_PACKAGES[@]}; do
     echo ""
-    if [ $BREW_CASK_PACKAGE == $FASTLANE_PACKAGE ]; then
-        echo "do not update: $FASTLANE_PACKAGE"
+    if [ $BREW_CASK_PACKAGE == $EXCEPT_FASTLANE_PACKAGE ]; then
+        echo "do not update: $EXCEPT_FASTLANE_PACKAGE"
         echo "------------------------------------"
-        $FASTLANE_PACKAGE --version
-    elif [ $BREW_CASK_PACKAGE == $SAFE_IN_CLOUD_PACKAGE ]; then
-        echo "do not update: $SAFE_IN_CLOUD_PACKAGE"
+        FAST_LANE_UPDATE_STRING="fastlane update_fastlane"
+        FASTLANE_OUTPUT=$($EXCEPT_FASTLANE_PACKAGE --version)
+        if [[ $FASTLANE_OUTPUT =~ $FAST_LANE_UPDATE_STRING ]]; then
+            $FAST_LANE_UPDATE_STRING
+        fi
+    elif [ $BREW_CASK_PACKAGE == $EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
+        echo "do not update: $EXCEPT_SAFE_IN_CLOUD_PACKAGE"
         echo "------------------------------------"
     else
         echo "updating brew package: $BREW_CASK_PACKAGE"
