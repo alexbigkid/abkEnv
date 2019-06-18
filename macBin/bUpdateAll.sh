@@ -3,7 +3,8 @@
 #---------------------------
 # variables definitions
 #---------------------------
-TRACE=1
+TRACE=0
+EXIT_CODE=$ERROR_CODE_SUCCESS
 EXPECTED_NUMBER_OF_PARAMETERS=0
 EXECUTED_FROM_BIN=0
 BIN_DIR=$HOME/bin
@@ -17,12 +18,72 @@ SCRIPT_PATH=$(dirname $0)
 PrintUsageAndExitWithCode ()
 {
     echo ""
+    echo "-> PrintUsageAndExitWithCode ($@)"
     echo "$0 - updates all brew packages"
     echo "usage: $0"
     echo "  $0 --help   - display this info"
-    echo "errorExitCode = $1"
+    echo "<- PrintUsageAndExitWithCode ($1)"
     exit $1
 }
+
+UpdateBrewPackages ()
+{
+    echo "-> UpdateBrewPackages ($@)"
+    local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
+    local LCL_BREW_PACKAGES=$(brew outdated)
+    echo ""
+    echo "===================================="
+    echo "brew packages to update"
+    echo "===================================="
+    echo "$LCL_BREW_PACKAGES"
+    for BREW_PACKAGE in ${LCL_BREW_PACKAGES[@]}; do
+        echo ""
+        echo "updating brew package: $BREW_PACKAGE"
+        echo "------------------------------------"
+        bInstall.sh $BREW_PACKAGE
+        [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+    done
+    echo "<- UpdateBrewPackages ($LCL_EXIT_CODE)"
+    return $LCL_EXIT_CODE
+}
+
+UpdateBrewCaskPackages ()
+{
+    echo "-> UpdateBrewCaskPackages ($@)"
+    local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
+    local LCL_EXCEPT_FASTLANE_PACKAGE="fastlane"
+    local LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
+    local LCL_BREW_CASK_PACKAGES=$(brew cask outdated --greedy)
+    echo ""
+    echo "===================================="
+    echo "brew cask packages to update"
+    echo "===================================="
+    echo "$LCL_BREW_CASK_PACKAGES"
+    for LCL_BREW_CASK_PACKAGE in ${LCL_BREW_CASK_PACKAGES[@]}; do
+        echo ""
+        if [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_FASTLANE_PACKAGE ]; then
+            echo "do not update: $LCL_EXCEPT_FASTLANE_PACKAGE"
+            echo "------------------------------------"
+            local LCL_FAST_LANE_UPDATE_STRING="fastlane update_fastlane"
+            local LCL_FASTLANE_OUTPUT=$($LCL_EXCEPT_FASTLANE_PACKAGE --version)
+            if [[ $LCL_FASTLANE_OUTPUT =~ $LCL_FAST_LANE_UPDATE_STRING ]]; then
+                $LCL_FAST_LANE_UPDATE_STRING
+                [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+            fi
+        elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
+            echo "do not update: $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE"
+            echo "------------------------------------"
+        else
+            echo "updating brew package: $LCL_BREW_CASK_PACKAGE"
+            echo "------------------------------------"
+            bInstall.sh $LCL_BREW_CASK_PACKAGE cask
+            [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+        fi
+    done   
+    echo "<- UpdateBrewCaskPackages ($LCL_EXIT_CODE)"
+    return $LCL_EXIT_CODE
+}
+
 
 #---------------------------
 # main
@@ -56,44 +117,11 @@ CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWi
 
 brew update
 
-BREW_PACKAGES=$(brew outdated)
-echo "===================================="
-echo "brew packages to update"
-echo "===================================="
-echo "$BREW_PACKAGES"
-for BREW_PACKAGE in ${BREW_PACKAGES[@]}; do
-    echo ""
-    echo "updating brew package: $BREW_PACKAGE"
-    echo "------------------------------------"
-    bInstall.sh $BREW_PACKAGE
-done
+UpdateBrewPackages
+[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && EXIT_CODE=$?
 
-EXCEPT_FASTLANE_PACKAGE="fastlane"
-EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
-BREW_CASK_PACKAGES=$(brew cask outdated --greedy)
-echo "===================================="
-echo "brew cask packages to update"
-echo "===================================="
-echo "$BREW_CASK_PACKAGES"
-for BREW_CASK_PACKAGE in ${BREW_CASK_PACKAGES[@]}; do
-    echo ""
-    if [ $BREW_CASK_PACKAGE == $EXCEPT_FASTLANE_PACKAGE ]; then
-        echo "do not update: $EXCEPT_FASTLANE_PACKAGE"
-        echo "------------------------------------"
-        FAST_LANE_UPDATE_STRING="fastlane update_fastlane"
-        FASTLANE_OUTPUT=$($EXCEPT_FASTLANE_PACKAGE --version)
-        if [[ $FASTLANE_OUTPUT =~ $FAST_LANE_UPDATE_STRING ]]; then
-            $FAST_LANE_UPDATE_STRING
-        fi
-    elif [ $BREW_CASK_PACKAGE == $EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
-        echo "do not update: $EXCEPT_SAFE_IN_CLOUD_PACKAGE"
-        echo "------------------------------------"
-    else
-        echo "updating brew package: $BREW_CASK_PACKAGE"
-        echo "------------------------------------"
-        bInstall.sh $BREW_CASK_PACKAGE cask
-    fi
-done
+UpdateBrewCaskPackages
+[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && EXIT_CODE=$?
 
 brew cleanup
 
