@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #---------------------------
 # variables definitions
@@ -41,7 +41,7 @@ UpdateBrewPackages ()
         echo "updating brew package: $BREW_PACKAGE"
         echo "------------------------------------"
         bInstall.sh $BREW_PACKAGE
-        [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+        [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
     done
     echo "<- UpdateBrewPackages ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
@@ -68,7 +68,7 @@ UpdateBrewCaskPackages ()
             local LCL_FASTLANE_OUTPUT=$($LCL_EXCEPT_FASTLANE_PACKAGE --version)
             if [[ $LCL_FASTLANE_OUTPUT =~ $LCL_FAST_LANE_UPDATE_STRING ]]; then
                 $LCL_FAST_LANE_UPDATE_STRING
-                [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+                [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
             fi
         elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
             echo "do not update: $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE"
@@ -77,7 +77,7 @@ UpdateBrewCaskPackages ()
             echo "updating brew package: $LCL_BREW_CASK_PACKAGE"
             echo "------------------------------------"
             bInstall.sh $LCL_BREW_CASK_PACKAGE cask
-            [ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && LCL_EXIT_CODE=$?
+            [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
         fi
     done   
     echo "<- UpdateBrewCaskPackages ($LCL_EXIT_CODE)"
@@ -118,10 +118,10 @@ CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWi
 brew update
 
 UpdateBrewPackages
-[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && EXIT_CODE=$?
+[[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && EXIT_CODE=$?
 
 UpdateBrewCaskPackages
-[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ] && EXIT_CODE=$?
+[[ $EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && EXIT_CODE=$?
 
 brew cleanup
 
