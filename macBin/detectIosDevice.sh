@@ -30,10 +30,12 @@ echo ""
 echo "-> $0 ($@)"
 
 # include common library, fail if does not exist
-if [ -f $COMMON_LIB_FILE ]; then
-    source $COMMON_LIB_FILE
-elif [ -f "../$COMMON_LIB_FILE" ]; then
+if [ -f "../$COMMON_LIB_FILE" ]; then
+    echo "sourcing from ../$COMMON_LIB_FILE"
     source "../$COMMON_LIB_FILE"
+elif [ -f "$HOME/bin/$COMMON_LIB_FILE" ]; then
+    echo "sourcing from $HOME/bin/$COMMON_LIB_FILE"
+    source "$HOME/bin/$COMMON_LIB_FILE"
 else
     echo "ERROR: $COMMON_LIB_FILE does not exist in the local directory."
     echo "  $COMMON_LIB_FILE contains common definitions and functions"
