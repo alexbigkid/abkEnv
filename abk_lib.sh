@@ -27,11 +27,11 @@ GOCD_OVERRIDE_FILE="overrides.env"
 # exit error codes
 ERROR_CODE_SUCCESS=0
 ERROR_CODE_GENERAL_ERROR=1
-ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=2
-ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=3
-ERROR_CODE_NOT_BASH_SHELL=4
+ERROR_CODE_NOT_BASH_SHELL=2
+ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=3
+ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=4
+ERROR_CODE_NOT_VALID_PARAMETER=5
 ERROR_CODE=$ERROR_CODE_SUCCESS
-
 
 
 #---------------------------
@@ -119,5 +119,34 @@ CheckNumberOfParameters ()
     else
         echo "<- CheckNumberOfParameters (TRUE)"
         return $TRUE
+    fi
+}
+
+IsPredefinedParameterValid ()
+{
+    echo "-> IsPredefinedParameterValid ($@)"
+    local LCL_MATCH_FOUND=$FALSE
+    local LCL_VALID_PARAMETERS=""
+    local LCL_PARAMETER=$1
+    shift
+    local PARAMETER_ARRAY=("$@")
+    # echo "\$LCL_PARAMETER = $LCL_PARAMETER"
+    for element in "${PARAMETER_ARRAY[@]}";
+    do
+        if [ $LCL_PARAMETER == $element ]; then
+            LCL_MATCH_FOUND=$TRUE
+        fi
+        LCL_VALID_PARAMETERS="$LCL_VALID_PARAMETERS $element,"
+        # echo "VALID PARAMS = $element"
+    done
+
+    if [ $LCL_MATCH_FOUND -eq $TRUE ]; then
+        echo "<- IsPredefinedParameterValid (TRUE)"
+        return $TRUE
+    else
+        echo -e "${RED}ERROR: Invalid parameter:${NC} ${PURPLE}$PARAMETER${NC}"
+        echo -e "${RED}Valid Parameters: $LCL_VALID_PARAMETERS ${NC}"
+        echo "<- IsPredefinedParameterValid (FALSE)"
+        return $FALSE
     fi
 }
