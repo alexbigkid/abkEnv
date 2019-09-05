@@ -44,10 +44,8 @@ IsParameterHelp $# $1 && PrintUsageAndExitWithCode $EXIT_CODE_SUCCESS
 
 echo "number of parameters $#"
 if [[ $# -eq 0 ]]; then
-    echo "1"
     SEARCH_STRING=$(echo ${VALID_IOS_DEVICE[@]} | sed 's/\ /\\|/g')
 elif [[ $# -le ${#VALID_IOS_DEVICE[@]} ]]; then
-    echo "2"
     VALID_PARAMETER_ARRAY=()
     for PARAMETER in "$@";
     do
