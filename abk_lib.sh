@@ -20,10 +20,6 @@ NEW_BASH_PROFILE="bash_profile.env"
 ORG_BASH_PROFILE=".bash_profile"
 ABK_BASH_PROFILE="bash_abk.env"
 
-# GOCD installation settings
-GOCD_INSTALLATION_DIR="$HOME/Library/Application Support/Go Agent"
-GOCD_OVERRIDE_FILE="overrides.env"
-
 # exit error codes
 ERROR_CODE_SUCCESS=0
 ERROR_CODE_GENERAL_ERROR=1
