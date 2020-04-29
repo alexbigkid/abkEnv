@@ -87,21 +87,21 @@ DeleteLink ()
 
 IsParameterHelp ()
 {
-    echo "-> IsParameterHelp ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
     if [[ $NUMBER_OF_PARAMETERS -eq 1 && $PARAMETER == "--help" ]]; then
-        echo "<- IsParameterHelp (TRUE)"
+        echo "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     else
-        echo "<- IsParameterHelp (FALSE)"
+        echo "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
 }
 
 CheckNumberOfParameters ()
 {
-    echo "-> CheckNumberOfParameters ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
     local LCL_ALL_PARAMS=($@)
     local LCL_PARAMETERS_PASSED_IN=(${LCL_ALL_PARAMS[@]:1:$#})
@@ -110,17 +110,17 @@ CheckNumberOfParameters ()
         echo "  expected number:  $LCL_EXPECTED_NUMBER_OF_PARAMS"
         echo "  passed in number: ${#LCL_PARAMETERS_PASSED_IN[@]}"
         echo "  parameters passed in: ${LCL_PARAMETERS_PASSED_IN[@]}"
-        echo "<- CheckNumberOfParameters (FALSE)"
+        echo "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     else
-        echo "<- CheckNumberOfParameters (TRUE)"
+        echo "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     fi
 }
 
 IsPredefinedParameterValid ()
 {
-    echo "-> IsPredefinedParameterValid ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_MATCH_FOUND=$FALSE
     local LCL_VALID_PARAMETERS=""
     local LCL_PARAMETER=$1
@@ -137,12 +137,12 @@ IsPredefinedParameterValid ()
     done
 
     if [ $LCL_MATCH_FOUND -eq $TRUE ]; then
-        echo "<- IsPredefinedParameterValid (TRUE)"
+        echo "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     else
         echo -e "${RED}ERROR: Invalid parameter:${NC} ${PURPLE}$PARAMETER${NC}"
         echo -e "${RED}Valid Parameters: $LCL_VALID_PARAMETERS ${NC}"
-        echo "<- IsPredefinedParameterValid (FALSE)"
+        echo "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
 }

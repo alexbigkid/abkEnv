@@ -45,7 +45,7 @@ UpdateBrewAndWriteHeader ()
     local LCL_BREW_PACKAGE=$1
     local LCL_LOG_FILE=$2
 
-    [ $TRACE != 0 ] && echo "-> UpdateBrewAndWriteHeader"
+    [ $TRACE != 0 ] && echo "-> ${FUNCNAME[0]}"
     [ $TRACE != 0 ] && echo "\$LCL_BREW_PACKAGE = $LCL_BREW_PACKAGE"
     [ $TRACE != 0 ] && echo "\$LCL_LOG_FILE  = $LCL_LOG_FILE"
 
@@ -54,7 +54,7 @@ UpdateBrewAndWriteHeader ()
     echo "--------------------------------------------------------------------------------" 2>&1 | tee -a $LCL_LOG_FILE
     date 2>&1 | tee -a $LCL_LOG_FILE
     echo "--------------------------------------------------------------------------------" 2>&1 | tee -a $LCL_LOG_FILE
-    [ $TRACE != 0 ] && echo "<- UpdateBrewAndWriteHeader"
+    [ $TRACE != 0 ] && echo "<- ${FUNCNAME[0]}"
 }
 
 InstallOrUpdate ()
@@ -64,7 +64,7 @@ InstallOrUpdate ()
     local LCL_CASK=$3
     local LCL_UPDATE=0
 
-    [ $TRACE != 0 ] && echo "-> InstallOrUpdate ($@)"
+    [ $TRACE != 0 ] && echo "-> ${FUNCNAME[0]} ($@)"
     [ $TRACE != 0 ] && echo "\$LCL_BREW_PACKAGE = $LCL_BREW_PACKAGE"
     [ $TRACE != 0 ] && echo "\$LCL_LOG_FILE  = $LCL_LOG_FILE"
     [ $TRACE != 0 ] && echo "\$LCL_CASK         = $LCL_CASK"
@@ -100,7 +100,7 @@ InstallOrUpdate ()
             echo "$LCL_BREW_PACKAGE installed and up to date!"
         fi
     fi
-    [ $TRACE != 0 ] && echo "<- InstallOrUpdate"
+    [ $TRACE != 0 ] && echo "<- ${FUNCNAME[0]}"
 }
 
 #-------  main -------------

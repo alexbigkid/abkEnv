@@ -28,7 +28,7 @@ PrintUsageAndExitWithCode ()
 
 UpdateBrewPackages ()
 {
-    echo "-> UpdateBrewPackages ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
     local LCL_BREW_PACKAGES=$(brew outdated)
     echo ""
@@ -43,13 +43,13 @@ UpdateBrewPackages ()
         bInstall.sh $BREW_PACKAGE
         [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
     done
-    echo "<- UpdateBrewPackages ($LCL_EXIT_CODE)"
+    echo "<- ${FUNCNAME[0]} ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
 }
 
 UpdateBrewCaskPackages ()
 {
-    echo "-> UpdateBrewCaskPackages ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
     local LCL_EXCEPT_FASTLANE_PACKAGE="fastlane"
     local LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
@@ -80,7 +80,7 @@ UpdateBrewCaskPackages ()
             [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
         fi
     done   
-    echo "<- UpdateBrewCaskPackages ($LCL_EXIT_CODE)"
+    echo "<- ${FUNCNAME[0]} ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
 }
 
