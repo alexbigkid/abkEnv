@@ -28,7 +28,7 @@ PrintUsageAndExitWithCode ()
 
 UpdateBrewPackages ()
 {
-    echo "-> UpdateBrewPackages ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
     local LCL_BREW_PACKAGES=$(brew outdated)
     echo ""
@@ -43,16 +43,17 @@ UpdateBrewPackages ()
         bInstall.sh $BREW_PACKAGE
         [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
     done
-    echo "<- UpdateBrewPackages ($LCL_EXIT_CODE)"
+    echo "<- ${FUNCNAME[0]} ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
 }
 
 UpdateBrewCaskPackages ()
 {
-    echo "-> UpdateBrewCaskPackages ($@)"
+    echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
     local LCL_EXCEPT_FASTLANE_PACKAGE="fastlane"
     local LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
+    local LCL_EXCEPT_ANYDESK_PACKAGE="anydesk"
     local LCL_BREW_CASK_PACKAGES=$(brew cask outdated --greedy)
     echo ""
     echo "===================================="
@@ -64,14 +65,11 @@ UpdateBrewCaskPackages ()
         if [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_FASTLANE_PACKAGE ]; then
             echo "do not update: $LCL_EXCEPT_FASTLANE_PACKAGE"
             echo "------------------------------------"
-            local LCL_FAST_LANE_UPDATE_STRING="fastlane update_fastlane"
-            local LCL_FASTLANE_OUTPUT=$($LCL_EXCEPT_FASTLANE_PACKAGE --version)
-            if [[ $LCL_FASTLANE_OUTPUT =~ $LCL_FAST_LANE_UPDATE_STRING ]]; then
-                $LCL_FAST_LANE_UPDATE_STRING
-                [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
-            fi
         elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
             echo "do not update: $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE"
+            echo "------------------------------------"
+        elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_ANYDESK_PACKAGE ]; then
+            echo "do not update: $LCL_EXCEPT_ANYDESK_PACKAGE"
             echo "------------------------------------"
         else
             echo "updating brew package: $LCL_BREW_CASK_PACKAGE"
@@ -80,7 +78,7 @@ UpdateBrewCaskPackages ()
             [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
         fi
     done   
-    echo "<- UpdateBrewCaskPackages ($LCL_EXIT_CODE)"
+    echo "<- ${FUNCNAME[0]} ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
 }
 
