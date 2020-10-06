@@ -1,7 +1,38 @@
-$EXIT_CODE_SUCCESS=0
-$EXIT_CODE_GENERAL_ERROR=1
-$EXIT_CODE_INVALID_NUMBER_OF_PARAMETERS=2
-$EXIT_CODE_DIRECTORY_ALREADY_EXIST=3
+# -----------------------------------------------------------------------------
+# variables definitions
+# -----------------------------------------------------------------------------
+# directories for bin and env files
+$BIN_DIR="$HOME\bin"
+$ENV_DIR="$HOME\env"
+$SH_BIN_DIR="winBin"
+$SH_ENV_DIR="winEnv"
+$SH_PACKAGES_DIR="winPackages"
+$SH_DIR=""
+
+# abkEnv bash profile file names
+$NEW_BASH_PROFILE="ps_profile.ps1"
+$ORG_BASH_PROFILE=$profile
+$ABK_BASH_PROFILE="ps_abk.ps1"
+
+# exit codes
+$ERROR_CODE_SUCCESS=0
+$ERROR_CODE_GENERAL_ERROR=1
+$ERROR_CODE_NOT_BASH_SHELL=2
+$ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=3
+$ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=4
+$ERROR_CODE_NOT_VALID_PARAMETER=5
+$ERROR_CODE=$ERROR_CODE_SUCCESS
+
+# -----------------------------------------------------------------------------
+# functions
+# -----------------------------------------------------------------------------
+# function GetAbsolutePath () {
+#     local DIR_NAME=$(dirname "$1")
+#     pushd "$DIR_NAME" > /dev/null
+#     local RESULT_PATH=$PWD
+#     popd > /dev/null
+#     echo $RESULT_PATH
+# }
 
 function IsParameterHelp ($NUMBER_OF_PARAMETERS, $PARAMETER) {
     Write-Host "->" $MyInvocation.MyCommand.Name "(numberOfParameters: $NUMBER_OF_PARAMETERS, parameter: $PARAMETER)" -ForegroundColor Yellow
@@ -23,7 +54,7 @@ function CheckCorrectNumberOfParameters () {
     return $RESULT
 }
 
-function CheckDirectoryExists () {
+function DoesDirectoryExist () {
     Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
     $RESULT=$false
     if (Test-Path $args[0]) {
@@ -31,6 +62,42 @@ function CheckDirectoryExists () {
     }
     Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
     return $RESULT
+}
+
+function DoesFileExist () {
+    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
+    $RESULT=$false
+    if (Test-Path $args[0] -PathType Leaf) {
+        $RESULT=$true
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
+}
+
+function IsFileALink() {
+    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
+    $RESULT=$false
+    $file = Get-Item $args[0] -Force -ea SilentlyContinue
+    if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+        $RESULT=$true
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
+}
+
+function RemoveBrokenLinksFromDirectory() {
+    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
+    $FOLDER_PATH=$args[0]
+    $ITEMS = ls $FOLDER_PATH -Recurse -ea 0;
+    foreach ( $ITEM in $ITEMS ) {
+        if ( $ITEM.Attributes.ToString().contains("ReparsePoint")){
+            cmd /c rmdir $ITEM.PSPath.replace("Microsoft.PowerShell.Core\FileSystem::","");
+        }
+        else{
+            rm -Force -Recurse $ITEM;
+        }
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
 }
 
 function ReplaceStringInFile () {
