@@ -42,6 +42,21 @@ function IsCorrectNumberOfParameters () {
     return $RESULT
 }
 
+function DoesCommandExist () {
+    Param ($command)
+    Write-Host "->" $MyInvocation.MyCommand.Name "($command)" -ForegroundColor Yellow
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference =  "stop"
+    $RESULT=$false
+   
+    try { if(Get-Command -Name $command) { $RESULT=$true } }
+    catch {}
+    Finally {$ErrorActionPreference=$oldPreference}
+    
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
+}
+
 function DoesDirectoryExist () {
     Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
     $RESULT=$false
