@@ -1,18 +1,6 @@
 # -----------------------------------------------------------------------------
 # variables definitions
 # -----------------------------------------------------------------------------
-# directories for bin and env files
-$BIN_DIR="$HOME\bin"
-$ENV_DIR="$HOME\env"
-$SH_BIN_DIR="winBin"
-$SH_ENV_DIR="winEnv"
-$SH_PACKAGES_DIR="winPackages"
-$SH_DIR=""
-
-# abkEnv bash profile file names
-$NEW_BASH_PROFILE="ps_profile.ps1"
-$ORG_BASH_PROFILE=$profile
-$ABK_BASH_PROFILE="ps_abk.ps1"
 
 # exit codes
 $ERROR_CODE_SUCCESS=0
@@ -44,7 +32,7 @@ function IsParameterHelp ($NUMBER_OF_PARAMETERS, $PARAMETER) {
     return $RESULT
 }
 
-function CheckCorrectNumberOfParameters () {
+function IsCorrectNumberOfParameters () {
     Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
     $RESULT=$false
     if ($args[0] -eq $args[1]) {
@@ -91,9 +79,11 @@ function RemoveBrokenLinksFromDirectory() {
     $ITEMS = ls $FOLDER_PATH -Recurse -ea 0;
     foreach ( $ITEM in $ITEMS ) {
         if ( $ITEM.Attributes.ToString().contains("ReparsePoint")){
+            Write-Host "ABK: 1"
             cmd /c rmdir $ITEM.PSPath.replace("Microsoft.PowerShell.Core\FileSystem::","");
         }
         else{
+            Write-Host "ABK: 2"
             rm -Force -Recurse $ITEM;
         }
     }
