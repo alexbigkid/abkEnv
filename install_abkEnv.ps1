@@ -1,17 +1,34 @@
+#Requires -Version 5.0
 #---------------------------
 # variables definitions
 #---------------------------
 $TRACE = $true
 $REFRESH = $false
 $EXPECTED_NUMBER_OF_PARAMETERS=0
-$ABK_FUNCTION_LIB_FILE=".\abk_lib.ps1"
+
+# directory definitions
+$BIN_DIR="bin"
+$ENV_DIR="env"
+$HOME_BIN_DIR="$HOME\$BIN_DIR"
+$HOME_ENV_DIR="$HOME\$ENV_DIR"
+$SH_BIN_DIR="winBin"
+$SH_ENV_DIR="winEnv"
+$SH_PACKAGES_DIR="winPackages"
+$SH_DIR=""
+
+# file definitions
+$ABK_FUNCTION_LIB_FILE=".\winBin\abk_lib.ps1"
+$NEW_BASH_PROFILE="ps_profile.ps1"
+$ORG_BASH_PROFILE=$profile
+$ABK_BASH_PROFILE="ps_abk.ps1"
+
 
 #---------------------------
 # functions
 #---------------------------
 function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
-    Write-Host "->" $MyInvocation.MyCommand.Name -ForegroundColor Yellow
-    Write-Host "   $scriptName will create or refresh all links in $BIN_DIR, $ENV_DIR and choco packages"
+    Write-Host "->" $MyInvocation.MyCommand.Name ($scriptName, $exitErrorCode) -ForegroundColor Yellow
+    Write-Host "   $scriptName will create or refresh all links in $HOME_BIN_DIR, $HOME_ENV_DIR and choco packages"
     Write-Host "   Usage: $scriptName"
     Write-Host "     $scriptName --help           - display this info"
     Write-Host "<-" $MyInvocation.MyCommand.Name "($exitErrorCode)" -ForegroundColor Yellow
@@ -24,8 +41,8 @@ function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
 # CreateNewBashProfile ()
 # {
 #     if [ -f $HOME/$ORG_BASH_PROFILE ]; then
-#         echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
-#         mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
+#         echo "[moving $HOME/$ORG_BASH_PROFILE to $HOME_ENV_DIR/$ORG_BASH_PROFILE]"
+#         mv $HOME/$ORG_BASH_PROFILE $HOME_ENV_DIR/$ORG_BASH_PROFILE
 #         cat > $1 << EOF_NEW_BASH_PROFILE_IF
 # # the original .bash_profile is MOVED to \$HOME/env/$ORG_BASH_PROFILE
 # # in order to completely remove abk environment and restore the
@@ -82,8 +99,8 @@ else {
 if( $TRACE -eq $true ) {
     Write-Host "ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
     Write-Host "args.Count =" $args.Count
-    Write-Host "BIN_DIR = $BIN_DIR"
-    Write-Host "ENV_DIR = $ENV_DIR"
+    Write-Host "HOME_BIN_DIR = $HOME_BIN_DIR"
+    Write-Host "HOME_ENV_DIR = $HOME_ENV_DIR"
     Write-Host "SH_DIR  = $SH_DIR"
     Write-Host
 }
@@ -92,63 +109,66 @@ if (IsParameterHelp $args.Count $args[0]) {
     PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $EXIT_CODE_SUCCESS
 }
 
-if (-not (CheckCorrectNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $args.Count)) {
+if (-not (IsCorrectNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $args.Count)) {
     Write-Host "ERROR: Incorrect number of parameters" -ForegroundColor Red
     Write-Host "Expected: $EXPECTED_NUMBER_OF_PARAMETERS" -ForegroundColor Red
     Write-Host "Actual:" $args.Count -ForegroundColor Red
     PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $EXIT_CODE_INVALID_NUMBER_OF_PARAMETERS
 }
 
+$CURRENT_DIR=$(Split-Path -Parent $PSCommandPath)
+# Write-Host "CURRENT_DIR = $CURRENT_DIR"
+
 # check for installation bin directory
-if (-not (DoesDirectoryExist($BIN_DIR))) {
-    Write-Host "[Creating $BIN_DIR directory ...]"
-    New-Item -ItemType "directory" -Path $BIN_DIR
+if (-not (DoesDirectoryExist($HOME_BIN_DIR))) {
+    Write-Host "[Creating $HOME_BIN_DIR junction to $CURRENT_DIR\$SH_BIN_DIR ...]"
+    New-Item -ItemType Junction -Path $HOME -Name $BIN_DIR -Value $CURRENT_DIR\$SH_BIN_DIR
 }
 
 # check for installation env directory
-if (-not (DoesDirectoryExist($ENV_DIR))) {
-    Write-Host "[Creating $ENV_DIR directory ...]"
-    New-Item -ItemType "directory" -Path $ENV_DIR
+if (-not (DoesDirectoryExist($HOME_ENV_DIR))) {
+    Write-Host "[Creating $HOME_ENV_DIR junction to $CURRENT_DIR\$SH_ENV_DIR ...]"
+    New-Item -ItemType Junction -Path $HOME -Name $ENV_DIR -Value $CURRENT_DIR\$SH_ENV_DIR
 }
 
 # check whether the scripts already installed or need to be refreshed
-$CURRENT_FILE=$MyInvocation.MyCommand.Name
-$BIN_INSTALL_FILE="$BIN_DIR\$CURRENT_FILE"
-Write-Host "BIN_INSTALL_FILE = $BIN_INSTALL_FILE"
-if (DoesFileExist($BIN_INSTALL_FILE)) {
-    if (IsFileALink($BIN_INSTALL_FILE)) {
-        $REFRESH=$true
-    } else {
-        PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_IS_INSTALLED_BUT_NO_LINK
-    }
-}
+# $CURRENT_FILE=$MyInvocation.MyCommand.Name
+# $BIN_INSTALL_FILE="$HOME_BIN_DIR\$CURRENT_FILE"
+# Write-Host "BIN_INSTALL_FILE = $BIN_INSTALL_FILE"
+# if (DoesFileExist($BIN_INSTALL_FILE)) {
+#     if (IsFileALink($BIN_INSTALL_FILE)) {
+#         $REFRESH=$true
+#     } else {
+#         PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_IS_INSTALLED_BUT_NO_LINK
+#     }
+# }
 
-Write-Host
-Write-Host "[deleting broken links in $BIN_DIR ...]"
-RemoveBrokenLinksFromDirectory( $BIN_DIR )
-# find -L $BIN_DIR -type l -exec rm -- {} +
-Write-Host "[deleting broken links in $ENV_DIR ...]"
-RemoveBrokenLinksFromDirectory( $ENV_DIR )
-# find -L $ENV_DIR -type l -exec rm -- {} +
+# Write-Host
+# Write-Host "[deleting broken links in $HOME_BIN_DIR ...]"
+# RemoveBrokenLinksFromDirectory( $HOME_BIN_DIR )
+# # find -L $HOME_BIN_DIR -type l -exec rm -- {} +
+# Write-Host "[deleting broken links in $HOME_ENV_DIR ...]"
+# RemoveBrokenLinksFromDirectory( $HOME_ENV_DIR )
+# find -L $HOME_ENV_DIR -type l -exec rm -- {} +
 
 # set script directory
-Write-Host
-if ( $REFRESH -eq $false ) {
-    $SH_DIR = GetAbsolutePath( $MyInvocation.MyCommand.Name )
-    Write-Host "[creating links ...]"
-} else {
-    $SH_DIR = GetPathFromLink( $MyInvocation.MyCommand.Name )
-    Write-Host "[refreshing links ...]"
-}
-$SH_BIN_DIR = $SH_DIR/$SH_BIN_DIR
-$SH_ENV_DIR = $SH_DIR/$SH_ENV_DIR
+# Write-Host
+# if ( $REFRESH -eq $false ) {
+#     $SH_DIR = GetAbsolutePath( $MyInvocation.MyCommand.Name )
+#     Write-Host "[creating links ...]"
+# } else {
+#     $SH_DIR = GetPathFromLink( $MyInvocation.MyCommand.Name )
+#     Write-Host "[refreshing links ...]"
+# }
+# $SH_BIN_DIR = $SH_DIR/$SH_BIN_DIR
+# $SH_ENV_DIR = $SH_DIR/$SH_ENV_DIR
 
-if ( $TRACE -eq $true ) {
-    Write-Host "REFRESH    = $REFRESH"
-    Write-Host "SH_DIR     = $SH_DIR"
-    Write-Host "SH_BIN_DIR = $SH_BIN_DIR"
-    Write-Host "SH_ENV_DIR = $SH_ENV_DIR"
-}
+# if ( $TRACE -eq $true ) {
+#     Write-Host "REFRESH    = $REFRESH"
+#     Write-Host "SH_DIR     = $SH_DIR"
+#     Write-Host "SH_BIN_DIR = $SH_BIN_DIR"
+#     Write-Host "SH_ENV_DIR = $SH_ENV_DIR"
+# }
 
 # # if installing, not refreshing
 # if [ $REFRESH == 0 ]; then
@@ -157,29 +177,29 @@ if ( $TRACE -eq $true ) {
 
 # # create/update links in project dir
 # echo ""
-# echo "[links in $BIN_DIR to $SH_DIR ...]"
+# echo "[links in $HOME_BIN_DIR to $SH_DIR ...]"
 # FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
 # for FILE in ${FILES}
 # do
-#     CreateLink $FILE $BIN_DIR/$(basename $FILE)
+#     CreateLink $FILE $HOME_BIN_DIR/$(basename $FILE)
 # done
 
 # # create/update links to macBin
 # echo ""
-# echo "[links in $BIN_DIR to $SH_BIN_DIR ...]"
+# echo "[links in $HOME_BIN_DIR to $SH_BIN_DIR ...]"
 # FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
 # for FILE in ${FILES}
 # do
-#     CreateLink $FILE $BIN_DIR/$(basename $FILE)
+#     CreateLink $FILE $HOME_BIN_DIR/$(basename $FILE)
 # done
 
 # # create/update links to macEnv
 # echo ""
-# echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
+# echo "[links in $HOME_ENV_DIR to $SH_ENV_DIR ...]"
 # FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
 # for FILE in ${FILES}
 # do
-#     CreateLink $FILE $ENV_DIR/$(basename $FILE)
+#     CreateLink $FILE $HOME_ENV_DIR/$(basename $FILE)
 # done
 
 Write-Host "<-" $MyInvocation.MyCommand.Name -ForeGroundColor Green
