@@ -88,23 +88,6 @@ function IsFileALink() {
     return $RESULT
 }
 
-function RemoveBrokenLinksFromDirectory() {
-    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
-    $FOLDER_PATH=$args[0]
-    $ITEMS = ls $FOLDER_PATH -Recurse -ea 0;
-    foreach ( $ITEM in $ITEMS ) {
-        if ( $ITEM.Attributes.ToString().contains("ReparsePoint")){
-            Write-Host "ABK: 1"
-            cmd /c rmdir $ITEM.PSPath.replace("Microsoft.PowerShell.Core\FileSystem::","");
-        }
-        else{
-            Write-Host "ABK: 2"
-            rm -Force -Recurse $ITEM;
-        }
-    }
-    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
-}
-
 function ReplaceStringInFile () {
     Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
     $stringToReplace = args[0]
@@ -116,11 +99,40 @@ function ReplaceStringInFile () {
     Write-Host "<-" $MyInvocation.MyCommand.Name -ForegroundColor Yellow
 }
 
+# Credit to Antony Howell
+# https://searchitoperations.techtarget.com/answer/Manage-the-Windows-PATH-environment-variable-with-PowerShell
+function AddToPathVariable {
+    param ([string]$addPath)
+    Write-Host "->" $MyInvocation.MyCommand.Name "($addPath)" -ForegroundColor Yellow
+    $RESULT=$false
+    if (Test-Path $addPath) {
+        $regexAddPath = [regex]::Escape($addPath)
+        $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
+        $env:Path = ($arrPath + $addPath) -join ';'
+        $RESULT=$true
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
+}
+
+# Credit to Antony Howell
+# https://searchitoperations.techtarget.com/answer/Manage-the-Windows-PATH-environment-variable-with-PowerShell
+function RemoveFromPathVariable {
+    param ([string]$removePath)
+    Write-Host "->" $MyInvocation.MyCommand.Name "($removePath)" -ForegroundColor Yellow
+    $RESULT=$true
+    $regexRemovePath = [regex]::Escape($removePath)
+    $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
+    $env:Path = $arrPath -join ';'
+    $RESULT=$true
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
+}
+
+# Credit to Jesse Chrisholm from Stackoverflow
+# https://stackoverflow.com/users/858542/jesse-chisholm
 function ColorWrite ()
 {
-    # Credit to Jesse Chrisholm from Stackoverflow
-    # https://stackoverflow.com/users/858542/jesse-chisholm
-
     # DO NOT SPECIFY param(...)
     #    we parse colors ourselves.
 

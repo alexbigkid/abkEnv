@@ -131,76 +131,14 @@ if (-not (DoesDirectoryExist($HOME_ENV_DIR))) {
     New-Item -ItemType Junction -Path $HOME -Name $ENV_DIR -Value $CURRENT_DIR\$SH_ENV_DIR
 }
 
-# check whether the scripts already installed or need to be refreshed
-# $CURRENT_FILE=$MyInvocation.MyCommand.Name
-# $BIN_INSTALL_FILE="$HOME_BIN_DIR\$CURRENT_FILE"
-# Write-Host "BIN_INSTALL_FILE = $BIN_INSTALL_FILE"
-# if (DoesFileExist($BIN_INSTALL_FILE)) {
-#     if (IsFileALink($BIN_INSTALL_FILE)) {
-#         $REFRESH=$true
-#     } else {
-#         PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_IS_INSTALLED_BUT_NO_LINK
-#     }
-# }
+AddToPathVariable($HOME_BIN_DIR)
 
-# Write-Host
-# Write-Host "[deleting broken links in $HOME_BIN_DIR ...]"
-# RemoveBrokenLinksFromDirectory( $HOME_BIN_DIR )
-# # find -L $HOME_BIN_DIR -type l -exec rm -- {} +
-# Write-Host "[deleting broken links in $HOME_ENV_DIR ...]"
-# RemoveBrokenLinksFromDirectory( $HOME_ENV_DIR )
-# find -L $HOME_ENV_DIR -type l -exec rm -- {} +
-
-# set script directory
-# Write-Host
-# if ( $REFRESH -eq $false ) {
-#     $SH_DIR = GetAbsolutePath( $MyInvocation.MyCommand.Name )
-#     Write-Host "[creating links ...]"
-# } else {
-#     $SH_DIR = GetPathFromLink( $MyInvocation.MyCommand.Name )
-#     Write-Host "[refreshing links ...]"
-# }
-# $SH_BIN_DIR = $SH_DIR/$SH_BIN_DIR
-# $SH_ENV_DIR = $SH_DIR/$SH_ENV_DIR
-
-# if ( $TRACE -eq $true ) {
-#     Write-Host "REFRESH    = $REFRESH"
-#     Write-Host "SH_DIR     = $SH_DIR"
-#     Write-Host "SH_BIN_DIR = $SH_BIN_DIR"
-#     Write-Host "SH_ENV_DIR = $SH_ENV_DIR"
-# }
+# update $profile
 
 # # if installing, not refreshing
 # if [ $REFRESH == 0 ]; then
 #     CreateNewBashProfile $SH_ENV_DIR/$NEW_BASH_PROFILE
 # fi
-
-# # create/update links in project dir
-# echo ""
-# echo "[links in $HOME_BIN_DIR to $SH_DIR ...]"
-# FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
-# for FILE in ${FILES}
-# do
-#     CreateLink $FILE $HOME_BIN_DIR/$(basename $FILE)
-# done
-
-# # create/update links to macBin
-# echo ""
-# echo "[links in $HOME_BIN_DIR to $SH_BIN_DIR ...]"
-# FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
-# for FILE in ${FILES}
-# do
-#     CreateLink $FILE $HOME_BIN_DIR/$(basename $FILE)
-# done
-
-# # create/update links to macEnv
-# echo ""
-# echo "[links in $HOME_ENV_DIR to $SH_ENV_DIR ...]"
-# FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
-# for FILE in ${FILES}
-# do
-#     CreateLink $FILE $HOME_ENV_DIR/$(basename $FILE)
-# done
 
 Write-Host "<-" $MyInvocation.MyCommand.Name -ForeGroundColor Green
 Write-Host ""
