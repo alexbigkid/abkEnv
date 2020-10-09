@@ -1,0 +1,26 @@
+Full description available on https://www.the-digital-life.com/en/awesome-wsl-wsl2-terminal/
+
+- Fonts
+    - Download Nerd fonts from: https://www.nerdfonts.com/font-downloads
+    - Unpack and install downloaded fonts. E.g.: AnonymousPro or DroidSansMono
+    - Mark the name: "DroidSansMono Nerd Font"
+- install windows terminal program from Microsoft store
+- install ubuntu from Microsoft store 
+- on the linux cli:
+    sudo apt update
+    sudo apt upgrade
+    cat /etc/shells
+- if the zsh is not installed, install zsh from linux cli
+    sudo apt install zsh -y
+- install oh my zsh with:
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    change to zsh, when cli asks you to
+- install powerlevel10k zsh with
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+- edit ~/.zshrc
+    change ZSH_THEME="robbyrussell" to ZSH_THEME="powerlevel10k/powerlevel10k"
+- open settings of the terminal app
+    modify Linux section by adding the line of the installed font: "FontFace": "DroidSansMono Nerd Font"
+- configure zsh oh my posh zsh
+    p10k configure
+- configure zsh plugin
