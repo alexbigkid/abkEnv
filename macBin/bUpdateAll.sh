@@ -17,7 +17,7 @@ SCRIPT_PATH=$(dirname $0)
 #---------------------------
 PrintUsageAndExitWithCode ()
 {
-    echo ""
+
     echo "-> PrintUsageAndExitWithCode ($@)"
     echo "$0 - updates all brew packages"
     echo "usage: $0"
