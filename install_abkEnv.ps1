@@ -1,4 +1,10 @@
 #Requires -Version 5.0
+$ErrorActionPreference = "Stop"
+
+$ABK_FUNCTION_LIB_FILE=".\winBin\abk_lib.psm1"
+Import-Module $ABK_FUNCTION_LIB_FILE -Force
+$ABK_ENV_FILE="abk_env.ps1"
+
 #---------------------------
 # variables definitions
 #---------------------------
@@ -16,12 +22,6 @@ $SH_ENV_DIR="winEnv"
 $SH_PACKAGES_DIR="winPackages"
 $SH_DIR=""
 
-# file definitions
-$ABK_FUNCTION_LIB_FILE=".\winBin\abk_lib.ps1"
-$NEW_BASH_PROFILE="ps_profile.ps1"
-$ORG_BASH_PROFILE=$profile
-$ABK_BASH_PROFILE="ps_abk.ps1"
-
 
 #---------------------------
 # functions
@@ -35,66 +35,11 @@ function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
     exit $exitErrorCode
 }
 
-
-
-
-# CreateNewBashProfile ()
-# {
-#     if [ -f $HOME/$ORG_BASH_PROFILE ]; then
-#         echo "[moving $HOME/$ORG_BASH_PROFILE to $HOME_ENV_DIR/$ORG_BASH_PROFILE]"
-#         mv $HOME/$ORG_BASH_PROFILE $HOME_ENV_DIR/$ORG_BASH_PROFILE
-#         cat > $1 << EOF_NEW_BASH_PROFILE_IF
-# # the original .bash_profile is MOVED to \$HOME/env/$ORG_BASH_PROFILE
-# # in order to completely remove abk environment and restore the
-# # previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
-
-# #-------------------------
-# # setting previous environment
-# #-------------------------
-# if [ -f \$HOME/env/$ORG_BASH_PROFILE ]; then
-#   source \$HOME/env/$ORG_BASH_PROFILE
-# fi
-
-# EOF_NEW_BASH_PROFILE_IF
-#     else
-#         echo "[no original $HOME/$ORG_BASH_PROFILE found]"
-#         cat > $1 << EOF_NEW_BASH_PROFILE_ELSE
-# # there was no original .bash_profile so it was not MOVED to \$HOME/env/$ORG_BASH_PROFILE
-# # in order to completely remove abk environment and restore the
-# # previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
-
-# EOF_NEW_BASH_PROFILE_ELSE
-#     fi
-
-#     cat >> $1 << EOF_NEW_BASH_PROFILE_COMMON
-# #-------------------------
-# # setting up abk environment
-# #-------------------------
-# if [ -f \$HOME/env/$ABK_BASH_PROFILE ]; then
-#   source \$HOME/env/$ABK_BASH_PROFILE
-# fi
-
-# EOF_NEW_BASH_PROFILE_COMMON
-
-#     CreateLink $SH_ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
-# }
-
 # -----------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------
 Write-Host ""
 Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
-
-if ( Test-Path $ABK_FUNCTION_LIB_FILE -PathType Leaf ) {
-    . $ABK_FUNCTION_LIB_FILE
-}
-else {
-    Write-Host "ERROR: " -ForeGroundColor Red -NoNewLine
-    Write-Host "$ABK_FUNCTION_LIB_FILE does not exist in the local directory."
-    Write-Host "  $ABK_FUNCTION_LIB_FILE contains common definitions and functions"
-    Write-Host "  $ABK_FUNCTION_LIB_FILE All binaries and shell scripts will be located in ~/bin"
-    exit 1
-}
 
 if( $TRACE -eq $true ) {
     Write-Host "ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
@@ -120,26 +65,28 @@ $CURRENT_DIR=$(Split-Path -Parent $PSCommandPath)
 # Write-Host "CURRENT_DIR = $CURRENT_DIR"
 
 # check for installation bin directory
-if (-not (DoesDirectoryExist($HOME_BIN_DIR))) {
+if (-not (DoesDirectoryExist $HOME_BIN_DIR)) {
     Write-Host "[Creating $HOME_BIN_DIR junction to $CURRENT_DIR\$SH_BIN_DIR ...]"
     New-Item -ItemType Junction -Path $HOME -Name $BIN_DIR -Value $CURRENT_DIR\$SH_BIN_DIR
 }
 
 # check for installation env directory
-if (-not (DoesDirectoryExist($HOME_ENV_DIR))) {
+if (-not (DoesDirectoryExist $HOME_ENV_DIR)) {
     Write-Host "[Creating $HOME_ENV_DIR junction to $CURRENT_DIR\$SH_ENV_DIR ...]"
     New-Item -ItemType Junction -Path $HOME -Name $ENV_DIR -Value $CURRENT_DIR\$SH_ENV_DIR
 }
 
 AddToPathVariable($HOME_BIN_DIR)
 
-# update $profile
+if (-not (DoesFileExist $profile)) {
+    "creating user profile: $profile"
+    New-Item -Path $profile -ItemType "file" -Force
+}
 
-# # if installing, not refreshing
-# if [ $REFRESH == 0 ]; then
-#     CreateNewBashProfile $SH_ENV_DIR/$NEW_BASH_PROFILE
-# fi
+if (-not (AddAbkEnvironmentSettings $profile "$HOME_ENV_DIR\$ABK_ENV_FILE")) {
+    PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST
+}
 
-Write-Host "<-" $MyInvocation.MyCommand.Name -ForeGroundColor Green
+Write-Host "<-" $MyInvocation.MyCommand.Name "($ERROR_CODE)" -ForeGroundColor Green
 Write-Host ""
 exit $ERROR_CODE

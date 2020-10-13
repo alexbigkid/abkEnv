@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
 # variables definitions
 # -----------------------------------------------------------------------------
-
 # exit codes
 $ERROR_CODE_SUCCESS=0
 $ERROR_CODE_GENERAL_ERROR=1
-$ERROR_CODE_NOT_BASH_SHELL=2
-$ERROR_CODE_IS_INSTALLED_BUT_NO_LINK=3
-$ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS=4
-$ERROR_CODE_NOT_VALID_PARAMETER=5
+$ERROR_CODE_NEED_FILE_DOES_NOT_EXIST=2
 $ERROR_CODE=$ERROR_CODE_SUCCESS
+
+# for here document to add to the profile
+$ABK_ENV_BEGIN = "# >>>>>> DON_NOT_REMOVE >>>>>> ABK_ENV >>>> BEGIN"
+$ABK_ENV_END = "# <<<<<< DON_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
 
 # -----------------------------------------------------------------------------
 # functions
@@ -121,6 +121,38 @@ function RemoveFromPathVariable {
     $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
     $env:Path = $arrPath -join ';'
     Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+}
+
+function AddAbkEnvironmentSettings () {
+    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
+    $fileToAddContentTo = $args[0]
+    $fileToAdd = $args[1]
+    $RESULT=$false
+
+    if ( ( DoesFileExist $fileToAddContentTo ) -and ( DoesFileExist $fileToAdd ) ) {
+        $RESULT=$true
+
+        if( Select-String $fileToAddContentTo -Pattern $fileToAdd -SimpleMatch -Quiet ) {
+            Write-Host "   ABK ENV already added. Nothing to do here." -ForegroundColor Yellow
+        } else {
+            $TEXT_TO_ADD = @"
+
+$ABK_ENV_BEGIN
+if ( Test-Path $fileToAdd -PathType Leaf ) {
+    $fileToAdd
+}
+$ABK_ENV_END
+
+"@
+            Add-Content -Path $fileToAddContentTo -Value $TEXT_TO_ADD -Encoding ASCII
+        }
+
+    } else {
+        Write-Host "   One or both files do not exist:", $fileToAddContentTo, $fileToAdd -ForegroundColor Red
+    }
+
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    return $RESULT
 }
 
 # Credit to Jesse Chrisholm from Stackoverflow
