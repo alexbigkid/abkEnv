@@ -104,15 +104,12 @@ function ReplaceStringInFile () {
 function AddToPathVariable {
     param ([string]$addPath)
     Write-Host "->" $MyInvocation.MyCommand.Name "($addPath)" -ForegroundColor Yellow
-    $RESULT=$false
     if (Test-Path $addPath) {
         $regexAddPath = [regex]::Escape($addPath)
         $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
         $env:Path = ($arrPath + $addPath) -join ';'
-        $RESULT=$true
     }
     Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
-    return $RESULT
 }
 
 # Credit to Antony Howell
@@ -120,13 +117,10 @@ function AddToPathVariable {
 function RemoveFromPathVariable {
     param ([string]$removePath)
     Write-Host "->" $MyInvocation.MyCommand.Name "($removePath)" -ForegroundColor Yellow
-    $RESULT=$true
     $regexRemovePath = [regex]::Escape($removePath)
     $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
     $env:Path = $arrPath -join ';'
-    $RESULT=$true
     Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
-    return $RESULT
 }
 
 # Credit to Jesse Chrisholm from Stackoverflow
