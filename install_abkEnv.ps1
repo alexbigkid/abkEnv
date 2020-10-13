@@ -5,13 +5,10 @@ $ABK_FUNCTION_LIB_FILE=".\winBin\abk_lib.psm1"
 Import-Module $ABK_FUNCTION_LIB_FILE -Force
 $ABK_ENV_FILE="abk_env.ps1"
 
-#---------------------------
+# -----------------------------------------------------------------------------
 # variables definitions
-#---------------------------
-$TRACE = $true
-$REFRESH = $false
+# -----------------------------------------------------------------------------
 $EXPECTED_NUMBER_OF_PARAMETERS=0
-
 # directory definitions
 $BIN_DIR="bin"
 $ENV_DIR="env"
@@ -20,15 +17,13 @@ $HOME_ENV_DIR="$HOME\$ENV_DIR"
 $SH_BIN_DIR="winBin"
 $SH_ENV_DIR="winEnv"
 $SH_PACKAGES_DIR="winPackages"
-$SH_DIR=""
 
-
-#---------------------------
+# -----------------------------------------------------------------------------
 # functions
-#---------------------------
+# -----------------------------------------------------------------------------
 function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
     Write-Host "->" $MyInvocation.MyCommand.Name ($scriptName, $exitErrorCode) -ForegroundColor Yellow
-    Write-Host "   $scriptName will create or refresh all links in $HOME_BIN_DIR, $HOME_ENV_DIR and choco packages"
+    Write-Host "   $scriptName will install ABK Environment with links in $HOME_BIN_DIR, $HOME_ENV_DIR"
     Write-Host "   Usage: $scriptName"
     Write-Host "     $scriptName --help           - display this info"
     Write-Host "<-" $MyInvocation.MyCommand.Name "($exitErrorCode)" -ForegroundColor Yellow
@@ -41,14 +36,11 @@ function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
 Write-Host ""
 Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
 
-if( $TRACE -eq $true ) {
-    Write-Host "ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
-    Write-Host "args.Count =" $args.Count
-    Write-Host "HOME_BIN_DIR = $HOME_BIN_DIR"
-    Write-Host "HOME_ENV_DIR = $HOME_ENV_DIR"
-    Write-Host "SH_DIR  = $SH_DIR"
-    Write-Host
-}
+# Write-Host "ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
+# Write-Host "args.Count =" $args.Count
+# Write-Host "HOME_BIN_DIR = $HOME_BIN_DIR"
+# Write-Host "HOME_ENV_DIR = $HOME_ENV_DIR"
+# Write-Host
 
 if (IsParameterHelp $args.Count $args[0]) {
     PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $EXIT_CODE_SUCCESS

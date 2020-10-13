@@ -14,14 +14,6 @@ $ABK_ENV_END = "# <<<<<< DON_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
 # -----------------------------------------------------------------------------
 # functions
 # -----------------------------------------------------------------------------
-# function GetAbsolutePath () {
-#     local DIR_NAME=$(dirname "$1")
-#     pushd "$DIR_NAME" > /dev/null
-#     local RESULT_PATH=$PWD
-#     popd > /dev/null
-#     echo $RESULT_PATH
-# }
-
 function IsParameterHelp ($NUMBER_OF_PARAMETERS, $PARAMETER) {
     Write-Host "->" $MyInvocation.MyCommand.Name "(numberOfParameters: $NUMBER_OF_PARAMETERS, parameter: $PARAMETER)" -ForegroundColor Yellow
     $RESULT=$false

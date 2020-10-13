@@ -3,4 +3,4 @@ $ErrorActionPreference = "Stop"
 
 Write-Host "[Adding ABK Environment ...]" -Foreground Yellow
 
-Import-Module "$env:Home\env\abk_aliases.psm1"
+Import-Module "$HOME\env\abk_aliases.psm1"
