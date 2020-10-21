@@ -1,6 +1,19 @@
 #Requires -Version 5.0
 $ErrorActionPreference = "Stop"
 
-Write-Host "[Adding ABK Environment ...]" -Foreground Yellow
+Import-Module "$HOME\bin\Modules\abk-aliases"
 
-Import-Module "$HOME\env\abk_aliases.psm1"
+
+Write-Host ""
+Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
+Write-Host "   [Adding ABK Environment ...]" -Foreground Yellow
+
+if ( $HOME -ne $env:Home ) {
+    Write-Host "   [setting env:Home to $HOME]"
+    $env:Home=$HOME
+}
+
+
+Write-Host "<-" $MyInvocation.MyCommand.Name "($ERROR_CODE)" -ForeGroundColor Green
+Write-Host ""
+exit $ERROR_CODE
