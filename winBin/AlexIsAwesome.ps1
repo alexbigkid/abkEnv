@@ -1,8 +1,8 @@
-Write-Host '  __   __    ___  _  _    __  ___     __  _    _  ___  ___   __  __  __  ___ ';
-Write-Host ' (  ) (  )  (  _)( \/ )  (  )/ __)   (  )( \/\/ )(  _)/ __) /  \(  \/  )(  _)';
-Write-Host ' /__\  )(__  ) _) )  (    )( \__ \   /__\ \    /  ) _)\__ \( () ))    (  ) _)';
-Write-Host '(_)(_)(____)(___)(_/\_)  (__)(___/  (_)(_) \/\/  (___)(___/ \__/(_/\/\_)(___)';
-Write-Host '                                                                             ';
+Write-Host '  __   __    ___  _  _    __  ___     __  _    _  ___  ___   __  __  __  ___ ' -ForeGroundColor Red;
+Write-Host ' (  ) (  )  (  _)( \/ )  (  )/ __)   (  )( \/\/ )(  _)/ __) /  \(  \/  )(  _)' -ForeGroundColor Red;
+Write-Host ' /__\  )(__  ) _) )  (    )( \__ \   /__\ \    /  ) _)\__ \( () ))    (  ) _)' -ForeGroundColor Red;
+Write-Host '(_)(_)(____)(___)(_/\_)  (__)(___/  (_)(_) \/\/  (___)(___/ \__/(_/\/\_)(___)' -ForeGroundColor Red;
+Write-Host '                                                                             ' -ForeGroundColor Red;
 
 # Write-Host '                                                                                                               ';
 # Write-Host '    |     '||                      ||                                                                          ';
