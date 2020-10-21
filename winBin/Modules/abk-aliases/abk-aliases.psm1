@@ -2,12 +2,19 @@
 
 # Only run this in the console and not in the ISE
 if (-Not (Test-Path Variable:PSise)) {
+    if (-Not (Get-Module -ListAvailable -Name Get-ChildItemColor)) {
+        Write-Host "Get-ChildItemColor - Module does not exist"
+        Install-Module -AllowClobber Get-ChildItemColor
+    } 
+    # Import-Module Get-ChildItemColor -Verbose
     Import-Module Get-ChildItemColor
+    
+    # unix commands
+    # Set-Alias ls Get-ChildItemColorFormatWide -Scope Global -Force
+    Set-Alias l Get-ChildItemColorFormatWide -Scope Global -Force
+    Set-Alias la Get-ChildItem -Scope Global -Force
 }
 
-# unix commands
-# Set-Alias ls Get-ChildItemColorFormatWide -Scope Global -Force
-Set-Alias la Get-ChildItem -Scope Global -Force
 
 # find commands scripts
 function rgrep { Get-ChildItem -Recurse | Select-String $args[0] -List | Select Path }
