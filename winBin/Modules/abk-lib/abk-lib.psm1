@@ -83,7 +83,35 @@ function Add-ToPathVariable () {
         $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
         $env:Path = ($arrPath + $addPath) -join ';'
     }
-    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($env:Path)" -ForegroundColor Yellow
+}
+
+function Add-ToPSModulePathVariable () {
+    Param(
+        [Parameter(Mandatory=$true,Position=0)][string]$addPath
+    )
+    Write-Host "->" $MyInvocation.MyCommand.Name "($addPath)" -ForegroundColor Yellow
+    if (Test-Path $addPath) {
+        $regexAddPath = [regex]::Escape($addPath)
+        $arrPath = $env:PSModulePath -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
+        $env:PSModulePath = ($arrPath + $addPath) -join ';'
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($env:PSModulePath)" -ForegroundColor Yellow
+}
+
+function Add-PathToEnvVariable () {
+    Param(
+        [Parameter(Mandatory=$true,Position=0)][string]$envVariable,
+        [Parameter(Mandatory=$true,Position=1)][string]$addPath
+    )
+    Write-Host "->" $MyInvocation.MyCommand.Name "($addPath)" -ForegroundColor Yellow
+    if (Test-Path $addPath) {
+        $regexAddPath = [regex]::Escape($addPath)
+        $arrPath = $envVariable -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
+        $envVariable = ($arrPath + $addPath) -join ';'
+    }
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($envVariable)" -ForegroundColor Yellow
+    return $envVariable
 }
 
 function Confirm-CommandExist () {
@@ -181,7 +209,31 @@ function Remove-FromPathVariable {
     $regexRemovePath = [regex]::Escape($removePath)
     $arrPath = $env:Path -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
     $env:Path = $arrPath -join ';'
-    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($env:Path)" -ForegroundColor Yellow
+}
+
+function Remove-FromPSModulePathVariable {
+    Param(
+        [Parameter(Mandatory=$true,Position=0)][string]$removePath
+    )
+    Write-Host "->" $MyInvocation.MyCommand.Name "($removePath)" -ForegroundColor Yellow
+    $regexRemovePath = [regex]::Escape($removePath)
+    $arrPath = $env:PSModulePath -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
+    $env:PSModulePath = $arrPath -join ';'
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($env:PSModulePath)" -ForegroundColor Yellow
+}
+
+function Remove-PathFromEnvVariable {
+    Param(
+        [Parameter(Mandatory=$true,Position=0)][string]$envVariable,
+        [Parameter(Mandatory=$true,Position=0)][string]$removePath
+    )
+    Write-Host "->" $MyInvocation.MyCommand.Name "($removePath)" -ForegroundColor Yellow
+    $regexRemovePath = [regex]::Escape($removePath)
+    $arrPath = $envVariable -split ';' | Where-Object {$_ -notMatch "^$regexRemovePath\\?"}
+    $envVariable = $arrPath -join ';'
+    Write-Host "<-" $MyInvocation.MyCommand.Name "($envVariable)" -ForegroundColor Yellow
+    return $envVariable
 }
 
 function Remove-AbkEnvironmentSettings () {
