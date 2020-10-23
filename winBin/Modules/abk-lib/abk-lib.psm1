@@ -24,6 +24,7 @@
 # Set-Variable -Name SH_BIN_DIR -Value ([string]"winBin") -Option Constant, AllScope -Force
 # Set-Variable -Name SH_ENV_DIR -Value ([string]"winEnv") -Option Constant, AllScope -Force
 # Set-Variable -Name SH_PACKAGES_DIR -Value ([string]"winPackages") -Option Constant, AllScope -Force
+[string]$ABK_ENV_FILE="abk_env.ps1"
 
 # -----------------------------------------------------------------------------
 # internal variables definitions
@@ -49,7 +50,7 @@ function Add-AbkEnvironmentSettings () {
         $RESULT=$true
 
         if( Select-String $fileToAddContentTo -Pattern $fileToAdd -SimpleMatch -Quiet ) {
-            Write-Host "   ABK ENV already added. Nothing to do here." -ForegroundColor Yellow
+            Write-Host "   [ABK ENV already added. Nothing to do here.]"
         } else {
             $TEXT_TO_ADD = @"
 
@@ -199,6 +200,28 @@ function Confirm-ParameterIsHelp () {
     return $RESULT
 }
 
+function Remove-AbkEnvironmentSettings () {
+    Param(
+        [Parameter(Mandatory=$true,Position=0)][string]$fileToRemoveAbkEnvironmentFrom
+    )
+    Write-Host "->" $MyInvocation.MyCommand.Name "($fileToRemoveAbkEnvironmentFrom)" -ForegroundColor Yellow
+
+    if (Confirm-FileExist $fileToRemoveAbkEnvironmentFrom) {
+        Write-Host "   [File $fileToRemoveAbkEnvironmentFrom exist ...]"
+        $regex="(?ms)^(\s*$ABK_ENV_BEGIN\s*?\r?\n).*?\r?\n(\s*$ABK_ENV_END\s*)"
+        if ((Select-String -Path $fileToRemoveAbkEnvironmentFrom -Pattern $ABK_ENV_BEGIN -SimpleMatch -Quiet) -And
+            (Select-String -Path $fileToRemoveAbkEnvironmentFrom -Pattern $ABK_ENV_END -SimpleMatch -Quiet)) {
+            Write-Host "   [abk environment found, removing it ...]"
+            Set-Content -Path $fileToRemoveAbkEnvironmentFrom -Value ((Get-Content -Raw $fileToRemoveAbkEnvironmentFrom) -replace $regex, '')
+        } else {
+            Write-Host "   [abk environment not found.]"
+        }
+    } else {
+        Write-Host "   [One or both files do not exist: $fileToRemoveAbkEnvironmentFrom.]" -ForegroundColor Red
+    }
+
+    Write-Host "<-" $MyInvocation.MyCommand.Name "()" -ForegroundColor Yellow
+}
 # Credit to Antony Howell
 # https://searchitoperations.techtarget.com/answer/Manage-the-Windows-PATH-environment-variable-with-PowerShell
 function Remove-FromPathVariable {
@@ -234,13 +257,6 @@ function Remove-PathFromEnvVariable {
     $envVariable = $arrPath -join ';'
     Write-Host "<-" $MyInvocation.MyCommand.Name "($envVariable)" -ForegroundColor Yellow
     return $envVariable
-}
-
-function Remove-AbkEnvironmentSettings () {
-    Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForegroundColor Yellow
-    
-    Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
-    return $RESULT
 }
 
 function Rename-StringInFile () {
@@ -303,6 +319,5 @@ function Write-ColorPrint () {
 }
 
 Export-ModuleMember -Function *
-# Export-ModuleMember -Variable ERROR_CODE_SUCCESS, ERROR_CODE_GENERAL_ERROR, ERROR_CODE_NEED_FILE_DOES_NOT_EXIST
 Export-ModuleMember -Variable ERROR_CODE*
-Export-ModuleMember -Variable BIN_DIR, ENV_DIR, HOME_BIN_DIR, HOME_ENV_DIR, SH_BIN_DIR, SH_ENV_DIR, SH_PACKAGES_DIR
+Export-ModuleMember -Variable BIN_DIR, ENV_DIR, HOME_BIN_DIR, HOME_ENV_DIR, SH_BIN_DIR, SH_ENV_DIR, SH_PACKAGES_DIR, ABK_ENV_FILE
