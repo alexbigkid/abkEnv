@@ -40,6 +40,9 @@ function snp2 { git push; if ( $? ) { fmedia.exe $env:Home\env\push_it_x2.m4a --
 function prg { git push; if ( $? ) { fmedia.exe $env:Home\env\push_it_rg.m4a --notui; . $env:Home\bin\AlexIsAwesome.ps1; } }
 
 function psg { Get-Process $args[0] }
+function ppp { $env:Path.split(';') }
+function ppps { $env:PSModulePath.split(';') }
+function ppv { $args[0] -split ';' }
 
 Export-ModuleMember -Function *
 Export-ModuleMember -Variable *
