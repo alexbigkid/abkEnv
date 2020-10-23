@@ -1,6 +1,6 @@
 #Requires -Version 5.0
 #Requires -RunAsAdministrator
-$ABK_FUNCTION_LIB_FILE="..\winBin\abk_lib.ps1"
+Import-Module "abk-lib" -Force
 $CHOCO_PACKAGES="..\winPackages\packages.config"
 
 # -----------------------------------------------------------------------------
@@ -9,18 +9,7 @@ $CHOCO_PACKAGES="..\winPackages\packages.config"
 Write-Host ""
 Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
 
-if ( Test-Path $ABK_FUNCTION_LIB_FILE -PathType Leaf ) {
-    . $ABK_FUNCTION_LIB_FILE
-}
-else {
-    Write-Host "ERROR: " -ForeGroundColor Red -NoNewLine
-    Write-Host "$ABK_FUNCTION_LIB_FILE does not exist in the local directory."
-    Write-Host "  $ABK_FUNCTION_LIB_FILE contains common definitions and functions"
-    Write-Host "  $ABK_FUNCTION_LIB_FILE All binaries and shell scripts will be located in ~/bin"
-    exit 1
-}
-
-if (DoesCommandExist("chocolatey")) {
+if ( Confirm-CommandExist "chocolatey" ) {
     chocolatey install $CHOCO_PACKAGES -y
 } else {
     Write-Host "ERROR: chocolatey is not installed" -ForeGroundColor Red
