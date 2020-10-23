@@ -1,5 +1,9 @@
 #Requires -Version 5.0
 
+if (!(Get-Module abk-lib)) {
+    Import-Module abk-lib -ErrorAction Stop
+}
+
 # Only run this in the console and not in the ISE
 if (-Not (Test-Path Variable:PSise)) {
     if (-Not (Get-Module -ListAvailable -Name Get-ChildItemColor)) {
@@ -30,14 +34,14 @@ function npcpu { Get-WmiObject Win32_Processor | Select-Object NumberOfEnabledCo
 function nlcpu { Get-WmiObject Win32_Processor | Select-Object NumberOfLogicalProcessors }
 
 # git aliases
-function cdg { Set-Location -Path $env:Home\dev\git }
+function cdg { Set-Location -Path $HOME\dev\git }
 function gs { git status }
 function gp { git pull }
 function gpt { git push origin }
 
-function snp { git push; if ( $? ) { fmedia.exe $env:Home\env\push_it_x1.m4a --notui; } }
-function snp2 { git push; if ( $? ) { fmedia.exe $env:Home\env\push_it_x2.m4a --notui; } }
-function prg { git push; if ( $? ) { fmedia.exe $env:Home\env\push_it_rg.m4a --notui; . $env:Home\bin\AlexIsAwesome.ps1; } }
+function snp { git push; if ( $? ) { fmedia.exe $HOME_BIN_DIR\push_it_x1.m4a --notui; } }
+function snp2 { git push; if ( $? ) { fmedia.exe $HOME_BIN_DIR\push_it_x2.m4a --notui; } }
+function prg { git push; if ( $? ) { fmedia.exe $HOME_BIN_DIR\push_it_rg.m4a --notui; . $HOME_BIN_DIR\AlexIsAwesome.ps1; } }
 
 function psg { Get-Process $args[0] }
 function ppp { $env:Path.split(';') }
