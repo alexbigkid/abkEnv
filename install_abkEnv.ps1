@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Stop"
 
 # Requires -Modules ".\winBin\Modules\abk-lib"
-Import-Module ".\winBin\Modules\abk-lib" -Verbose
+Import-Module ".\winBin\Modules\abk-lib" -Force
 
 # -----------------------------------------------------------------------------
 # variables definitions
@@ -91,5 +91,4 @@ if (-not (Add-AbkEnvironmentSettings $profile "$HOME_ENV_DIR\$ABK_ENV_FILE")) {
 & $profile
 
 Write-Host "<-" $MyInvocation.MyCommand.Name "($EXIT_CODE)" -ForeGroundColor Green
-Write-Host ""
 exit $EXIT_CODE
