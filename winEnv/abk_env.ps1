@@ -1,8 +1,10 @@
 #Requires -Version 5.0
 $ErrorActionPreference = "Stop"
 
-Import-Module "$HOME\bin\Modules\abk-lib"
-Import-Module "$HOME\bin\Modules\abk-aliases"
+$ABK_BIN_DIR="$HOME\abkBin"
+
+Import-Module "$ABK_BIN_DIR\Modules\abk-lib"
+Import-Module "$ABK_BIN_DIR\Modules\abk-aliases"
 $EXIT_CODE=$ERROR_CODE_SUCCESS
 
 # Write-Host ""
@@ -14,8 +16,8 @@ if ( $HOME -ne $env:Home ) {
     $env:Home=$HOME
 }
 
-$env:PSModulePath = Add-PathToEnvVariable $env:PSModulePath "$HOME\bin\Modules"
-$env:Path = Add-PathToEnvVariable $env:Path "$HOME\bin"
+$env:PSModulePath = Add-PathToEnvVariable $env:PSModulePath "$ABK_BIN_DIR\Modules"
+$env:Path = Add-PathToEnvVariable $env:Path $ABK_BIN_DIR
 
 # Write-Host "<-" $MyInvocation.MyCommand.Name "($ERROR_CODE)" -ForeGroundColor Green
 # Write-Host ""

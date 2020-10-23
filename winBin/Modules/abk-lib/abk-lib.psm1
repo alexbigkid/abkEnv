@@ -10,8 +10,8 @@
 # Set-Variable -Name ERROR_CODE_NEED_FILE_DOES_NOT_EXIST -Value ([int64]2) -Option Constant, AllScope -Force
 
 # directory definitions
-[string]$BIN_DIR="bin"
-[string]$ENV_DIR="env"
+[string]$BIN_DIR="abkBin"
+[string]$ENV_DIR="abkEnv"
 [string]$HOME_BIN_DIR="$HOME\$BIN_DIR"
 [string]$HOME_ENV_DIR="$HOME\$ENV_DIR"
 [string]$SH_BIN_DIR="winBin"
