@@ -15,7 +15,7 @@ $EXIT_CODE=$ERROR_CODE_SUCCESS
 # -----------------------------------------------------------------------------
 function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
     Write-Host "->" $MyInvocation.MyCommand.Name ($scriptName, $exitErrorCode) -ForegroundColor Yellow
-    Write-Host "   $scriptName will install ABK Environment with links in $HOME_BIN_DIR, $HOME_ENV_DIR"
+    Write-Host "   $scriptName will install ABK Environment with links in $HOME_BIN_DIR"
     Write-Host "   Usage: $scriptName"
     Write-Host "     $scriptName --help           - display this info"
     Write-Host "<-" $MyInvocation.MyCommand.Name "($exitErrorCode)" -ForegroundColor Yellow
@@ -30,11 +30,8 @@ Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
 
 Write-Host "   [args.Count      =" $args.Count "]"
 Write-Host "   [BIN_DIR         = $BIN_DIR]"
-Write-Host "   [ENV_DIR         = $ENV_DIR]"
 Write-Host "   [HOME_BIN_DIR    = $HOME_BIN_DIR]"
-Write-Host "   [HOME_ENV_DIR    = $HOME_ENV_DIR]"
 Write-Host "   [SH_BIN_DIR      = $SH_BIN_DIR]"
-Write-Host "   [SH_ENV_DIR      = $SH_ENV_DIR]"
 Write-Host "   [SH_PACKAGES_DIR = $SH_PACKAGES_DIR]"
 Write-Host "   [ABK_ENV_FILE    = $ABK_ENV_FILE]"
 Write-Host "   [HOME            = $HOME]"
@@ -71,12 +68,6 @@ if (-not (Confirm-DirectoryExist $HOME_BIN_DIR)) {
     New-Item -ItemType Junction -Path $HOME -Name $BIN_DIR -Value $CURRENT_DIR\$SH_BIN_DIR
 }
 
-# check for installation env directory
-if (-not (Confirm-DirectoryExist $HOME_ENV_DIR)) {
-    Write-Host "   [Creating $HOME_ENV_DIR junction to $CURRENT_DIR\$SH_ENV_DIR ...]"
-    New-Item -ItemType Junction -Path $HOME -Name $ENV_DIR -Value $CURRENT_DIR\$SH_ENV_DIR
-}
-
 # create user powershell profile if it does not exist yet
 if (-not (Confirm-FileExist $profile)) {
     Write-Host "   [creating user profile: $profile ...]"
@@ -84,7 +75,7 @@ if (-not (Confirm-FileExist $profile)) {
 }
 
 # add abk environment to the powershell profile
-if (-not (Add-AbkEnvironmentSettings $profile "$HOME_ENV_DIR\$ABK_ENV_FILE")) {
+if (-not (Add-AbkEnvironmentSettings $profile "$HOME_BIN_DIR\$ABK_ENV_FILE")) {
     PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST
 }
 

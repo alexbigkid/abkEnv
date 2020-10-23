@@ -11,18 +11,12 @@
 
 # directory definitions
 [string]$BIN_DIR="abkBin"
-[string]$ENV_DIR="abkEnv"
 [string]$HOME_BIN_DIR="$HOME\$BIN_DIR"
-[string]$HOME_ENV_DIR="$HOME\$ENV_DIR"
 [string]$SH_BIN_DIR="winBin"
-[string]$SH_ENV_DIR="winEnv"
 [string]$SH_PACKAGES_DIR="winPackages"
 # Set-Variable -Name BIN_DIR -Value ([string]"bin") -Option AllScope -Force
-# Set-Variable -Name ENV_DIR -Value ([string]"env") -Option Constant, AllScope -Force
 # Set-Variable -Name HOME_BIN_DIR -Value ([string]"$HOME\$BIN_DIR") -Option Constant, AllScope -Force
-# Set-Variable -Name HOME_ENV_DIR -Value ([string]"$HOME\$ENV_DIR") -Option Constant, AllScope -Force
 # Set-Variable -Name SH_BIN_DIR -Value ([string]"winBin") -Option Constant, AllScope -Force
-# Set-Variable -Name SH_ENV_DIR -Value ([string]"winEnv") -Option Constant, AllScope -Force
 # Set-Variable -Name SH_PACKAGES_DIR -Value ([string]"winPackages") -Option Constant, AllScope -Force
 [string]$ABK_ENV_FILE="abk_env.ps1"
 
@@ -50,7 +44,7 @@ function Add-AbkEnvironmentSettings () {
         $RESULT=$true
 
         if( Select-String $fileToAddContentTo -Pattern $fileToAdd -SimpleMatch -Quiet ) {
-            Write-Host "   [ABK ENV already added. Nothing to do here.]"
+            Write-Host "   [ABK environment already added. Nothing to do here.]"
         } else {
             $TEXT_TO_ADD = @"
 
@@ -272,4 +266,4 @@ function Write-ColorPrint () {
 
 Export-ModuleMember -Function *
 Export-ModuleMember -Variable ERROR_CODE*
-Export-ModuleMember -Variable BIN_DIR, ENV_DIR, HOME_BIN_DIR, HOME_ENV_DIR, SH_BIN_DIR, SH_ENV_DIR, SH_PACKAGES_DIR, ABK_ENV_FILE
+Export-ModuleMember -Variable BIN_DIR, HOME_BIN_DIR, SH_BIN_DIR, SH_PACKAGES_DIR, ABK_ENV_FILE

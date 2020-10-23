@@ -15,7 +15,7 @@ $EXIT_CODE=$ERROR_CODE_SUCCESS
 # -----------------------------------------------------------------------------
 function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
     Write-Host "->" $MyInvocation.MyCommand.Name ($scriptName, $exitErrorCode) -ForegroundColor Yellow
-    Write-Host "   $scriptName will uninstall ABK Environment and deleting links in $HOME_BIN_DIR, $HOME_ENV_DIR"
+    Write-Host "   $scriptName will uninstall ABK Environment and deleting links in $HOME_BIN_DIR"
     Write-Host "   Usage: $scriptName"
     Write-Host "     $scriptName --help           - display this info"
     Write-Host "<-" $MyInvocation.MyCommand.Name "($exitErrorCode)" -ForegroundColor Yellow
@@ -30,11 +30,8 @@ Write-Host "->" $MyInvocation.MyCommand.Name "($args)" -ForeGroundColor Green
 
 Write-Host "   [args.Count      =" $args.Count "]"
 Write-Host "   [BIN_DIR         = $BIN_DIR]"
-Write-Host "   [ENV_DIR         = $ENV_DIR]"
 Write-Host "   [HOME_BIN_DIR    = $HOME_BIN_DIR]"
-Write-Host "   [HOME_ENV_DIR    = $HOME_ENV_DIR]"
 Write-Host "   [SH_BIN_DIR      = $SH_BIN_DIR]"
-Write-Host "   [SH_ENV_DIR      = $SH_ENV_DIR]"
 Write-Host "   [SH_PACKAGES_DIR = $SH_PACKAGES_DIR]"
 Write-Host "   [ABK_ENV_FILE    = $ABK_ENV_FILE]"
 Write-Host "   [HOME            = $HOME]"
@@ -69,12 +66,6 @@ Write-Host "   [CURRENT_DIR = $CURRENT_DIR]"
 if (Confirm-FileExist $profile) {
     Write-Host "   [deleting abk environment from user profile: $profile ...]"
     Remove-AbkEnvironmentSettings $profile
-}
-
-# check for installation env directory
-if (Confirm-DirectoryExist $HOME_ENV_DIR) {
-    Write-Host "   [Deleting $HOME_ENV_DIR junction to $CURRENT_DIR\$SH_ENV_DIR ...]"
-    Remove-Item -Path "$HOME_ENV_DIR" -Recurse -Force
 }
 
 # if $HOME\bin junction directory exist -> delete it
