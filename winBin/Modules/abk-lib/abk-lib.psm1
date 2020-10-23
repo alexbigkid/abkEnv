@@ -111,7 +111,7 @@ function Add-PathToEnvVariable () {
         $arrPath = $envVariable -split ';' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
         $envVariable = ($arrPath + $addPath) -join ';'
     }
-    Write-Host "<-" $MyInvocation.MyCommand.Name "($envVariable)" -ForegroundColor Yellow
+    Write-Host "<-" $MyInvocation.MyCommand.Name $(if ($envVariable.Contains($addPath)) {"(OK)"} else {"(Fail)"}) -ForegroundColor Yellow
     return $envVariable
 }
 

@@ -86,5 +86,4 @@ if (Confirm-DirectoryExist $HOME_BIN_DIR) {
 & $profile
 
 Write-Host "<-" $MyInvocation.MyCommand.Name "($EXIT_CODE)" -ForeGroundColor Green
-Write-Host ""
 exit $EXIT_CODE
