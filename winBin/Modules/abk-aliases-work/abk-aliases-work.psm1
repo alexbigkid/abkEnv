@@ -18,6 +18,7 @@ function cdwss { Set-Location -Path C:\Git\mob\webcentral\WebCentral.SecuritySer
 function cdws { Set-Location -Path C:\Git\mob\webcentral\WebCentral.Support }
 function cdwu { Set-Location -Path C:\Git\mob\webcentral\WebCentral.Utilities }
 function cdwws { Set-Location -Path C:\Git\mob\webcentral\WebCentral.WebServer }
+function w.ws { Set-Location -Path C:\Git\mob\webcentral\WebCentral.WebServer }
 
 Export-ModuleMember -Function *
 Export-ModuleMember -Variable *
