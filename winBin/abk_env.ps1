@@ -19,7 +19,7 @@ if ( $HOME -ne $env:Home ) {
 $env:PSModulePath = Add-PathToEnvVariable $env:PSModulePath "$ABK_BIN_DIR\Modules"
 $env:Path = Add-PathToEnvVariable $env:Path $ABK_BIN_DIR
 
-if ( $env:computername.ToLower().Contains("aberger") ) {
+if ( -Not ($env:computername.ToLower().Contains("aberger")) ) {
     Import-Module "$ABK_BIN_DIR\Modules\abk-aliases-work"
 }
 
