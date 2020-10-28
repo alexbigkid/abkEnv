@@ -3,6 +3,8 @@ $ErrorActionPreference = "Stop"
 
 $ABK_BIN_DIR="$HOME\abkBin"
 
+function myFunctions {gci function: }
+
 Import-Module "$ABK_BIN_DIR\Modules\abk-lib"
 Import-Module "$ABK_BIN_DIR\Modules\abk-aliases"
 $EXIT_CODE=$ERROR_CODE_SUCCESS
