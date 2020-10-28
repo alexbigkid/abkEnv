@@ -1,0 +1,36 @@
+# [-ForegroundColor {Black | DarkBlue | DarkGreen | DarkCyan | DarkRed | DarkMagenta | DarkYellow | Gray | DarkGray | Blue | Green | Cyan | Red | Magenta | Yellow | White}]
+Write-Host
+Write-Host ' :::' -ForegroundColor Blue -NoNewline;
+Write-Host '====  ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  ===          ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '====  ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '===  ' -ForegroundColor Red -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  ===      ' -ForegroundColor Red -NoNewline;
+Write-Host '::: :::' -ForegroundColor Blue -NoNewline;
+Write-Host '==== ===' -ForegroundColor Red;
+Write-Host ' :::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor White -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor White -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  ===          ' -ForegroundColor White -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor White -NoNewline;
+Write-Host ':::' -ForegroundColor Blue -NoNewline;
+Write-Host '  === ' -ForegroundColor White -NoNewline;
+Write-Host ':::     :::' -ForegroundColor Blue -NoNewline;
+Write-Host '  ===      ' -ForegroundColor White -NoNewline;
+Write-Host '::: :::' -ForegroundColor Blue -NoNewline;
+Write-Host '==== ===' -ForegroundColor White;
+Write-Host ' ======== ======== ========          =======  ===  ===  =====  ========      ===   ===   ===' -ForegroundColor Red;
+Write-Host ' ===  === ===  === ===  ===  ==      ===      ===  ===     === ===  ===      ===   ===      ' -ForegroundColor White;
+Write-Host ' ===  === ===  === ===  ===  ==      ===       ======  ======  ===  ===      ===   ===   ===' -ForegroundColor Red;
+Write-Host '                            ==                                                              ' -ForegroundColor White;

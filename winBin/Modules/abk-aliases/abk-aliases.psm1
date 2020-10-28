@@ -37,9 +37,9 @@ function gs { git status }
 function gp { git pull }
 function gpt { git push origin }
 
-function snp { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_x1.m4a --notui; } }
-function snp2 { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_x2.m4a --notui; } }
-function prg { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_rg.m4a --notui; . $ABK_BIN_DIR\AlexIsAwesome.ps1; } }
+function snp { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_x1.m4a --notui; . $ABK_BIN_DIR\AhhPushIt.ps1;} }
+function snp2 { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_x2.m4a --notui; . $ABK_BIN_DIR\AhhPushIt2.ps1;} }
+function prg { git push; if ( $? ) { fmedia.exe $ABK_BIN_DIR\push_it_rg.m4a --notui; . $ABK_BIN_DIR\PushItRealGood.ps1; } }
 
 function psg { Get-Process $args[0] }
 function ppp { $env:Path.split(';') }
