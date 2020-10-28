@@ -17,6 +17,8 @@ if (-Not (Test-Path Variable:PSise)) {
     Set-Alias la Get-ChildItem -Scope Global -Force
 }
 
+# cd aliases
+function cdg { Set-Location -Path $HOME\dev\git }
 
 # find commands scripts
 function rgrep { Get-ChildItem -Recurse | Select-String $args[0] -List | Select Path }
@@ -32,7 +34,6 @@ function npcpu { Get-WmiObject Win32_Processor | Select-Object NumberOfEnabledCo
 function nlcpu { Get-WmiObject Win32_Processor | Select-Object NumberOfLogicalProcessors }
 
 # git aliases
-function cdg { Set-Location -Path $HOME\dev\git }
 function gs { git status }
 function gp { git pull }
 function gpt { git push origin }

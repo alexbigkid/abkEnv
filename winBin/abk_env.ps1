@@ -19,6 +19,10 @@ if ( $HOME -ne $env:Home ) {
 $env:PSModulePath = Add-PathToEnvVariable $env:PSModulePath "$ABK_BIN_DIR\Modules"
 $env:Path = Add-PathToEnvVariable $env:Path $ABK_BIN_DIR
 
+if ( $env:computername.ToLower().Contains("aberger") ) {
+    Import-Module "$ABK_BIN_DIR\Modules\abk-aliases-work"
+}
+
 # Write-Host "<-" $MyInvocation.MyCommand.Name "($ERROR_CODE)" -ForeGroundColor Green
 # Write-Host ""
 exit $EXIT_CODE
