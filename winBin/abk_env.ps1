@@ -23,6 +23,11 @@ if ( -Not ($env:computername.ToLower().Contains("aberger")) ) {
     Import-Module "$ABK_BIN_DIR\Modules\abk-aliases-work"
 }
 
+$ABK_GIT_USR_BIN='C:\Program Files\Git\usr\bin'
+$env:Path = Add-PathToEnvVariable $env:Path $ABK_GIT_USR_BIN
+$ABK_GIT_BIN='C:\Program Files\Git\bin'
+$env:Path = Add-PathToEnvVariable $env:Path $ABK_GIT_BIN
+
 # Write-Host "<-" $MyInvocation.MyCommand.Name "($ERROR_CODE)" -ForeGroundColor Green
 # Write-Host ""
 exit $EXIT_CODE
