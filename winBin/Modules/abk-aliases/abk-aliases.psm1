@@ -21,7 +21,7 @@ if (-Not (Test-Path Variable:PSise)) {
 function cdg { Set-Location -Path $HOME\dev\git }
 
 # aws aliases
-Set-Alias getAwsAccount aws sts get-caller-identity --query Account --output text
+function getAwsAccount {aws sts get-caller-identity --query Account --output text}
 
 # find commands scripts
 function rgrep { Get-ChildItem -Recurse | Select-String $args[0] -List | Select Path }
