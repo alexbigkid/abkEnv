@@ -20,6 +20,9 @@ if (-Not (Test-Path Variable:PSise)) {
 # cd aliases
 function cdg { Set-Location -Path $HOME\dev\git }
 
+# aws aliases
+Set-Alias getAwsAccount aws sts get-caller-identity --query Account --output text
+
 # find commands scripts
 function rgrep { Get-ChildItem -Recurse | Select-String $args[0] -List | Select Path }
 function rfind { Get-ChildItem -Path . -Filter $args[0] -Recurse -ErrorAction SilentlyContinue -Force }
