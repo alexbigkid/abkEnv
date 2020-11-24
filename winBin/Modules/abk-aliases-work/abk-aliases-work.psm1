@@ -2,6 +2,7 @@
 
 function cdcat { Set-Location -Path C:\Git\mob\webcentral\Centralus-AcceptanceTest }
 function cdcspt { Set-Location -Path C:\Git\mob\webcentral\Centralus-SupportPageTerraform }
+function cdcf { Set-Location -Path C:\Git\mob\webcentral\Centralus.Firmware }
 function cdci { Set-Location -Path C:\Git\mob\webcentral\Centralus.Infrastructure }
 function cdcia { Set-Location -Path C:\Git\mob\webcentral\Centralus.InfrastructureAzure }
 function cdcl { Set-Location -Path C:\Git\mob\webcentral\Centralus.Lambdas }
