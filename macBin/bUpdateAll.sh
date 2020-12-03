@@ -54,7 +54,7 @@ UpdateBrewCaskPackages ()
     local LCL_EXCEPT_FASTLANE_PACKAGE="fastlane"
     local LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
     local LCL_EXCEPT_ANYDESK_PACKAGE="anydesk"
-    local LCL_BREW_CASK_PACKAGES=$(brew cask outdated --greedy)
+    local LCL_BREW_CASK_PACKAGES=$(brew outdated --cask --greedy)
     echo ""
     echo "===================================="
     echo "brew cask packages to update"
