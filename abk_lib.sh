@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 # this script is collection of common function used in different scripts
 
 #---------------------------
@@ -53,8 +53,7 @@ NC='\033[0m' # No Color
 #---------------------------
 # functions
 #---------------------------
-GetAbsolutePath ()
-{
+function AbkLib_GetAbsolutePath () {
     local DIR_NAME=$(dirname "$1")
     pushd "$DIR_NAME" > /dev/null
     local RESULT_PATH=$PWD
@@ -62,14 +61,12 @@ GetAbsolutePath ()
     echo $RESULT_PATH
 }
 
-GetPathFromLink ()
-{
+function AbkLib_GetPathFromLink () {
     local RESULT_PATH=$(dirname $([ -L "$1" ] && readlink -n "$1"))
     echo $RESULT_PATH
 }
 
-CreateLink ()
-{
+function AbkLib_CreateLink () {
     if [ $# -ne 2 ]; then
         echo "ERROR: invalid number of parameters"
         false
@@ -89,15 +86,14 @@ CreateLink ()
     $LINK_RESULT
 }
 
-DeleteLink ()
-{
+function AbkLib_DeleteLink () {
     if [ $# -ne 1 ]; then
         echo "ERROR: invalid number of parameters"
-        echo "DeleteLink: requires only one parameter"
+        echo "AbkLib_DeleteLink: requires only one parameter"
         false
     fi
     [ $TRACE != 0 ] && echo "\$1 = $1"
-    LINKED_TO="$(GetPathFromLink $1)/$(basename "$1")"
+    LINKED_TO="$(AbkLib_GetPathFromLink $1)/$(basename "$1")"
     #delete previous link association if needed
     [ -L "$1" ] && unlink "$1"
     LINK_RESULT=$([ $? == 0 ] && echo true || echo false )
@@ -105,8 +101,7 @@ DeleteLink ()
     $LINK_RESULT
 }
 
-IsParameterHelp ()
-{
+function AbkLib_IsParameterHelp () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
@@ -119,8 +114,7 @@ IsParameterHelp ()
     fi
 }
 
-CheckNumberOfParameters ()
-{
+function AbkLib_CheckNumberOfParameters () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
     local LCL_ALL_PARAMS=($@)
@@ -138,8 +132,7 @@ CheckNumberOfParameters ()
     fi
 }
 
-IsPredefinedParameterValid ()
-{
+function AbkLib_IsPredefinedParameterValid () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_MATCH_FOUND=$FALSE
     local LCL_VALID_PARAMETERS=""

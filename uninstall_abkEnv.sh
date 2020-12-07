@@ -23,7 +23,7 @@ PrintUsage ()
 
 RestoreOldBashProfile ()
 {
-    DeleteLink $HOME/$ORG_BASH_PROFILE
+    AbkLib_DeleteLink $HOME/$ORG_BASH_PROFILE
     if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then
         echo ""
         echo "[restore the original $ENV_DIR/$ORG_BASH_PROFILE]"
@@ -78,9 +78,9 @@ find -L $ENV_DIR -type l -exec rm -- {} +
 
 
 if [ $EXECUTED_FROM_BIN == 0 ]; then
-    SH_DIR=$(GetAbsolutePath $0)
+    SH_DIR=$(AbkLib_GetAbsolutePath $0)
 else
-    SH_DIR=$(GetPathFromLink $BIN_UNINSTALL_FILE)
+    SH_DIR=$(AbkLib_GetPathFromLink $BIN_UNINSTALL_FILE)
 fi
 SH_BIN_DIR=$SH_DIR/$SH_BIN_DIR
 SH_ENV_DIR=$SH_DIR/$SH_ENV_DIR
@@ -97,7 +97,7 @@ echo "[uninstalling links in $ENV_DIR to $SH_ENV_DIR ...]"
 FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
 for FILE in ${FILES}
 do
-    DeleteLink $ENV_DIR/$(basename $FILE)
+    AbkLib_DeleteLink $ENV_DIR/$(basename $FILE)
 done
 
 echo ""
@@ -105,7 +105,7 @@ echo "[uninstalling links in $BIN_DIR to $SH_BIN_DIR ...]"
 FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    DeleteLink $BIN_DIR/$(basename $FILE)
+    AbkLib_DeleteLink $BIN_DIR/$(basename $FILE)
 done
 
 echo ""
@@ -113,7 +113,7 @@ echo "[uninstalling links in $BIN_DIR to $SH_DIR ...]"
 FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    DeleteLink $BIN_DIR/$(basename $FILE)
+    AbkLib_DeleteLink $BIN_DIR/$(basename $FILE)
 done
 
 echo ""

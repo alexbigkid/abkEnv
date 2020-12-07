@@ -160,10 +160,10 @@ fi
 # set the GoCD env directory
 echo ""
 if [ $EXECUTED_FROM_BIN -eq 1 ]; then
-    SH_DIR=$(GetPathFromLink $SCRIPT_FULL_NAME)
+    SH_DIR=$(AbkLib_GetPathFromLink $SCRIPT_FULL_NAME)
     [ $TRACE != 0 ] && echo "[$0 executed from $BIN_DIR]"
 else
-    SH_DIR=$(GetAbsolutePath $0)
+    SH_DIR=$(AbkLib_GetAbsolutePath $0)
     [ $TRACE != 0 ] && echo "[$0 executed from $SH_DIR]"
 fi
 ABS_PACKAGE_DIR="$SH_DIR/../$SH_PACKAGES_DIR"

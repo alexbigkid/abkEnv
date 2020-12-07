@@ -42,7 +42,7 @@ else
     exit 1
 fi
 
-IsParameterHelp $# $1 && PrintUsageAndExitWithCode $EXIT_CODE_SUCCESS
+AbkLib_IsParameterHelp $# $1 && PrintUsageAndExitWithCode $EXIT_CODE_SUCCESS
 
 echo "number of parameters $#"
 if [[ $# -eq 0 ]]; then
@@ -51,7 +51,7 @@ elif [[ $# -le ${#VALID_IOS_DEVICE[@]} ]]; then
     VALID_PARAMETER_ARRAY=()
     for PARAMETER in "$@";
     do
-        IsPredefinedParameterValid $PARAMETER "${VALID_IOS_DEVICE[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
+        AbkLib_IsPredefinedParameterValid $PARAMETER "${VALID_IOS_DEVICE[@]}" || PrintUsageAndExitWithCode $EXIT_CODE_NOT_VALID_PARAMETER
         VALID_PARAMETER_ARRAY+=($PARAMETER)
     done
     echo "VALID_PARAMETER_ARRAY = ${#VALID_PARAMETER_ARRAY[@]}"

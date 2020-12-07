@@ -59,7 +59,7 @@ fi
 
 EOF_NEW_BASH_PROFILE_COMMON
 
-    CreateLink $SH_ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
+    AbkLib_CreateLink $SH_ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
 }
 
 #---------------------------
@@ -123,10 +123,10 @@ find -L $ENV_DIR -type l -exec rm -- {} +
 # set script directory
 echo ""
 if [ $REFRESH == 0 ]; then
-    SH_DIR=$(GetAbsolutePath $0)
+    SH_DIR=$(AbkLib_GetAbsolutePath $0)
     echo "[creating links ...]"
 else
-    SH_DIR=$(GetPathFromLink $BIN_INSTALL_FILE)
+    SH_DIR=$(AbkLib_GetPathFromLink $BIN_INSTALL_FILE)
     echo "[refreshing links ...]"
 fi
 SH_BIN_DIR=$SH_DIR/$SH_BIN_DIR
@@ -150,7 +150,7 @@ echo "[links in $BIN_DIR to $SH_DIR ...]"
 FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    CreateLink $FILE $BIN_DIR/$(basename $FILE)
+    AbkLib_CreateLink $FILE $BIN_DIR/$(basename $FILE)
 done
 
 # create/update links to macBin
@@ -159,7 +159,7 @@ echo "[links in $BIN_DIR to $SH_BIN_DIR ...]"
 FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
 for FILE in ${FILES}
 do
-    CreateLink $FILE $BIN_DIR/$(basename $FILE)
+    AbkLib_CreateLink $FILE $BIN_DIR/$(basename $FILE)
 done
 
 # create/update links to macEnv
@@ -168,7 +168,7 @@ echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
 FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
 for FILE in ${FILES}
 do
-    CreateLink $FILE $ENV_DIR/$(basename $FILE)
+    AbkLib_CreateLink $FILE $ENV_DIR/$(basename $FILE)
 done
 
 exit $ERROR_CODE
