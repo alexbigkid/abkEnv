@@ -159,3 +159,22 @@ function AbkLib_IsPredefinedParameterValid () {
         return $FALSE
     fi
 }
+
+function AbkLib_IsStringInArray () {
+    echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_STRING_TO_SEARCH_FOR=$1
+    shift
+    local LCL_ARRAY_TO_SEARCH_IN=("$@")
+    local LCL_MATCH_FOUND=$FALSE
+
+    for element in "${LCL_ARRAY_TO_SEARCH_IN[@]}";
+    do
+        if [ "$LCL_STRING_TO_SEARCH_FOR" = "$element" ]; then
+            LCL_MATCH_FOUND=$TRUE
+            break
+        fi
+    done
+
+    echo "<- ${FUNCNAME[0]} ($LCL_MATCH_FOUND)"
+    return $LCL_MATCH_FOUND
+}

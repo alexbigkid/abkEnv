@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ABK_LIB_FILE="$HOME/bin/AbkLib.sh"
+ABK_LIB_FILE="AbkLib.sh"
 [ -f $ABK_LIB_FILE ] && source $ABK_LIB_FILE
 
 ABK_COLOR=${BLUE}
