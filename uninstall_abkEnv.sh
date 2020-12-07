@@ -5,7 +5,7 @@
 #---------------------------
 TRACE=0
 EXECUTED_FROM_BIN=0
-ABK_FUNCTION_LIB_FILE="abk_lib.sh"
+ABK_FUNCTION_LIB_FILE="AbkLib.sh"
 [ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
 
 #---------------------------

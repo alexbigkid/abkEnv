@@ -2,7 +2,7 @@
 
 EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMS=0
-COMMON_LIB_FILE="abk_lib.sh"
+COMMON_LIB_FILE="AbkLib.sh"
 
 declare -a VALID_IOS_DEVICE=("iPhone"
                              "iPad"

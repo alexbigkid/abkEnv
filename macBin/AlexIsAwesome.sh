@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMON_LIB_FILE="$HOME/bin/abk_lib.sh"
+COMMON_LIB_FILE="$HOME/bin/AbkLib.sh"
 [ -f $COMMON_LIB_FILE ] && source $COMMON_LIB_FILE
 
 ABK_COLOR=${YELOW}
