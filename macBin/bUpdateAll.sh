@@ -8,7 +8,7 @@ EXIT_CODE=$ERROR_CODE_SUCCESS
 EXPECTED_NUMBER_OF_PARAMETERS=0
 EXECUTED_FROM_BIN=0
 BIN_DIR=$HOME/bin
-ABK_FUNCTION_LIB_FILE="AbkLib.sh"
+ABK_LIB_FILE="AbkLib.sh"
 SCRIPT_NAME=$(basename $0)
 SCRIPT_PATH=$(dirname $0)
 
@@ -89,20 +89,20 @@ UpdateBrewCaskPackages ()
 
 echo "-> $0"
 [ $TRACE != 0 ] && echo "\$BIN_DIR = $BIN_DIR"
-[ $TRACE != 0 ] && echo "\$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
+[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 [ $TRACE != 0 ] && echo "\$SCRIPT_NAME = $SCRIPT_NAME"
 [ $TRACE != 0 ] && echo "\$SCRIPT_PATH = $SCRIPT_PATH"
 
 # installed in user/bin directory?
-if [ -f $BIN_DIR/$ABK_FUNCTION_LIB_FILE ]; then
-    echo "$ABK_FUNCTION_LIB_FILE sourced from $BIN_DIR"
-    source $BIN_DIR/$ABK_FUNCTION_LIB_FILE
+if [ -f $BIN_DIR/$ABK_LIB_FILE ]; then
+    echo "$ABK_LIB_FILE sourced from $BIN_DIR"
+    source $BIN_DIR/$ABK_LIB_FILE
 else
-    if [ -f $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE ]; then
-        echo "$ABK_FUNCTION_LIB_FILE sourced from $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE"
-        source $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE
+    if [ -f $SCRIPT_PATH/../$ABK_LIB_FILE ]; then
+        echo "$ABK_LIB_FILE sourced from $SCRIPT_PATH/../$ABK_LIB_FILE"
+        source $SCRIPT_PATH/../$ABK_LIB_FILE
     else
-        echo "ERROR: cannot find library: $ABK_FUNCTION_LIB_FILE"
+        echo "ERROR: cannot find library: $ABK_LIB_FILE"
         echo "Make sure you installed abk environment: $SCRIPT_PATH/../install_abkEnv.sh"
         echo "All binaries, shell scripts are going to be located in ~/bin"
         echo "<- $0 (1)"

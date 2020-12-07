@@ -6,8 +6,8 @@
 TRACE=0
 EXECUTED_FROM_BIN=0
 BIN_DIR=$HOME/bin
-ABK_FUNCTION_LIB_FILE="AbkLib.sh"
-[ $TRACE != 0 ] && echo "\$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE"
+ABK_LIB_FILE="AbkLib.sh"
+[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 SCRIPT_NAME=$(basename $0)
 SCRIPT_PATH=$(dirname $0)
 [ $TRACE != 0 ] && echo "\$SCRIPT_NAME = $SCRIPT_NAME"
@@ -105,13 +105,13 @@ InstallOrUpdate ()
 
 #-------  main -------------
 # installed in user/bin directory?
-if [ -f $BIN_DIR/$ABK_FUNCTION_LIB_FILE ]; then
-    source $BIN_DIR/$ABK_FUNCTION_LIB_FILE
+if [ -f $BIN_DIR/$ABK_LIB_FILE ]; then
+    source $BIN_DIR/$ABK_LIB_FILE
 else
-    if [ -f $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE ]; then
-        source $SCRIPT_PATH/../$ABK_FUNCTION_LIB_FILE
+    if [ -f $SCRIPT_PATH/../$ABK_LIB_FILE ]; then
+        source $SCRIPT_PATH/../$ABK_LIB_FILE
     else
-        echo "ERROR: cannot find library: $ABK_FUNCTION_LIB_FILE"
+        echo "ERROR: cannot find library: $ABK_LIB_FILE"
         echo "Make sure you installed abk environment: $SCRIPT_PATH/../install_abkEnv.sh"
         echo "All binaries, shell scripts are going to be located in ~/bin"
         exit 1

@@ -5,8 +5,8 @@
 #---------------------------
 TRACE=0
 REFRESH=0
-ABK_FUNCTION_LIB_FILE="AbkLib.sh"
-[ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
+ABK_LIB_FILE="AbkLib.sh"
+[ $TRACE != 0 ] && echo \$ABK_LIB_FILE = $ABK_LIB_FILE
 
 #---------------------------
 # functions
@@ -25,10 +25,10 @@ PrintUsage ()
 #---------------------------
 # main
 #---------------------------
-if [ -f ./$ABK_FUNCTION_LIB_FILE ]; then
-    source ./$ABK_FUNCTION_LIB_FILE
+if [ -f ./$ABK_LIB_FILE ]; then
+    source ./$ABK_LIB_FILE
 else
-    echo "ERROR: ./$ABK_FUNCTION_LIB_FILE does not exist"
+    echo "ERROR: ./$ABK_LIB_FILE does not exist"
     echo "Make sure you installed abk environment: ./install_abkEnv.sh"
     echo "All binaries, shell scripts are going to be located in ~/bin"
     exit 1

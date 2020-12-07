@@ -2,7 +2,7 @@
 
 EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMS=0
-COMMON_LIB_FILE="AbkLib.sh"
+ABK_LIB_FILE="AbkLib.sh"
 
 declare -a VALID_IOS_DEVICE=("iPhone"
                              "iPad"
@@ -30,15 +30,15 @@ echo ""
 echo "-> $0 ($@)"
 
 # include common library, fail if does not exist
-if [ -f "../$COMMON_LIB_FILE" ]; then
-    echo "sourcing from ../$COMMON_LIB_FILE"
-    source "../$COMMON_LIB_FILE"
-elif [ -f "$HOME/bin/$COMMON_LIB_FILE" ]; then
-    echo "sourcing from $HOME/bin/$COMMON_LIB_FILE"
-    source "$HOME/bin/$COMMON_LIB_FILE"
+if [ -f "../$ABK_LIB_FILE" ]; then
+    echo "sourcing from ../$ABK_LIB_FILE"
+    source "../$ABK_LIB_FILE"
+elif [ -f "$HOME/bin/$ABK_LIB_FILE" ]; then
+    echo "sourcing from $HOME/bin/$ABK_LIB_FILE"
+    source "$HOME/bin/$ABK_LIB_FILE"
 else
-    echo "ERROR: $COMMON_LIB_FILE does not exist in the local directory."
-    echo "  $COMMON_LIB_FILE contains common definitions and functions"
+    echo "ERROR: $ABK_LIB_FILE does not exist in the local directory."
+    echo "  $ABK_LIB_FILE contains common definitions and functions"
     exit 1
 fi
 
