@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
 xcrun simctl list devicetypes

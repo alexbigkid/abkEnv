@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
-ABK_LIB_FILE="AbkLib.sh"
-[ -f $ABK_LIB_FILE ] && source $ABK_LIB_FILE
+ABK_COLOR_FILE="env/abk_colors.env"
+[ -f $ABK_COLOR_FILE ] && source $ABK_COLOR_FILE
 
-ABK_COLOR=${BLUE}
+ABK_BLUE=${BLUE}
 
-echo -e "${ABK_COLOR}"
+echo -e "${ABK_BLUE}"
 echo '    ___    __    __         ____             __       _ __  __';
 echo '   /   |  / /_  / /_       / __ \__  _______/ /_     (_) /_/ /';
 echo '  / /| | / __ \/ __ \     / /_/ / / / / ___/ __ \   / / __/ / ';

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo ----- python installations ------ 
 which -a python python2 python3
 

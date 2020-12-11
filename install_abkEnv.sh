@@ -1,174 +1,112 @@
-#!/bin/bash
-
-#---------------------------
-# variables definitions
-#---------------------------
-TRACE=0
-REFRESH=0
-ABK_FUNCTION_LIB_FILE="AbkLib.sh"
-[ $TRACE != 0 ] && echo \$ABK_FUNCTION_LIB_FILE = $ABK_FUNCTION_LIB_FILE
+#!/bin/sh
 
 #---------------------------
 # functions
 #---------------------------
-PrintUsage ()
-{
-    echo "$0 will create or refresh all links in $BIN_DIR, $ENV_DIR and brew packages"
+function PrintUsageAndExitWithCode() {
+    echo "$0 will create abk environment with aliases and prompt setup"
     echo "the script $0 must be called without any parameters"
     echo "usage: $0"
     echo "  $0 --help           - display this info"
+    echo
+    echo $2
     echo "errorExitCode = $1"
     exit $1
 }
 
-CreateNewBashProfile ()
-{
-    if [ -f $HOME/$ORG_BASH_PROFILE ]; then
-        echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
-        mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
-        cat > $1 << EOF_NEW_BASH_PROFILE_IF
-# the original .bash_profile is MOVED to \$HOME/env/$ORG_BASH_PROFILE
-# in order to completely remove abk environment and restore the
-# previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
+function __install_abkEnv_uninstall_old() {
+    echo "-> ${FUNCNAME[0]} ($@)"
+    if [ -d "$HOME/env" ]; then
+        # looks like legacy installation, deleting previous version
+        local LCL_UNINSTALL_1_0_0="macInstallVersions/uninstall_abkEnv_1_0_0.sh"
+        if [ -f "$LCL_UNINSTALL_1_0_0" ]; then
+            source $LCL_UNINSTALL_1_0_0
+            uninstall_abkEnv_1_0_0_main
+        fi
+    fi
+    echo "<- ${FUNCNAME[0]} (0)"
+}
 
-#-------------------------
-# setting previous environment
-#-------------------------
-if [ -f \$HOME/env/$ORG_BASH_PROFILE ]; then
-  source \$HOME/env/$ORG_BASH_PROFILE
-fi
 
-EOF_NEW_BASH_PROFILE_IF
-    else
-        echo "[no original $HOME/$ORG_BASH_PROFILE found]"
-        cat > $1 << EOF_NEW_BASH_PROFILE_ELSE
-# there was no original .bash_profile so it was not MOVED to \$HOME/env/$ORG_BASH_PROFILE
-# in order to completely remove abk environment and restore the
-# previous bash settings, please execute \$HOME/bin/uninstall_abkEnv.sh
+function __install_abkEnv_bash() {
+    echo "-> ${FUNCNAME[0]} ($@)"
+    echo "   [BIN_DIR           = $BIN_DIR]"
+    echo "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
+    echo "   [SH_BIN_DIR        = $SH_BIN_DIR]"
+    echo "   [SH_PACKAGES_DIR   = $SH_PACKAGES_DIR]"
+    echo "   [ABK_ENV_FILE      = $ABK_ENV_FILE]"
+    echo "   [HOME              = $HOME]"
+    echo
 
-EOF_NEW_BASH_PROFILE_ELSE
+    # uninstall old installations
+    __install_abkEnv_uninstall_old
+
+    #-----------------
+    # new installation
+    #-----------------
+    # add abk config file to the users .bash_profile
+    # Figure out what directory this script is executed from
+    CURRENT_DIR=$PWD
+    # echo "CURRENT_DIR = $CURRENT_DIR"
+    # if $HOME/$BIN_DIR directory does not exist -> create it
+    if [ ! -d $HOME_BIN_DIR ]; then
+        echo "   [Creating $HOME_BIN_DIR directory link to $CURRENT_DIR/$SH_BIN_DIR ...]"
+        ln -s "$CURRENT_DIR/$SH_BIN_DIR"  $HOME_BIN_DIR
     fi
 
-    cat >> $1 << EOF_NEW_BASH_PROFILE_COMMON
-#-------------------------
-# setting up abk environment
-#-------------------------
-if [ -f \$HOME/env/$ABK_BASH_PROFILE ]; then
-  source \$HOME/env/$ABK_BASH_PROFILE
-fi
+    # create user .bash_profile if it does not exist yet
+    if [ ! -f "$HOME/$CONFIG_FILE_BASH" ]; then
+        echo "   [Creating user profile: $HOME/$CONFIG_FILE_BASH ...]"
+        touch "$HOME/$CONFIG_FILE_BASH"
+    fi
 
-EOF_NEW_BASH_PROFILE_COMMON
+    # add abk environment to the shell profile
+    AbkLib_AddEnvironmentSettings "$HOME/$CONFIG_FILE_BASH" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
 
-    AbkLib_CreateLink $SH_ENV_DIR/$NEW_BASH_PROFILE $HOME/$ORG_BASH_PROFILE
+    source $HOME/$CONFIG_FILE_BASH
+
+    echo "<- ${FUNCNAME[0]} (0)"
+    return 0
+}
+
+function __install_abkEnv_zsh() {
+    echo "-> ${FUNCNAME[0]} ($@)"
+    echo "<- ${FUNCNAME[0]} (0)"
 }
 
 #---------------------------
 # main
 #---------------------------
-if [ -f ./$ABK_FUNCTION_LIB_FILE ]; then
-    source ./$ABK_FUNCTION_LIB_FILE
-else
-    echo "ERROR: ./$ABK_FUNCTION_LIB_FILE does not exist"
-    echo "Make sure you installed abk environment: ./install_abkEnv.sh"
-    echo "All binaries, shell scripts are going to be located in ~/bin"
-    exit 1
-fi
+function install_abkEnv_main() {
+    # echo "-> ${FUNCNAME[0]} ($@)"
+    # vars
+    local LCL_RED='\033[0;31m'
+    local LCL_NC='\033[0m' # No Color
+    declare -a LCL_ABK_SUPPORTED_SHELLS=(
+        "bash"
+        "zsh"
+    )
+    local LCL_ABK_SCRIPT_TO_EXECUTE="__install_abkEnv"
+    local LCL_ABK_LIB_FILE="macBinBash/AbkLib.sh"
+    [ -f $LCL_ABK_LIB_FILE ] && source $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
-if [ $TRACE != 0 ]; then
-    echo "\$# = $#, \$0 = $0, \$1 = $1"
-    echo \$SHELL   = $SHELL
-    echo \$BIN_DIR = $BIN_DIR
-    echo \$ENV_DIR = $ENV_DIR
-    echo \$SH_DIR  = $SH_DIR
-    echo ""
-fi
-
-
-# check if it is bash shell
-if [[ $SHELL != "/bin/bash" ]]; then
-    PrintUsage $ERROR_CODE_NOT_BASH_SHELL
-fi
-
-# check if 1 parameter and it is --help
-if [[ $# -eq 1 && $1 == "--help" ]]; then
-    PrintUsage $ERROR_CODE_SUCCESS
-fi
-
-# Check if there is any parameters
-if [ $# -ne 0 ]; then
-    echo "ERROR: invalid number of parameters"
-    PrintUsage $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
-fi
-
-# check for installation bin directory
-[ ! -d $BIN_DIR ] && echo "[creating $BIN_DIR directory ...]"
-mkdir -pv -m 755 $BIN_DIR || exit $?
-
-# check for installation env directory
-[ ! -d $ENV_DIR ] && echo "[creating $ENV_DIR directory ...]"
-mkdir -pv -m 755 $ENV_DIR || exit $?
-
-# check whether the scripts already installed or need to be refreshed
-BIN_INSTALL_FILE=$BIN_DIR/$(basename $0)
-if [ -f $BIN_INSTALL_FILE ]; then
-    [ -L $BIN_INSTALL_FILE ] && REFRESH=1 || PrintUsage $ERROR_CODE_IS_INSTALLED_BUT_NO_LINK
-fi
+    # Is parameter --help?
+    [ "$#" -eq 1 ] && [ "$1" == "--help" ] && PrintUsageAndExitWithCode $ERROR_CODE_SUCCESS
+    # Is number of parameters ok
+    [ "$#" -ne 0 ] && PrintUsageAndExitWithCode $ERROR_CODE_GENERAL_ERROR "${LCL_RED}ERROR: invalid number of parameters${NC}"
+    # is $SHELL supported
+    AbkLib_IsStringInArray $ABK_SHELL "${LCL_ABK_SUPPORTED_SHELLS[@]}" || PrintUsageAndExitWithCode $? "${LCL_RED}ERROR:${LCL_NC} $ABK_SHELL is not supported.\n Please consider using one of those shells: ${LCL_ABK_SUPPORTED_SHELLS[*]}"
+    # run shell specific install
+    __install_abkEnv_${ABK_SHELL} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} __install_abkEnv_${ABK_SHELL} failed"
+    echo "<- ${FUNCNAME[0]} (0)"
+exit 0
+    return 0
+}
 
 echo ""
-echo "[deleting broken links in bin ...]"
-find -L $BIN_DIR -type l -exec rm -- {} +
-echo "[deleting broken links in env ...]"
-find -L $ENV_DIR -type l -exec rm -- {} +
+echo "-> $0 ($@)"
 
-# set script directory
-echo ""
-if [ $REFRESH == 0 ]; then
-    SH_DIR=$(AbkLib_GetAbsolutePath $0)
-    echo "[creating links ...]"
-else
-    SH_DIR=$(AbkLib_GetPathFromLink $BIN_INSTALL_FILE)
-    echo "[refreshing links ...]"
-fi
-SH_BIN_DIR=$SH_DIR/$SH_BIN_DIR
-SH_ENV_DIR=$SH_DIR/$SH_ENV_DIR
+install_abkEnv_main $@
 
-if [ $TRACE != 0 ]; then
-    echo "\$REFRESH   =$REFRESH"
-    echo "\$SH_DIR    =$SH_DIR"
-    echo "\$SH_BIN_DIR=$SH_BIN_DIR"
-    echo "\$SH_ENV_DIR=$SH_ENV_DIR"
-fi
-
-# if installing, not refreshing
-if [ $REFRESH == 0 ]; then
-    CreateNewBashProfile $SH_ENV_DIR/$NEW_BASH_PROFILE
-fi
-
-# create/update links in project dir
-echo ""
-echo "[links in $BIN_DIR to $SH_DIR ...]"
-FILES=$(find $SH_DIR -maxdepth 1 -type f -name '*.sh')
-for FILE in ${FILES}
-do
-    AbkLib_CreateLink $FILE $BIN_DIR/$(basename $FILE)
-done
-
-# create/update links to macBin
-echo ""
-echo "[links in $BIN_DIR to $SH_BIN_DIR ...]"
-FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')
-for FILE in ${FILES}
-do
-    AbkLib_CreateLink $FILE $BIN_DIR/$(basename $FILE)
-done
-
-# create/update links to macEnv
-echo ""
-echo "[links in $ENV_DIR to $SH_ENV_DIR ...]"
-FILES=$(find $SH_ENV_DIR -maxdepth 1 -type f -name '*.env' -o -name '*.m4a' -o -name '*.mp3')
-for FILE in ${FILES}
-do
-    AbkLib_CreateLink $FILE $ENV_DIR/$(basename $FILE)
-done
-
-exit $ERROR_CODE
+echo "<- $0 (0)"
+exit 0

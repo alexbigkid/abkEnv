@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ABK_LIB_FILE="AbkLib.sh"
-[ -f $ABK_LIB_FILE ] && source $ABK_LIB_FILE
+ABK_COLOR_FILE="env/abk_colors.env"
+[ -f $ABK_COLOR_FILE ] && source $ABK_COLOR_FILE
 
 ABK_COLOR=${YELOW}
 

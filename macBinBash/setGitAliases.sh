@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+ABK_COLOR_FILE="env/abk_colors.env"
+[ -f $ABK_COLOR_FILE ] && source $ABK_COLOR_FILE
 
 echo -e "${YELLOW}-> $0${NC}"
 echo '----- GIT alias configuration ------'

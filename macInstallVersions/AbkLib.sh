@@ -1,20 +1,19 @@
 #!/bin/bash
 # this script is collection of common function used in different scripts
 
-#---------------------------
-# variables definitions
-#---------------------------
+# -----------------------------------------------------------------------------
+# external variables definitions
+# -----------------------------------------------------------------------------
 declare -r TRUE=0
 declare -r FALSE=1
 
 # directories for bin and env files
 BIN_DIR=$HOME/bin
 ENV_DIR=$HOME/env
-SH_BIN_DIR="macBin"
-SH_ENV_DIR="macEnv"
+SH_BIN_DIR="macBinBash"
+SH_ENV_DIR="$SH_BIN_DIR/env"
 SH_PACKAGES_DIR="macPackages"
 SH_DIR=""
-
 # abkEnv bash profile file names
 NEW_BASH_PROFILE="bash_profile.env"
 ORG_BASH_PROFILE=".bash_profile"
@@ -32,23 +31,9 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 #---------------------------
 # color definitions
 #---------------------------
-BLACK='\033[0;30m'
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-ORANGE='\033[0;33m'
-BLUE='\033[0;34m'
-PURPLE='\033[0;35m'
-CYAN='\033[0;36m'
-LIGHT_GRAY='\033[0;37m'
-DARK_GRAY='\033[1;30m'
-LIGHT_RED='\033[1;31m'
-LIGHT_GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-LIGHT_BLUE='\033[1;34m'
-LIGHT_PURPLE='\033[1;35m'
-LIGHT_CYAN='\033[1;36m'
-WHITE='\033[1;37m'
-NC='\033[0m' # No Color
+local LCL_ABK_COLORS="../macBinBash/env/abk_colors.env"
+[ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors could not be included"
+
 
 #---------------------------
 # functions
@@ -101,19 +86,6 @@ function AbkLib_DeleteLink () {
     $LINK_RESULT
 }
 
-function AbkLib_IsParameterHelp () {
-    echo "-> ${FUNCNAME[0]} ($@)"
-    local NUMBER_OF_PARAMETERS=$1
-    local PARAMETER=$2
-    if [[ $NUMBER_OF_PARAMETERS -eq 1 && $PARAMETER == "--help" ]]; then
-        echo "<- ${FUNCNAME[0]} (TRUE)"
-        return $TRUE
-    else
-        echo "<- ${FUNCNAME[0]} (FALSE)"
-        return $FALSE
-    fi
-}
-
 function AbkLib_CheckNumberOfParameters () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
@@ -158,23 +130,4 @@ function AbkLib_IsPredefinedParameterValid () {
         echo "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
-}
-
-function AbkLib_IsStringInArray () {
-    echo "-> ${FUNCNAME[0]} ($@)"
-    local LCL_STRING_TO_SEARCH_FOR=$1
-    shift
-    local LCL_ARRAY_TO_SEARCH_IN=("$@")
-    local LCL_MATCH_FOUND=$FALSE
-
-    for element in "${LCL_ARRAY_TO_SEARCH_IN[@]}";
-    do
-        if [ "$LCL_STRING_TO_SEARCH_FOR" = "$element" ]; then
-            LCL_MATCH_FOUND=$TRUE
-            break
-        fi
-    done
-
-    echo "<- ${FUNCNAME[0]} ($LCL_MATCH_FOUND)"
-    return $LCL_MATCH_FOUND
 }
