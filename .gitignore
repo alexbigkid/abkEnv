@@ -1,9 +1,6 @@
-macEnv/bash_profile.sh
-macEnv/bash_profile.env
 macEnv/bash_aliases_abkp.env
 macPackages/casks_*.txt
 macPackages/brews_*.txt
 macPackages/bi_*.txt
 macPackages/bci_*.txt
 macPackages/*_brew_update.txt
-macPackages/AWS
