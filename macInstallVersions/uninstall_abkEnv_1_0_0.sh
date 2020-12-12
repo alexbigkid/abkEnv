@@ -7,7 +7,7 @@ TRACE=0
 EXECUTED_FROM_BIN=0
 ABK_LIB_DIR=$(dirname $BASH_SOURCE)
 echo "ABK_LIB_DIR = $ABK_LIB_DIR"
-ABK_LIB_FILE="./$ABK_LIB_DIR/AbkLib.sh"
+ABK_LIB_FILE="./$ABK_LIB_DIR/abk_lib.sh"
 [ $TRACE != 0 ] && echo \$ABK_LIB_FILE = $ABK_LIB_FILE
 
 #---------------------------

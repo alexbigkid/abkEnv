@@ -5,7 +5,7 @@
 #---------------------------
 TRACE=0
 REFRESH=0
-ABK_LIB_FILE="AbkLib.sh"
+ABK_LIB_FILE="abk_lib.sh"
 [ $TRACE != 0 ] && echo \$ABK_LIB_FILE = $ABK_LIB_FILE
 
 #---------------------------
