@@ -11,6 +11,7 @@ function InstallLib_GetVersion () {
     local LCL_VERSION_TYPE=$2
     local LCL_RETURN_VAL="0"
     local LCL_VERSION_FILE="version"
+    local LCL_EXIT_CODE=1
 
     if [ -f $LCL_VERSION_FILE ]; then
         local LCL_VERSION_STR=$(<$LCL_VERSION_FILE)
@@ -20,10 +21,11 @@ function InstallLib_GetVersion () {
         else
             LCL_RETURN_VAL=$LCL_VERSION_STR
         fi
+        LCL_EXIT_CODE=1
     fi
 
     eval $LCL_RETURN_VAR=\$LCL_RETURN_VAL
     echo "<- ${FUNCNAME[0]} (0 $LCL_RETURN_VAL)"
-    echo 
+    return $LCL_EXIT_CODE
 }
 
