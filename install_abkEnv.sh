@@ -15,7 +15,7 @@ function PrintUsageAndExitWithCode() {
 }
 
 function __install_abkEnv_uninstall_old() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
     if [ -d "$HOME/env" ]; then
         # looks like legacy installation, deleting previous version
         local LCL_UNINSTALL_1_0_0="macInstallVersions/uninstall_abkEnv_1_0_0.sh"
@@ -24,12 +24,12 @@ function __install_abkEnv_uninstall_old() {
             uninstall_abkEnv_1_0_0_main
         fi
     fi
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
 }
 
 
 function __install_abkEnv_bash() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
 
     # uninstall old installations
     __install_abkEnv_uninstall_old
@@ -58,13 +58,13 @@ function __install_abkEnv_bash() {
 
     source $HOME/$CONFIG_FILE_BASH
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
 function __install_abkEnv_zsh() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
 }
 
 #---------------------------
@@ -77,7 +77,7 @@ function install_abkEnv_main() {
     local LCL_ABK_LIB_FILE="macBinBash/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && source $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [BIN_DIR           = $BIN_DIR]"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [SH_BIN_DIR        = $SH_BIN_DIR]"
@@ -95,7 +95,7 @@ function install_abkEnv_main() {
     # run shell specific install
     ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} failed"
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 

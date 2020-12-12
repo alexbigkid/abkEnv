@@ -61,8 +61,17 @@ ABK_ENV_END="# <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
 #---------------------------
 # functions
 #---------------------------
+function AbkLib_Trace () {
+    local LCL_TRACE_LEVEL=$1
+    local LCL_TRACE=$2
+    if [ "$ABK_TRACE" -ge "$LCL_TRACE_LEVEL" ]; then
+        echo $LCL_TRACE
+    fi
+    # [ "$ABK_TRACE" -ge "$LCL_TRACE_LEVEL" ] && echo $LCL_TRACE
+}
+
 function AbkLib_AddEnvironmentSettings() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_ADD_CONTENT_TO=$1
     local LCL_SETTING_FILE_TO_ADD=$2
     local LCL_RESULT=$FALSE
@@ -88,25 +97,25 @@ TEXT_TO_ADD
         echo -e "${RED}   One or both files do not exist: $LCL_FILE_TO_ADD_CONTENT_TO, $LCL_SETTING_FILE_TO_ADD${NC}"
     fi
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} ($LCL_RESULT)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} ($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 function AbkLib_IsParameterHelp() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
     if [[ $NUMBER_OF_PARAMETERS -eq 1 && $PARAMETER == "--help" ]]; then
-        [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (TRUE)"
+        AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     else
-        [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (FALSE)"
+        AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
 }
 
 function AbkLib_IsStringInArray() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
     local LCL_STRING_TO_SEARCH_FOR=$1
     shift
     local LCL_ARRAY_TO_SEARCH_IN=("$@")
@@ -119,6 +128,6 @@ function AbkLib_IsStringInArray() {
         fi
     done
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} ($LCL_MATCH_FOUND)"
+    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} ($LCL_MATCH_FOUND)"
     return $LCL_MATCH_FOUND
 }
