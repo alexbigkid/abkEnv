@@ -15,21 +15,21 @@ function PrintUsageAndExitWithCode() {
 }
 
 function __uninstall_abkEnv_bash() {
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     # remove abk environment to the shell profile
     # AbkLib_RemoveEnvironmentSettings "$HOME/$ABK_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$CONFIG_FABK_USER_SHELL_CONFIG_FILEILE_BASH file does not exist${NC}"
 
 
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
 function __uninstall_abkEnv_zsh() {
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
@@ -43,7 +43,7 @@ function uninstall_abkEnv_main() {
     local LCL_ABK_LIB_FILE="macBinBash/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && source $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [BIN_DIR           = $BIN_DIR]"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [SH_BIN_DIR        = $SH_BIN_DIR]"
@@ -57,11 +57,11 @@ function uninstall_abkEnv_main() {
     # Is number of parameters ok
     [ "$#" -ne 0 ] && PrintUsageAndExitWithCode $ERROR_CODE_GENERAL_ERROR "${RED}ERROR: invalid number of parameters${NC}"
     # is $SHELL supported
-    AbkLib_IsStringInArray $ABK_SHELL "${ABK_SUPPORTED_SHELLS[@]}" || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}"
+    AbkLib_IsStringInArray $ABK_SHELL ${ABK_SUPPORTED_SHELLS[@]} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}"
     # run shell specific install
     ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} failed"
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (0)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 

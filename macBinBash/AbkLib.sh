@@ -13,7 +13,7 @@ ABK_FUNCTION_TRACE=2
 ABK_INFO_TRACE=3
 ABK_DETAILED_TRACE=4
 ABK_ALL_TRACE=5
-ABK_TRACE=$ABK_NO_TRACE
+ABK_TRACE=$ABK_ALL_TRACE
 
 
 # exit error codes
@@ -35,8 +35,13 @@ declare -a ABK_SUPPORTED_SHELLS=(
     "zsh"
 )
 
-CONFIG_FILE_BASH=".bash_profile"
-CONFIG_FILE_ZSH=".zshrc"
+if [ "$ABK_SHELL" = "bash" ]; then
+    ABK_USER_SHELL_CONFIG_FILE=".bash_profile"
+elif [ "$ABK_SHELL" = "zsh" ]; then
+    ABK_USER_SHELL_CONFIG_FILE=".zshrc"
+else
+    echo "${RED}ERROR: $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}${NC}"
+fi
 
 # abkEnv shell profile file names
 ABK_LIB_FILE_DIR=$(dirname "$BASH_SOURCE")
@@ -61,17 +66,8 @@ ABK_ENV_END="# <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
 #---------------------------
 # functions
 #---------------------------
-function AbkLib_Trace () {
-    local LCL_TRACE_LEVEL=$1
-    local LCL_TRACE=$2
-    if [ "$ABK_TRACE" -ge "$LCL_TRACE_LEVEL" ]; then
-        echo $LCL_TRACE
-    fi
-    # [ "$ABK_TRACE" -ge "$LCL_TRACE_LEVEL" ] && echo $LCL_TRACE
-}
-
 function AbkLib_AddEnvironmentSettings() {
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_ADD_CONTENT_TO=$1
     local LCL_SETTING_FILE_TO_ADD=$2
     local LCL_RESULT=$FALSE
@@ -97,25 +93,25 @@ TEXT_TO_ADD
         echo -e "${RED}   One or both files do not exist: $LCL_FILE_TO_ADD_CONTENT_TO, $LCL_SETTING_FILE_TO_ADD${NC}"
     fi
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} ($LCL_RESULT)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 function AbkLib_IsParameterHelp() {
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
-    if [[ $NUMBER_OF_PARAMETERS -eq 1 && $PARAMETER == "--help" ]]; then
-        AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (TRUE)"
+    if [ $NUMBER_OF_PARAMETERS -eq 1 ] && [ "$PARAMETER" == "--help" ]; then
+        [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     else
-        AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} (FALSE)"
+        [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
 }
 
-function AbkLib_IsStringInArray() {
-    AbkLib_Trace $ABK_FUNCTION_TRACE "-> ${FUNCNAME[0]} ($@)"
+function AbkLib_IsStringInArray () {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_STRING_TO_SEARCH_FOR=$1
     shift
     local LCL_ARRAY_TO_SEARCH_IN=("$@")
@@ -128,6 +124,18 @@ function AbkLib_IsStringInArray() {
         fi
     done
 
-    AbkLib_Trace $ABK_FUNCTION_TRACE "<- ${FUNCNAME[0]} ($LCL_MATCH_FOUND)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_MATCH_FOUND)"
     return $LCL_MATCH_FOUND
+}
+
+function AbkLib_RemoveEnvironmentSettings () {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_FILE_TO_ADD_CONTENT_TO=$1
+    local LCL_SETTING_FILE_TO_ADD=$2
+    local LCL_RESULT=$FALSE
+
+
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
 }
