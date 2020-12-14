@@ -80,13 +80,11 @@ function AbkLib_AddEnvironmentSettings() {
         else
             [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [adding ABK environment ...]"
             cat >>$LCL_FILE_TO_ADD_CONTENT_TO <<-TEXT_TO_ADD
-
 $ABK_ENV_BEGIN
 if [ -f "$LCL_SETTING_FILE_TO_INCLUDE" ]; then
     source $LCL_SETTING_FILE_TO_INCLUDE
 fi
 $ABK_ENV_END
-
 TEXT_TO_ADD
         fi
     else
@@ -138,6 +136,7 @@ function AbkLib_RemoveEnvironmentSettings () {
         LCL_RESULT=$TRUE
         if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
             [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment found removing it...]"
+            sed -i -e "/^$ABK_ENV_BEGIN$/,/^$ABK_ENV_END$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
         else
             [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment NOT found. Nothng to remove]"
         fi
