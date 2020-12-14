@@ -185,7 +185,7 @@ function Remove-AbkEnvironmentSettings () {
             Write-Host "   [abk environment not found.]"
         }
     } else {
-        Write-Host "   [One or both files do not exist: $fileToRemoveAbkEnvironmentFrom.]" -ForegroundColor Red
+        Write-Host "   [File: $fileToRemoveAbkEnvironmentFrom does notexist.]" -ForegroundColor Red
     }
 
     Write-Host "<-" $MyInvocation.MyCommand.Name "()" -ForegroundColor Yellow
