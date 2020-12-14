@@ -20,7 +20,14 @@ function __uninstall_abkEnv_bash() {
     # remove abk environment to the shell profile
     AbkLib_RemoveEnvironmentSettings "$HOME/$ABK_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$ABK_USER_SHELL_CONFIG_FILE file does not exist${NC}"
 
+    # remove the abkEnv directory from user's home dir
+    if [ -d $HOME_BIN_DIR ]; then
+        echo "   [Deleting $HOME_BIN_DIR link ...]"
+        rm $HOME_BIN_DIR
+    fi
 
+    # refresh the profile
+    source $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
