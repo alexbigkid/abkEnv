@@ -14,7 +14,7 @@ function PrintUsageAndExitWithCode() {
     exit $1
 }
 
-function __uninstall_abkEnv_bash() {
+function __uninstall_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     # remove abk environment to the shell profile
@@ -33,9 +33,16 @@ function __uninstall_abkEnv_bash() {
     return 0
 }
 
+function __uninstall_abkEnv_bash() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    __uninstall_abkEnv_common
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    return 0
+}
+
 function __uninstall_abkEnv_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-
+    __uninstall_abkEnv_common
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }

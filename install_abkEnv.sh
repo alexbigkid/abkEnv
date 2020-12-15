@@ -27,24 +27,17 @@ function __install_abkEnv_uninstall_old() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
 }
 
-
-function __install_abkEnv_bash() {
+function __install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    # uninstall old installations
-    __install_abkEnv_uninstall_old
-
-    #-----------------
-    # new installation
-    #-----------------
-    # add abk config file to the users .bash_profile
+    # add abk config file to the users $ABK_USER_SHELL_CONFIG_FILE
     # Figure out what directory this script is executed from
-    CURRENT_DIR=$PWD
-    # echo "CURRENT_DIR = $CURRENT_DIR"
-    # if $HOME/$BIN_DIR directory does not exist -> create it
+    local LCL_CURRENT_DIR=$PWD
+    # echo "LCL_CURRENT_DIR = $LCL_CURRENT_DIR"
+    # if $HOME_BIN_DIR directory does not exist -> create it
     if [ ! -d $HOME_BIN_DIR ]; then
-        echo "   [Creating $HOME_BIN_DIR directory link to $CURRENT_DIR/$SH_BIN_DIR ...]"
-        ln -s "$CURRENT_DIR/$SH_BIN_DIR"  $HOME_BIN_DIR
+        echo "   [Creating $HOME_BIN_DIR directory link to $LCL_CURRENT_DIR/$SH_BIN_DIR ...]"
+        ln -s "$LCL_CURRENT_DIR/$SH_BIN_DIR"  $HOME_BIN_DIR
     fi
 
     # create user .bash_profile if it does not exist yet
@@ -62,9 +55,26 @@ function __install_abkEnv_bash() {
     return 0
 }
 
+function __install_abkEnv_bash() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+
+    # uninstall old installations
+    __install_abkEnv_uninstall_old
+
+    # new installation
+    __install_abkEnv_common
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    return 0
+}
+
 function __install_abkEnv_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+
+    __install_abkEnv_common
+
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    return 0
 }
 
 #---------------------------
