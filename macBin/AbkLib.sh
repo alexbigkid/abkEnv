@@ -7,10 +7,6 @@
 # abkEnv shell profile file names
 ABK_LIB_FILE_DIR=$(dirname "$BASH_SOURCE")
 ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
-[ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "PWD = $PWD"
-[ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "ABK_LIB_FILE_DIR = $ABK_LIB_FILE_DIR"
-[ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "ABK_ENV_FILE = $ABK_ENV_FILE"
-
 
 #---------------------------
 # vars definition
