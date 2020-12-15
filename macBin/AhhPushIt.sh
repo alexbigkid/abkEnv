@@ -1,18 +1,16 @@
 #!/bin/sh
 
-ABK_COLOR_FILE="env/abk_colors.env"
-[ -f $ABK_COLOR_FILE ] && source $ABK_COLOR_FILE
+ABK_BLUE='\033[0;34m'
+NC='\033[0m'
 
-ABK_BLUE=${BLUE}
-
-echo -e "${ABK_BLUE}"
+echo "${ABK_BLUE}"
 echo '    ___    __    __         ____             __       _ __  __';
 echo '   /   |  / /_  / /_       / __ \__  _______/ /_     (_) /_/ /';
 echo '  / /| | / __ \/ __ \     / /_/ / / / / ___/ __ \   / / __/ / ';
 echo ' / ___ |/ / / / / / /    / ____/ /_/ (__  ) / / /  / / /_/_/  ';
 echo '/_/  |_/_/ /_/_/ /_( )  /_/    \__,_/____/_/ /_/  /_/\__(_)   ';
 echo '                   |/                                         ';
-echo -e "${NC}"
+echo "${NC}"
 
 # echo
 # echo ' :::====  :::  === :::  ===          :::====  :::  === :::===  :::  ===      ::: :::==== ===';

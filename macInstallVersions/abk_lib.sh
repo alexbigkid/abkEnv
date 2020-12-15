@@ -10,7 +10,7 @@ declare -r FALSE=1
 # directories for bin and env files
 BIN_DIR=$HOME/bin
 ENV_DIR=$HOME/env
-SH_BIN_DIR="macBinBash"
+SH_BIN_DIR="macBin"
 SH_ENV_DIR="$SH_BIN_DIR/env"
 SH_PACKAGES_DIR="macPackages"
 SH_DIR=""
@@ -31,7 +31,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 #---------------------------
 # color definitions
 #---------------------------
-local LCL_ABK_COLORS="../macBinBash/env/abk_colors.env"
+local LCL_ABK_COLORS="../macBin/env/abk_colors.env"
 [ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors could not be included"
 
 

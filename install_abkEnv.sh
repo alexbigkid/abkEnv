@@ -74,7 +74,7 @@ function install_abkEnv_main() {
     local LCL_RED='\033[0;31m'
     local LCL_NC='\033[0m' # No Color
     local LCL_ABK_SCRIPT_TO_EXECUTE="__install_abkEnv"
-    local LCL_ABK_LIB_FILE="macBinBash/AbkLib.sh"
+    local LCL_ABK_LIB_FILE="macBin/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && source $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"

@@ -151,7 +151,7 @@ function install_abkEnv_1_0_0_main() {
         AbkLib_CreateLink $FILE $BIN_DIR/$(basename $FILE)
     done
 
-    # create/update links to macBinBash
+    # create/update links to macBin
     echo ""
     echo "[links in $BIN_DIR to $SH_BIN_DIR ...]"
     FILES=$(find $SH_BIN_DIR -maxdepth 1 -type f -name '*.sh')

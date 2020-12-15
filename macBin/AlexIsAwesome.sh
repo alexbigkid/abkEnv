@@ -1,17 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 
-ABK_COLOR_FILE="env/abk_colors.env"
-[ -f $ABK_COLOR_FILE ] && source $ABK_COLOR_FILE
+ABK_COLOR='\033[1;33m'
+NC='\033[0m'
 
-ABK_COLOR=${YELOW}
-
-echo -e "${ABK_COLOR}"
+echo "${ABK_COLOR}"
 echo '  __   __    ___  _  _    __  ___     __  _    _  ___  ___   __  __  __  ___ ';
 echo ' (  ) (  )  (  _)( \/ )  (  )/ __)   (  )( \/\/ )(  _)/ __) /  \(  \/  )(  _)';
 echo ' /__\  )(__  ) _) )  (    )( \__ \   /__\ \    /  ) _)\__ \( () ))    (  ) _)';
 echo '(_)(_)(____)(___)(_/\_)  (__)(___/  (_)(_) \/\/  (___)(___/ \__/(_/\/\_)(___)';
 echo '                                                                             ';
-echo -e "${NC}"
+echo "${NC}"
 
 # echo -e "${ABK_COLOR}"
 # echo '    |     '||                      ||                                                                          ';
