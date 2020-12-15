@@ -22,7 +22,7 @@ local LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
 # color definitions
 #---------------------------
 local LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
-[ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors definition file could not be found"
+[ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
 
 # -----------------------------------------------------------------------------
 # internal variables definitions
