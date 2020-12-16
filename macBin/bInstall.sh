@@ -80,7 +80,7 @@ InstallOrUpdate ()
         $TOOL_EXE $LCL_CASK install $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
     else
         if [[ $# -eq 3 ]]; then
-            if [[ $($TOOL_EXE $LCL_CASK outdated $LCL_BREW_PACKAGE --greedy) != "" ]]; then
+            if [[ $($TOOL_EXE outdated $LCL_BREW_PACKAGE "--$LCL_CASK" --greedy) != "" ]]; then
                 LCL_UPDATE=1
             fi
         else
