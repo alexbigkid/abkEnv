@@ -4,3 +4,5 @@ macPackages/brews_*.txt
 macPackages/bi_*.txt
 macPackages/bci_*.txt
 macPackages/*_brew_update.txt
+macBin/bingwallpaper.py
+macBin/exif_rename.pl
