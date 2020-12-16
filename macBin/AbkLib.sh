@@ -4,7 +4,9 @@
 # -----------------------------------------------------------------------------
 # variables definitions
 # -----------------------------------------------------------------------------
-# abkEnv shell profile file names
+declare -r TRUE=0
+declare -r FALSE=1
+
 ABK_LIB_FILE_DIR=$(dirname "$BASH_SOURCE")
 ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
 
