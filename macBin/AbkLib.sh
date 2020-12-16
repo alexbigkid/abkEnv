@@ -13,13 +13,13 @@ ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
 #---------------------------
 # vars definition
 #---------------------------
-local LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
+LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
 [ -f "$LCL_ABK_VARS" ] && source $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
 
 #---------------------------
 # color definitions
 #---------------------------
-local LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
+LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
 [ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
 
 # -----------------------------------------------------------------------------
@@ -74,6 +74,19 @@ function AbkLib_IsParameterHelp() {
     fi
 }
 
+function AbkLib_GetAbsolutePath () {
+    local DIR_NAME=$(dirname "$1")
+    pushd "$DIR_NAME" > /dev/null
+    local RESULT_PATH=$PWD
+    popd > /dev/null
+    echo $RESULT_PATH
+}
+
+function AbkLib_GetPathFromLink () {
+    local RESULT_PATH=$(dirname $([ -L "$1" ] && readlink -n "$1"))
+    echo $RESULT_PATH
+}
+
 function AbkLib_IsStringInArray () {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_STRING_TO_SEARCH_FOR=$1
@@ -113,3 +126,4 @@ function AbkLib_RemoveEnvironmentSettings () {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
+

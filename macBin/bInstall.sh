@@ -5,13 +5,12 @@
 #---------------------------
 TRACE=0
 EXECUTED_FROM_BIN=0
-BIN_DIR=$HOME/bin
-ABK_LIB_FILE="AbkLib.sh"
-[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 SCRIPT_NAME=$(basename $0)
 SCRIPT_PATH=$(dirname $0)
+ABK_LIB_FILE="$SCRIPT_PATH/AbkLib.sh"
 [ $TRACE != 0 ] && echo "\$SCRIPT_NAME = $SCRIPT_NAME"
 [ $TRACE != 0 ] && echo "\$SCRIPT_PATH = $SCRIPT_PATH"
+[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 
 # exit error codes
 ERROR_CODE_TOOL_NOT_INSTALLED=101
@@ -37,6 +36,8 @@ PrintUsage ()
     echo "  <brew package name> - name of the brew package to install"
     echo "  [cask]              - optional: if the package is cask"
     echo "errorExitCode = $1"
+    echo
+    echo $2
     exit $1
 }
 
@@ -105,23 +106,11 @@ InstallOrUpdate ()
 
 #-------  main -------------
 # installed in user/bin directory?
-if [ -f $BIN_DIR/$ABK_LIB_FILE ]; then
-    source $BIN_DIR/$ABK_LIB_FILE
-else
-    if [ -f $SCRIPT_PATH/../$ABK_LIB_FILE ]; then
-        source $SCRIPT_PATH/../$ABK_LIB_FILE
-    else
-        echo "ERROR: cannot find library: $ABK_LIB_FILE"
-        echo "Make sure you installed abk environment: $SCRIPT_PATH/../install_abkEnv.sh"
-        echo "All binaries, shell scripts are going to be located in ~/bin"
-        exit 1
-    fi
-fi
+[ -f $ABK_LIB_FILE ] && source $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
 
 if [ $TRACE != 0 ]; then
     echo "\$# = $#, \$0 = $0, \$1 = $1"
     echo \$SHELL   = $SHELL
-    echo \$BIN_DIR = $BIN_DIR
     echo \$ENV_DIR = $ENV_DIR
     echo \$SH_DIR  = $SH_DIR
     echo ""
@@ -157,11 +146,10 @@ if [ -L $0 ]; then
 fi
 [ $TRACE != 0 ] && echo "\$EXECUTED_FROM_BIN = $EXECUTED_FROM_BIN"
 
-# set the GoCD env directory
 echo ""
 if [ $EXECUTED_FROM_BIN -eq 1 ]; then
     SH_DIR=$(AbkLib_GetPathFromLink $SCRIPT_FULL_NAME)
-    [ $TRACE != 0 ] && echo "[$0 executed from $BIN_DIR]"
+    [ $TRACE != 0 ] && echo "[$0 executed from $SCRIPT_PATH]"
 else
     SH_DIR=$(AbkLib_GetAbsolutePath $0)
     [ $TRACE != 0 ] && echo "[$0 executed from $SH_DIR]"

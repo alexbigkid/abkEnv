@@ -3,14 +3,12 @@
 #---------------------------
 # variables definitions
 #---------------------------
-TRACE=0
-EXIT_CODE=$ERROR_CODE_SUCCESS
+TRACE=1
+EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMETERS=0
-EXECUTED_FROM_BIN=0
-BIN_DIR=$HOME/bin
-ABK_LIB_FILE="AbkLib.sh"
 SCRIPT_NAME=$(basename $0)
 SCRIPT_PATH=$(dirname $0)
+ABK_LIB_FILE="$SCRIPT_PATH/AbkLib.sh"
 
 #---------------------------
 # functions
@@ -23,6 +21,8 @@ PrintUsageAndExitWithCode ()
     echo "usage: $0"
     echo "  $0 --help   - display this info"
     echo "<- PrintUsageAndExitWithCode ($1)"
+    echo
+    echo $2
     exit $1
 }
 
@@ -88,30 +88,15 @@ UpdateBrewCaskPackages ()
 #---------------------------
 
 echo "-> $0"
-[ $TRACE != 0 ] && echo "\$BIN_DIR = $BIN_DIR"
-[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 [ $TRACE != 0 ] && echo "\$SCRIPT_NAME = $SCRIPT_NAME"
 [ $TRACE != 0 ] && echo "\$SCRIPT_PATH = $SCRIPT_PATH"
+[ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 
-# installed in user/bin directory?
-if [ -f $BIN_DIR/$ABK_LIB_FILE ]; then
-    echo "$ABK_LIB_FILE sourced from $BIN_DIR"
-    source $BIN_DIR/$ABK_LIB_FILE
-else
-    if [ -f $SCRIPT_PATH/../$ABK_LIB_FILE ]; then
-        echo "$ABK_LIB_FILE sourced from $SCRIPT_PATH/../$ABK_LIB_FILE"
-        source $SCRIPT_PATH/../$ABK_LIB_FILE
-    else
-        echo "ERROR: cannot find library: $ABK_LIB_FILE"
-        echo "Make sure you installed abk environment: $SCRIPT_PATH/../install_abkEnv.sh"
-        echo "All binaries, shell scripts are going to be located in ~/bin"
-        echo "<- $0 (1)"
-        exit 1
-    fi
-fi
+[ -f "$ABK_LIB_FILE" ] && source $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
 
 AbkLib_IsParameterHelp $# $1 && PrintUsageAndExitWithCode $ERROR_CODE_SUCCESS
-AbkLib_CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWithCode $?
+# AbkLib_CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWithCode $?
+[ "$#" -ne $EXPECTED_NUMBER_OF_PARAMETERS ] && PrintUsageAndExitWithCode 1 "ERROR: invalid number of parameters, expected: $EXPECTED_NUMBER_OF_PARAMETERS"
 
 brew update
 
