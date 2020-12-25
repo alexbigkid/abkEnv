@@ -117,7 +117,8 @@ if [ $TRACE != 0 ]; then
 fi
 
 # check if it is bash shell
-if [[ $SHELL != "/bin/bash" ]]; then
+ABK_SHELL="${SHELL##*/}"
+if [ "$ABK_SHELL" != "bash" ] && [ "$ABK_SHELL" != "zsh" ]; then
     PrintUsage $ERROR_CODE_NOT_BASH_SHELL
 fi
 
