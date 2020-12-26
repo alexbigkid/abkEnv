@@ -24,7 +24,6 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 # echo "\$4 = $4"
 # echo "\$@ = $@"
 
-TOOL_EXE=brew
 BREW_PACKAGE=$1
 BREW_CASK=$2
 
@@ -69,22 +68,24 @@ InstallOrUpdate ()
     [ $TRACE != 0 ] && echo "\$LCL_BREW_PACKAGE = $LCL_BREW_PACKAGE"
     [ $TRACE != 0 ] && echo "\$LCL_LOG_FILE  = $LCL_LOG_FILE"
     [ $TRACE != 0 ] && echo "\$LCL_CASK         = $LCL_CASK"
+    [ "$LCL_CASK" = "cask" ] && LCL_CASK="--cask"
+    [ "$LCL_CASK" != "--cask" ] && [ "$LCL_CASK" != "" ] && exit 1
 
     # is package installed?
-    # if [[ $($TOOL_EXE list --versions $LCL_BREW_PACKAGE) == "" ]]; then
-    if ! $TOOL_EXE $LCL_CASK list $BREW_PACKAGE &>/dev/null; then
+    # if [[ $(brew list --versions $LCL_BREW_PACKAGE) == "" ]]; then
+    if ! brew list $BREW_PACKAGE $LCL_CASK &>/dev/null; then
         echo "--------------------------------------------------------------------------------" 2>&1 | tee -a $LCL_LOG_FILE
         echo "$LCL_BREW_PACKAGE $LCL_CASK installation log" 2>&1 | tee -a $LCL_LOG_FILE
         echo "--------------------------------------------------------------------------------" 2>&1 | tee -a $LCL_LOG_FILE
         UpdateBrewAndWriteHeader $LCL_BREW_PACKAGE $LCL_LOG_FILE
-        $TOOL_EXE $LCL_CASK install $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+        brew install $LCL_BREW_PACKAGE $LCL_CASK 2>&1 | tee -a $LCL_LOG_FILE
     else
         if [[ $# -eq 3 ]]; then
-            if [[ $($TOOL_EXE outdated $LCL_BREW_PACKAGE "--$LCL_CASK" --greedy) != "" ]]; then
+            if [[ $(brew outdated $LCL_BREW_PACKAGE $LCL_CASK --greedy) != "" ]]; then
                 LCL_UPDATE=1
             fi
         else
-            if [[ $($TOOL_EXE outdated $LCL_BREW_PACKAGE) != "" ]]; then
+            if [[ $(brew outdated $LCL_BREW_PACKAGE) != "" ]]; then
                 LCL_UPDATE=1
             fi
         fi
@@ -92,11 +93,11 @@ InstallOrUpdate ()
         if [[ $LCL_UPDATE -eq 1 ]]; then
             echo "updating $LCL_BREW_PACKAGE $LCL_CASK"
             UpdateBrewAndWriteHeader $LCL_BREW_PACKAGE $LCL_LOG_FILE
-            [ $TRACE != 0 ] && echo "$TOOL_EXE upgrade "--$LCL_CASK" $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE"
-            $TOOL_EXE upgrade "--$LCL_CASK" $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
-            # $TOOL_EXE unlink $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
-            # $TOOL_EXE link $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
-            # $TOOL_EXE cleanup
+            [ $TRACE != 0 ] && echo "brew upgrade $LCL_BREW_PACKAGE $LCL_CASK 2>&1 | tee -a $LCL_LOG_FILE"
+            brew upgrade $LCL_BREW_PACKAGE $LCL_CASK 2>&1 | tee -a $LCL_LOG_FILE
+            # brew unlink $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+            # brew link $LCL_BREW_PACKAGE 2>&1 | tee -a $LCL_LOG_FILE
+            # brew cleanup
         else
             echo "$LCL_BREW_PACKAGE installed and up to date!"
         fi
@@ -135,8 +136,8 @@ if [[ ( $# -ne 1 ) && ! ( $# -eq 2 && "$2" == "cask" ) ]]; then
 fi
 
 # is brew installed?
-if [[ $(command -v $TOOL_EXE) == "" ]]; then
-    echo "ERROR: $TOOL_EXE is not installed, please install $TOOL_EXE first"
+if [[ $(command -v brew) == "" ]]; then
+    echo "ERROR: brew is not installed, please install brew first"
     PrintUsage $ERROR_CODE_TOOL_NOT_INSTALLED
 fi
 
@@ -163,7 +164,7 @@ BCI_LOG_FILE="$ABS_PACKAGE_DIR/bci_$BREW_PACKAGE.txt"
 
 
 # is package available?
-if [[ $($TOOL_EXE search $BREW_PACKAGE | grep -w "$BREW_PACKAGE") == "" ]]; then
+if [[ $(brew search $BREW_PACKAGE | grep -w "$BREW_PACKAGE") == "" ]]; then
     echo "ERROR: $BREW_PACKAGE brew package not found"
     PrintUsage $ERROR_CODE_BREW_PACKAGE_NOT_FOUND
 fi
