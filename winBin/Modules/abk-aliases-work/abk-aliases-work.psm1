@@ -5,6 +5,7 @@ function cdcspt { Set-Location -Path C:\Git\mob\webcentral\Centralus-SupportPage
 function cdcf { Set-Location -Path C:\Git\mob\webcentral\Centralus.Firmware }
 function cdci { Set-Location -Path C:\Git\mob\webcentral\Centralus.Infrastructure }
 function cdcia { Set-Location -Path C:\Git\mob\webcentral\Centralus.InfrastructureAzure }
+function cdcp { Set-Location -Path C:\Git\mob\webcentral\Centralus.ProC2 }
 function cdcl { Set-Location -Path C:\Git\mob\webcentral\Centralus.Lambdas }
 function cdhim { Set-Location -Path C:\Git\mob\webcentral\HunterInfrastructureModules }
 function cdwas { Set-Location -Path C:\Git\mob\webcentral\WebCentral.ApiServer }
