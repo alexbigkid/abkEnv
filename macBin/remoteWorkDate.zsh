@@ -1,8 +1,7 @@
 #!/bin/zsh
 
-YEAR_MONTH_DAY=$(date +%F)
-WEEK_DAY=$(date +%a)
-# WEEK_NUMBER=$(date +%U)
-WEEK_NUMBER=$(date +%V)
+ABK_DATE_STR=$(date "+%F week:%V %a")
+echo $ABK_DATE_STR | tr -d '\n' | pbcopy
+echo $ABK_DATE_STR
 
-echo $YEAR_MONTH_DAY week:$WEEK_NUMBER $WEEK_DAY
+exit 0
