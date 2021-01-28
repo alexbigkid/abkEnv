@@ -18,5 +18,7 @@ git config --global alias.today "log --pretty=format:'%Cred%h %Cgreen%cd%Creset 
 git config --global alias.unstage "reset HEAD --"
 git config --global alias.sinceYesterday "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=yesterday.midnight"
 git config --global alias.yesterday "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=yesterday.midnight --until=midnight"
+git config --global alias.lastWeek "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=7.days"
+git config --global alias.lastMonth "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=30.days"
 Write-Host "<-" $MyInvocation.MyCommand.Name -ForegroundColor Yellow
 exit 0
