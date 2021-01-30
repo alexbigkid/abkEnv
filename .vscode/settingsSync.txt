@@ -1,0 +1,67 @@
+CODE SETTINGS SYNC UPLOAD SUMMARY
+Version: 3.4.3
+--------------------
+GitHub Token: dec2**********
+GitHub Gist: e46853693bb7ff0ec9c77626e3e98811
+GitHub Gist Type: Public
+
+Restarting Visual Studio Code may be required to apply color and file icon theme.
+--------------------
+Files Uploaded:
+  extensions.json > extensions.json
+  settings.json > settings.json
+  keybindings.json > keybindingsMac.json
+  csharp.json > snippets|csharp.json
+  shellscript.json > snippets|shellscript.json
+  life-cycle.json > globalStorage|mhutchie.git-graph|life-cycle.json
+  lastSynckeybindings.json > sync|keybindings|lastSynckeybindings.json
+  lastSyncsnippets.json > sync|snippets|lastSyncsnippets.json
+  lastSyncglobalState.json > sync|globalState|lastSyncglobalState.json
+  lastSyncextensions.json > sync|extensions|lastSyncextensions.json
+  extensions.json > sync|extensions|preview|extensions.json
+  lastSyncsettings.json > sync|settings|lastSyncsettings.json
+  settings.json > sync|settings|preview|settings.json
+
+Extensions Ignored:
+  No extensions ignored.
+
+Extensions Removed:
+  No extensions removed.
+
+Extensions Added:
+  aws-toolkit-vscode v1.18.0
+  cform v0.0.24
+  code-runner v0.11.2
+  code-settings-sync v3.4.3
+  compare-folders v0.20.1
+  csharp v1.23.8
+  csharpextensions v1.3.1
+  dotenv v1.0.1
+  dotnet-test-explorer v0.7.5
+  gc-excelviewer v3.0.40
+  git-graph v1.28.0
+  git-tree-compare v1.10.0
+  json v2.0.2
+  jupyter v2020.12.414227025
+  markdown-all-in-one v3.4.0
+  path-intellisense v2.3.0
+  propertylist v0.0.2
+  python v2021.1.502429796
+  rainbow-csv v1.8.0
+  serverless-ide-vscode v0.5.29
+  serverless-vscode v1.0.0
+  shell-format v7.0.1
+  terraform v2.5.0
+  terraform-autocomplete v0.0.8
+  vscode-browser-sync v1.3.1
+  vscode-coverage-gutters v2.6.0
+  vscode-eslint v2.1.14
+  vscode-fastlane-snippets v0.1.2
+  vscode-icons v11.1.0
+  vscode-ios-common-files v1.0.5
+  vscode-table-formatter v1.2.1
+  vscode-yaml v0.14.0
+  xml v2.5.1
+  zsh-completion-script v1.0.0
+--------------------
+Done.
