@@ -52,8 +52,6 @@ UpdateBrewCaskPackages ()
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXIT_CODE=$EXIT_CODE_SUCCESS
     local LCL_EXCEPT_FASTLANE_PACKAGE="fastlane"
-    local LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE="safeincloud-password-manager"
-    local LCL_EXCEPT_ANYDESK_PACKAGE="anydesk"
     local LCL_BREW_CASK_PACKAGES=$(brew outdated --cask --greedy)
     echo ""
     echo "===================================="
@@ -64,12 +62,6 @@ UpdateBrewCaskPackages ()
         echo ""
         if [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_FASTLANE_PACKAGE ]; then
             echo "do not update: $LCL_EXCEPT_FASTLANE_PACKAGE"
-            echo "------------------------------------"
-        elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE ]; then
-            echo "do not update: $LCL_EXCEPT_SAFE_IN_CLOUD_PACKAGE"
-            echo "------------------------------------"
-        elif [ $LCL_BREW_CASK_PACKAGE == $LCL_EXCEPT_ANYDESK_PACKAGE ]; then
-            echo "do not update: $LCL_EXCEPT_ANYDESK_PACKAGE"
             echo "------------------------------------"
         else
             echo "updating brew package: $LCL_BREW_CASK_PACKAGE"
