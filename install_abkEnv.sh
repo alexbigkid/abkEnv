@@ -112,6 +112,7 @@ function install_abkEnv_main() {
 echo ""
 echo "-> $0 ($@)"
 
+export ABK_SHELL="${SHELL##*/}"
 install_abkEnv_main $@
 LCL_EXIT_CODE=$?
 
