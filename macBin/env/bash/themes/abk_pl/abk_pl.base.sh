@@ -2,11 +2,11 @@
 
 source "$OSH/themes/powerline/powerline.base.sh"
 
-function __powerline_last_status_prompt() {
+__powerline_last_status_prompt() {
     [[ "$1" -ne 0 ]] && echo "$(set_color ${LAST_STATUS_THEME_PROMPT_COLOR} -) ${1} ${normal}"
 }
 
-function __powerline_right_segment() {
+__powerline_right_segment() {
     local OLD_IFS="${IFS}"
     IFS="|"
     local params=($1)
@@ -27,7 +27,7 @@ function __powerline_right_segment() {
     ((SEGMENTS_AT_RIGHT += 1))
 }
 
-function __powerline_user_info_prompt() {
+__powerline_user_info_prompt() {
     local user_info=""
     local color=${USER_INFO_THEME_PROMPT_COLOR}
 
@@ -53,13 +53,13 @@ function __powerline_user_info_prompt() {
     [[ -n "${user_info}" ]] && echo "${user_info}|${color}"
 }
 
-function __powerline_cmd_history_prompt() {
+__powerline_cmd_history_prompt() {
     CMD_HISTORY=$(history 1)
     set -- $CMD_HISTORY
     [[ -n "${1}" ]] && echo "!${1}|${CMD_HISTORY_THEME_PROMPT_COLOR}"
 }
 
-function __powerline_prompt_command() {
+__powerline_prompt_command() {
     local last_status="$?" ## always the first
     local separator_char="${POWERLINE_LEFT_SEPARATOR}"
     local move_cursor_rightmost='\033[500C'

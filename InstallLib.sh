@@ -5,7 +5,7 @@ ABK_MAJOR_VERSION=1
 ABK_MINOR_VERSION=2
 ABK_PATCH_VERSION=3
 
-function InstallLib_GetVersion () {
+InstallLib_GetVersion () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_RETURN_VAR=$1
     local LCL_VERSION_TYPE=$2

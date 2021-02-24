@@ -38,7 +38,7 @@ local LCL_ABK_COLORS="../macBin/env/abk_colors.env"
 #---------------------------
 # functions
 #---------------------------
-function AbkLib_GetAbsolutePath () {
+AbkLib_GetAbsolutePath () {
     local DIR_NAME=$(dirname "$1")
     pushd "$DIR_NAME" > /dev/null
     local RESULT_PATH=$PWD
@@ -46,12 +46,12 @@ function AbkLib_GetAbsolutePath () {
     echo $RESULT_PATH
 }
 
-function AbkLib_GetPathFromLink () {
+AbkLib_GetPathFromLink () {
     local RESULT_PATH=$(dirname $([ -L "$1" ] && readlink -n "$1"))
     echo $RESULT_PATH
 }
 
-function AbkLib_CreateLink () {
+AbkLib_CreateLink () {
     if [ $# -ne 2 ]; then
         echo "ERROR: invalid number of parameters"
         false
@@ -71,7 +71,7 @@ function AbkLib_CreateLink () {
     $LINK_RESULT
 }
 
-function AbkLib_DeleteLink () {
+AbkLib_DeleteLink () {
     if [ $# -ne 1 ]; then
         echo "ERROR: invalid number of parameters"
         echo "AbkLib_DeleteLink: requires only one parameter"
@@ -86,7 +86,7 @@ function AbkLib_DeleteLink () {
     $LINK_RESULT
 }
 
-function AbkLib_CheckNumberOfParameters () {
+AbkLib_CheckNumberOfParameters () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
     local LCL_ALL_PARAMS=($@)
@@ -104,7 +104,7 @@ function AbkLib_CheckNumberOfParameters () {
     fi
 }
 
-function AbkLib_IsPredefinedParameterValid () {
+AbkLib_IsPredefinedParameterValid () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_MATCH_FOUND=$FALSE
     local LCL_VALID_PARAMETERS=""

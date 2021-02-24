@@ -13,7 +13,7 @@ ABK_LIB_FILE="./$ABK_LIB_DIR/abk_lib.sh"
 #---------------------------
 # functions
 #---------------------------
-function PrintUsage() {
+PrintUsage() {
     echo "$0 will unlink all installed script files in $BIN_DIR and $ENV_DIR and brew packages"
     echo "the script $0 must be called without any parameters"
     echo "usage: $0"
@@ -22,7 +22,7 @@ function PrintUsage() {
     exit $1
 }
 
-function RestoreOldBashProfile() {
+RestoreOldBashProfile() {
     AbkLib_DeleteLink $HOME/$ORG_BASH_PROFILE
     if [ -f $ENV_DIR/$ORG_BASH_PROFILE ]; then
         echo ""
@@ -34,7 +34,7 @@ function RestoreOldBashProfile() {
 #---------------------------
 # main
 #---------------------------
-function uninstall_abkEnv_1_0_0_main() {
+uninstall_abkEnv_1_0_0_main() {
 
     if [ -f ./$ABK_LIB_FILE ]; then
         source ./$ABK_LIB_FILE

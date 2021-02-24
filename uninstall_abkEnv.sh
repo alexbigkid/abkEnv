@@ -3,7 +3,7 @@
 #---------------------------
 # functions
 #---------------------------
-function PrintUsageAndExitWithCode() {
+PrintUsageAndExitWithCode() {
     echo "$0 will unlink directory $BIN_DIR from $SH_BIN_DIR"
     echo "the script $0 must be called without any parameters"
     echo "usage: $0"
@@ -14,7 +14,7 @@ function PrintUsageAndExitWithCode() {
     exit $1
 }
 
-function __uninstall_abkEnv_common() {
+__uninstall_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     # remove abk environment to the shell profile
@@ -33,14 +33,14 @@ function __uninstall_abkEnv_common() {
     return 0
 }
 
-function __uninstall_abkEnv_bash() {
+__uninstall_abkEnv_bash() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     __uninstall_abkEnv_common
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
-function __uninstall_abkEnv_zsh() {
+__uninstall_abkEnv_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     __uninstall_abkEnv_common
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
@@ -50,7 +50,7 @@ function __uninstall_abkEnv_zsh() {
 #---------------------------
 # main
 #---------------------------
-function uninstall_abkEnv_main() {
+uninstall_abkEnv_main() {
     local LCL_RED='\033[0;31m'
     local LCL_NC='\033[0m' # No Color
     local LCL_ABK_SCRIPT_TO_EXECUTE="__uninstall_abkEnv"

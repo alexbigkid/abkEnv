@@ -3,7 +3,7 @@
 #---------------------------
 # functions
 #---------------------------
-function PrintUsageAndExitWithCode() {
+PrintUsageAndExitWithCode() {
     echo "$0 will create abk environment with aliases and prompt setup"
     echo "the script $0 must be called without any parameters"
     echo "usage: $0"
@@ -14,7 +14,7 @@ function PrintUsageAndExitWithCode() {
     exit $1
 }
 
-function __install_abkEnv_uninstall_old() {
+__install_abkEnv_uninstall_old() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     if [ -d "$HOME/env" ]; then
         # looks like legacy installation, deleting previous version
@@ -27,7 +27,7 @@ function __install_abkEnv_uninstall_old() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
 }
 
-function __install_abkEnv_common() {
+__install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     # add abk config file to the users $ABK_USER_SHELL_CONFIG_FILE
@@ -55,7 +55,7 @@ function __install_abkEnv_common() {
     return 0
 }
 
-function __install_abkEnv_bash() {
+__install_abkEnv_bash() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     # uninstall old installations
@@ -68,7 +68,7 @@ function __install_abkEnv_bash() {
     return 0
 }
 
-function __install_abkEnv_zsh() {
+__install_abkEnv_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
     __install_abkEnv_common
@@ -80,7 +80,7 @@ function __install_abkEnv_zsh() {
 #---------------------------
 # main
 #---------------------------
-function install_abkEnv_main() {
+install_abkEnv_main() {
     local LCL_RED='\033[0;31m'
     local LCL_NC='\033[0m' # No Color
     local LCL_ABK_SCRIPT_TO_EXECUTE="__install_abkEnv"

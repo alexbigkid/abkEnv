@@ -32,7 +32,7 @@ ABK_ENV_END="# <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
 #---------------------------
 # functions
 #---------------------------
-function AbkLib_AddEnvironmentSettings() {
+AbkLib_AddEnvironmentSettings() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_ADD_CONTENT_TO=$1
     local LCL_SETTING_FILE_TO_INCLUDE=$2
@@ -61,7 +61,7 @@ TEXT_TO_ADD
     return $LCL_RESULT
 }
 
-function AbkLib_IsParameterHelp() {
+AbkLib_IsParameterHelp() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
@@ -74,7 +74,7 @@ function AbkLib_IsParameterHelp() {
     fi
 }
 
-function AbkLib_GetAbsolutePath () {
+AbkLib_GetAbsolutePath () {
     local DIR_NAME=$(dirname "$1")
     pushd "$DIR_NAME" > /dev/null
     local RESULT_PATH=$PWD
@@ -82,12 +82,12 @@ function AbkLib_GetAbsolutePath () {
     echo $RESULT_PATH
 }
 
-function AbkLib_GetPathFromLink () {
+AbkLib_GetPathFromLink () {
     local RESULT_PATH=$(dirname $([ -L "$1" ] && readlink -n "$1"))
     echo $RESULT_PATH
 }
 
-function AbkLib_IsStringInArray () {
+AbkLib_IsStringInArray () {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_STRING_TO_SEARCH_FOR=$1
     shift
@@ -105,7 +105,7 @@ function AbkLib_IsStringInArray () {
     return $LCL_MATCH_FOUND
 }
 
-function AbkLib_RemoveEnvironmentSettings () {
+AbkLib_RemoveEnvironmentSettings () {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_REMOVE_CONTENT_FROM=$1
     local LCL_RESULT=$FALSE
@@ -126,4 +126,3 @@ function AbkLib_RemoveEnvironmentSettings () {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
-

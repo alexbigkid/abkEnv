@@ -11,7 +11,7 @@ ABK_LIB_FILE="abk_lib.sh"
 #---------------------------
 # functions
 #---------------------------
-function PrintUsage() {
+PrintUsage() {
     echo "$0 will create or refresh all links in $BIN_DIR, $ENV_DIR and brew packages"
     echo "the script $0 must be called without any parameters"
     echo "usage: $0"
@@ -20,7 +20,7 @@ function PrintUsage() {
     exit $1
 }
 
-function CreateNewBashProfile() {
+CreateNewBashProfile() {
     if [ -f $HOME/$ORG_BASH_PROFILE ]; then
         echo "[moving $HOME/$ORG_BASH_PROFILE to $ENV_DIR/$ORG_BASH_PROFILE]"
         mv $HOME/$ORG_BASH_PROFILE $ENV_DIR/$ORG_BASH_PROFILE
@@ -63,7 +63,7 @@ EOF_NEW_BASH_PROFILE_COMMON
 #---------------------------
 # main - old installation, should not be called
 #---------------------------
-function install_abkEnv_1_0_0_main() {
+install_abkEnv_1_0_0_main() {
 
     if [ -f ./$ABK_LIB_FILE ]; then
         source ./$ABK_LIB_FILE
