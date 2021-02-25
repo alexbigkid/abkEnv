@@ -6,7 +6,7 @@ $ABK_BIN_DIR="$HOME\abkBin"
 if (-Not (Test-Path Variable:PSise)) {
     if (-Not (Get-Module -ListAvailable -Name Get-ChildItemColor)) {
         Write-Host "Get-ChildItemColor - Module does not exist"
-        Install-Module -AllowClobber Get-ChildItemColor
+        Install-Module -Scope CurrentUser -AllowClobber Get-ChildItemColor
     } 
     # Import-Module Get-ChildItemColor -Verbose
     Import-Module Get-ChildItemColor
