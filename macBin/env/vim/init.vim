@@ -19,6 +19,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}         " concour of completion
 let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
 Plug 'leafgarland/typescript-vim'  " typescript syntax
 "Plug 'peitalin/vim-jsx-typescript'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'vim-syntastic/syntastic'
+Plug 'rhysd/vim-clang-format'
 call plug#end()
 
 " ---------------------------------------------------------
@@ -246,4 +249,19 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" c++ syntax highlighting
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+
+" c++ linting using cpplint. see CPPLINT.cfg for config
+let g:syntastic_cpp_checkers = ['cpplint']
+let g:syntastic_c_checkers = ['cpplint']
+let g:syntastic_cpp_cpplint_exec = 'cpplint'
+" The following two lines are optional. Configure it to your liking!
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" clang formatting shortcut
+nnoremap <Leader>f :<C-u>ClangFormat<CR>
 
