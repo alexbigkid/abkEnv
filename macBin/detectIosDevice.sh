@@ -4,9 +4,7 @@ EXIT_CODE=0
 EXPECTED_NUMBER_OF_PARAMS=0
 ABK_LIB_FILE="AbkLib.sh"
 
-declare -a VALID_IOS_DEVICE=("iPhone"
-                             "iPad"
-                             "iPod")
+export VALID_IOS_DEVICE=("iPhone" "iPad" "iPod")
 
 
 PrintUsageAndExitWithCode ()

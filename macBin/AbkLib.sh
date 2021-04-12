@@ -4,8 +4,8 @@
 # -----------------------------------------------------------------------------
 # variables definitions
 # -----------------------------------------------------------------------------
-declare -r TRUE=0
-declare -r FALSE=1
+export TRUE=0
+export FALSE=1
 
 ABK_LIB_FILE_DIR=$(dirname "$BASH_SOURCE")
 ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"

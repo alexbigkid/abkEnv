@@ -4,8 +4,8 @@
 # -----------------------------------------------------------------------------
 # external variables definitions
 # -----------------------------------------------------------------------------
-declare -r TRUE=0
-declare -r FALSE=1
+export TRUE=0
+export FALSE=1
 
 # directories for bin and env files
 BIN_DIR=$HOME/bin
