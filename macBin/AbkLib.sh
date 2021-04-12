@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # this script is collection of common function used in different scripts
 
 # -----------------------------------------------------------------------------
