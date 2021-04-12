@@ -13,7 +13,7 @@ $EXIT_CODE=$ERROR_CODE_SUCCESS
 # -----------------------------------------------------------------------------
 # functions
 # -----------------------------------------------------------------------------
-function PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
+PrintUsageAndExitWithCode ($scriptName, $exitErrorCode) {
     Write-Host "->" $MyInvocation.MyCommand.Name ($scriptName, $exitErrorCode) -ForegroundColor Yellow
     Write-Host "   $scriptName will uninstall ABK Environment and deleting links in $HOME_BIN_DIR"
     Write-Host "   Usage: $scriptName"
