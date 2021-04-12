@@ -12,6 +12,13 @@ echo "ABK_LIB_FILE_DIR = $ABK_LIB_FILE_DIR"
 ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
 echo "ABK_ENV_FILE = $ABK_ENV_FILE"
 
+echo "pwd: `pwd`"
+echo "\$0: $0"
+echo "basename: `basename $0`"
+echo "dirname: `dirname $0`"
+echo "dirname/readlink: $(dirname $(readlink -f $0))"
+
+
 #---------------------------
 # vars definition
 #---------------------------
