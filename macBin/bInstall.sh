@@ -107,7 +107,7 @@ InstallOrUpdate ()
 
 #-------  main -------------
 # installed in user/bin directory?
-[ -f $ABK_LIB_FILE ] && source $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
+[ -f $ABK_LIB_FILE ] && . $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
 
 if [ $TRACE != 0 ]; then
     echo "\$# = $#, \$0 = $0, \$1 = $1"

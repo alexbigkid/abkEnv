@@ -26,7 +26,7 @@ PrintUsage ()
 # main
 #---------------------------
 if [ -f ./$ABK_LIB_FILE ]; then
-    source ./$ABK_LIB_FILE
+    . ./$ABK_LIB_FILE
 else
     echo "ERROR: ./$ABK_LIB_FILE does not exist"
     echo "Make sure you installed abk environment: ./install_abkEnv.sh"

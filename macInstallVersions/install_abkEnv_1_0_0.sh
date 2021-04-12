@@ -33,7 +33,7 @@ CreateNewBashProfile() {
 # setting previous environment
 #-------------------------
 if [ -f \$HOME/env/$ORG_BASH_PROFILE ]; then
-  source \$HOME/env/$ORG_BASH_PROFILE
+  . \$HOME/env/$ORG_BASH_PROFILE
 fi
 
 EOF_NEW_BASH_PROFILE_IF
@@ -52,7 +52,7 @@ EOF_NEW_BASH_PROFILE_ELSE
 # setting up abk environment
 #-------------------------
 if [ -f \$HOME/env/$ABK_BASH_PROFILE ]; then
-  source \$HOME/env/$ABK_BASH_PROFILE
+  . \$HOME/env/$ABK_BASH_PROFILE
 fi
 
 EOF_NEW_BASH_PROFILE_COMMON
@@ -66,7 +66,7 @@ EOF_NEW_BASH_PROFILE_COMMON
 install_abkEnv_1_0_0_main() {
 
     if [ -f ./$ABK_LIB_FILE ]; then
-        source ./$ABK_LIB_FILE
+        . ./$ABK_LIB_FILE
     else
         echo "ERROR: ./$ABK_LIB_FILE does not exist"
         echo "Make sure you installed abk environment: ./install_abkEnv.sh"

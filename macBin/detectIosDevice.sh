@@ -32,10 +32,10 @@ echo "-> $0 ($@)"
 # include common library, fail if does not exist
 if [ -f "../$ABK_LIB_FILE" ]; then
     echo "sourcing from ../$ABK_LIB_FILE"
-    source "../$ABK_LIB_FILE"
+    . "../$ABK_LIB_FILE"
 elif [ -f "$HOME/bin/$ABK_LIB_FILE" ]; then
     echo "sourcing from $HOME/bin/$ABK_LIB_FILE"
-    source "$HOME/bin/$ABK_LIB_FILE"
+    . "$HOME/bin/$ABK_LIB_FILE"
 else
     echo "ERROR: $ABK_LIB_FILE does not exist in the local directory."
     echo "  $ABK_LIB_FILE contains common definitions and functions"
@@ -68,4 +68,3 @@ system_profiler SPUSBDataType | grep -A 11 -w $SEARCH_STRING
 echo "<- $0 ($EXIT_CODE)"
 echo ""
 exit $EXIT_CODE
-

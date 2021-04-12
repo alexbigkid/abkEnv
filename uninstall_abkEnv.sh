@@ -27,7 +27,7 @@ __uninstall_abkEnv_common() {
     fi
 
     # refresh the profile
-    source $HOME/$ABK_USER_SHELL_CONFIG_FILE
+    . $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
@@ -55,7 +55,7 @@ uninstall_abkEnv_main() {
     local LCL_NC='\033[0m' # No Color
     local LCL_ABK_SCRIPT_TO_EXECUTE="__uninstall_abkEnv"
     local LCL_ABK_LIB_FILE="./macBin/AbkLib.sh"
-    [ -f $LCL_ABK_LIB_FILE ] && source $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
+    [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [BIN_DIR           = $BIN_DIR]"

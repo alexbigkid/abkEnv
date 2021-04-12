@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$OSH/custom/themes/abk_pl/abk_pl.base.sh"
+. "$OSH/custom/themes/abk_pl/abk_pl.base.sh"
 
 # PROMPT_CHAR=${POWERLINE_PROMPT_CHAR:="🖖 ❯"}
 PROMPT_CHAR=${POWERLINE_PROMPT_CHAR:="🖖 $"}

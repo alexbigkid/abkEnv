@@ -69,7 +69,7 @@ UpdateBrewCaskPackages ()
             bInstall.sh $LCL_BREW_CASK_PACKAGE cask
             [[ $LCL_EXIT_CODE -eq $ERROR_CODE_SUCCESS ]] && LCL_EXIT_CODE=$?
         fi
-    done   
+    done
     echo "<- ${FUNCNAME[0]} ($LCL_EXIT_CODE)"
     return $LCL_EXIT_CODE
 }
@@ -84,7 +84,7 @@ echo "-> $0"
 [ $TRACE != 0 ] && echo "\$SCRIPT_PATH = $SCRIPT_PATH"
 [ $TRACE != 0 ] && echo "\$ABK_LIB_FILE = $ABK_LIB_FILE"
 
-[ -f "$ABK_LIB_FILE" ] && source $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
+[ -f "$ABK_LIB_FILE" ] && . $ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "ERROR: cannot find library: $ABK_LIB_FILE"
 
 AbkLib_IsParameterHelp $# $1 && PrintUsageAndExitWithCode $ERROR_CODE_SUCCESS
 # AbkLib_CheckNumberOfParameters $EXPECTED_NUMBER_OF_PARAMETERS $@ || PrintUsageAndExitWithCode $?

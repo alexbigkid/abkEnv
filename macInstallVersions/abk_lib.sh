@@ -32,7 +32,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 # color definitions
 #---------------------------
 local LCL_ABK_COLORS="../macBin/env/abk_colors.env"
-[ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors could not be included"
+[ -f "$LCL_ABK_COLORS" ] && . $LCL_ABK_COLORS || echo "ERROR: colors could not be included"
 
 
 #---------------------------
@@ -58,7 +58,7 @@ AbkLib_CreateLink () {
     fi
 
     [ $TRACE != 0 ] && echo "creating link: $2 to target = $1"
-    
+
     if [ -f "$1" ]; then
         [ -L "$2" ] && unlink "$2"
         ln -s "$1" "$2"

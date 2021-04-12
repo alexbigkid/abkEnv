@@ -14,13 +14,13 @@ ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
 # vars definition
 #---------------------------
 LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
-[ -f "$LCL_ABK_VARS" ] && source $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
+[ -f "$LCL_ABK_VARS" ] && . $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
 
 #---------------------------
 # color definitions
 #---------------------------
 LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
-[ -f "$LCL_ABK_COLORS" ] && source $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
+[ -f "$LCL_ABK_COLORS" ] && . $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
 
 # -----------------------------------------------------------------------------
 # internal variables definitions
@@ -48,7 +48,7 @@ AbkLib_AddEnvironmentSettings() {
             cat >>$LCL_FILE_TO_ADD_CONTENT_TO <<-TEXT_TO_ADD
 $ABK_ENV_BEGIN
 if [ -f "$LCL_SETTING_FILE_TO_INCLUDE" ]; then
-    source $LCL_SETTING_FILE_TO_INCLUDE
+    . $LCL_SETTING_FILE_TO_INCLUDE
 fi
 $ABK_ENV_END
 TEXT_TO_ADD
