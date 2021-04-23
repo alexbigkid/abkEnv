@@ -14,6 +14,7 @@ PrintUsageAndExitWithCode() {
     exit $1
 }
 
+
 __install_abkEnv_uninstall_old() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     if [ -d "$HOME/env" ]; then
@@ -26,6 +27,7 @@ __install_abkEnv_uninstall_old() {
     fi
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
 }
+
 
 __install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
@@ -42,21 +44,40 @@ __install_abkEnv_common() {
     return 0
 }
 
+
 __install_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    local LCL_USER_SHELL_CONFIG_FILE=$1
+    local LCL_USER_SHELL_CONFIG_FILE=$HOME/$1
 
-    if [ ! -f "$HOME/$LCL_USER_SHELL_CONFIG_FILE" ]; then
-        echo "   [Creating user profile: $HOME/$LCL_USER_SHELL_CONFIG_FILE ...]"
-        touch "$HOME/$LCL_USER_SHELL_CONFIG_FILE"
+    if [ ! -f "$LCL_USER_SHELL_CONFIG_FILE" ]; then
+        echo "   [Creating user profile: $LCL_USER_SHELL_CONFIG_FILE ...]"
+        touch "$LCL_USER_SHELL_CONFIG_FILE"
     fi
 
-    AbkLib_AddEnvironmentSettings "$HOME/$LCL_USER_SHELL_CONFIG_FILE" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
+    AbkLib_AddEnvironmentSettings "$LCL_USER_SHELL_CONFIG_FILE" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
+
+
+__install_abkEnv_extras_for_bash() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+
+
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    return 0
+}
+
+
+__install_abkEnv_extras_for_zsh() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
+    return 0
+}
+
 
 #---------------------------
 # main
@@ -64,7 +85,7 @@ __install_abkEnv_for_shell() {
 install_abkEnv_main() {
     local LCL_RED='\033[0;31m'
     local LCL_NC='\033[0m' # No Color
-    local LCL_ABK_SCRIPT_TO_EXECUTE="__install_abkEnv"
+    local LCL_ABK_INSTALL_EXTRAS_FOR="__install_abkEnv_extras_for"
     local LCL_ABK_LIB_FILE="./macBin/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 

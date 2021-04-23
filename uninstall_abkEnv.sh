@@ -14,6 +14,7 @@ PrintUsageAndExitWithCode() {
     exit $1
 }
 
+
 __uninstall_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -27,15 +28,17 @@ __uninstall_abkEnv_common() {
     return 0
 }
 
+
 __uninstall_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    local LCL_USER_SHELL_CONFIG_FILE=$1
-    AbkLib_RemoveEnvironmentSettings "$HOME/$LCL_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$LCL_USER_SHELL_CONFIG_FILE file does not exist${NC}"
+    local LCL_USER_SHELL_CONFIG_FILE=$HOME/$1
+    AbkLib_RemoveEnvironmentSettings "$LCL_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$LCL_USER_SHELL_CONFIG_FILE file does not exist${NC}"
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
+
 
 #---------------------------
 # main
@@ -74,6 +77,7 @@ uninstall_abkEnv_main() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
+
 
 echo ""
 echo "-> $0 ($@)"
