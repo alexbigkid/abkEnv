@@ -30,48 +30,29 @@ __install_abkEnv_uninstall_old() {
 __install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    # add abk config file to the users $ABK_USER_SHELL_CONFIG_FILE
     # Figure out what directory this script is executed from
     local LCL_CURRENT_DIR=$PWD
     # echo "LCL_CURRENT_DIR = $LCL_CURRENT_DIR"
-    # if $HOME_BIN_DIR directory does not exist -> create it
     if [ ! -d $HOME_BIN_DIR ]; then
         echo "   [Creating $HOME_BIN_DIR directory link to $LCL_CURRENT_DIR/$SH_BIN_DIR ...]"
-        ln -s "$LCL_CURRENT_DIR/$SH_BIN_DIR"  $HOME_BIN_DIR
+        ln -s "$LCL_CURRENT_DIR/$SH_BIN_DIR" $HOME_BIN_DIR
     fi
-
-    # create user .bash_profile if it does not exist yet
-    if [ ! -f "$HOME/$ABK_USER_SHELL_CONFIG_FILE" ]; then
-        echo "   [Creating user profile: $HOME/$ABK_USER_SHELL_CONFIG_FILE ...]"
-        touch "$HOME/$ABK_USER_SHELL_CONFIG_FILE"
-    fi
-
-    # add abk environment to the shell profile
-    AbkLib_AddEnvironmentSettings "$HOME/$ABK_USER_SHELL_CONFIG_FILE" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
-
-    . $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
-__install_abkEnv_bash() {
+__install_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    # uninstall old installations
-    __install_abkEnv_uninstall_old
+    local LCL_USER_SHELL_CONFIG_FILE=$1
 
-    # new installation
-    __install_abkEnv_common
+    if [ ! -f "$HOME/$LCL_USER_SHELL_CONFIG_FILE" ]; then
+        echo "   [Creating user profile: $HOME/$LCL_USER_SHELL_CONFIG_FILE ...]"
+        touch "$HOME/$LCL_USER_SHELL_CONFIG_FILE"
+    fi
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
-    return 0
-}
-
-__install_abkEnv_zsh() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-
-    __install_abkEnv_common
+    AbkLib_AddEnvironmentSettings "$HOME/$LCL_USER_SHELL_CONFIG_FILE" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
@@ -102,8 +83,15 @@ install_abkEnv_main() {
     [ "$#" -ne 0 ] && PrintUsageAndExitWithCode $ERROR_CODE_GENERAL_ERROR "${RED}ERROR: invalid number of parameters${NC}"
     # is $SHELL supported
     AbkLib_IsStringInArray $ABK_SHELL "${ABK_SUPPORTED_SHELLS[@]}" || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}"
-    # run shell specific install
-    ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} failed"
+
+    __install_abkEnv_uninstall_old
+    __install_abkEnv_common
+
+    for USER_SHELL_CONFIG_FILE in "${ABK_USER_SHELL_CONFIG_FILES[@]}"; do
+        __install_abkEnv_for_shell $USER_SHELL_CONFIG_FILE || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} __install_abkEnv_for_shell $USER_SHELL_CONFIG_FILE failed"
+    done
+
+    AbkLib_SourceEnvironment $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0

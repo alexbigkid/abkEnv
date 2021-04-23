@@ -137,3 +137,9 @@ AbkLib_RemoveEnvironmentSettings() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
+
+AbkLib_SourceEnvironment() {
+    local LCL_USER_SHELL_CONFIG_FILE=$1
+    # todo: find a way to re-fresh environment from the shell script. As of now it does not work for zsh
+    # source $LCL_USER_SHELL_CONFIG_FILE
+}

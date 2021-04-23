@@ -17,32 +17,22 @@ PrintUsageAndExitWithCode() {
 __uninstall_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
-    # remove abk environment to the shell profile
-    AbkLib_RemoveEnvironmentSettings "$HOME/$ABK_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$ABK_USER_SHELL_CONFIG_FILE file does not exist${NC}"
-
     # remove the abkEnv directory from user's home dir
     if [ -d $HOME_BIN_DIR ]; then
         echo "   [Deleting $HOME_BIN_DIR link ...]"
         rm $HOME_BIN_DIR
     fi
 
-    # refresh the profile
-    . $HOME/$ABK_USER_SHELL_CONFIG_FILE
-
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
-__uninstall_abkEnv_bash() {
+__uninstall_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-    __uninstall_abkEnv_common
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
-    return 0
-}
 
-__uninstall_abkEnv_zsh() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-    __uninstall_abkEnv_common
+    local LCL_USER_SHELL_CONFIG_FILE=$1
+    AbkLib_RemoveEnvironmentSettings "$HOME/$LCL_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$LCL_USER_SHELL_CONFIG_FILE file does not exist${NC}"
+
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
@@ -72,8 +62,14 @@ uninstall_abkEnv_main() {
     [ "$#" -ne 0 ] && PrintUsageAndExitWithCode $ERROR_CODE_GENERAL_ERROR "${RED}ERROR: invalid number of parameters${NC}"
     # is $SHELL supported
     AbkLib_IsStringInArray $ABK_SHELL ${ABK_SUPPORTED_SHELLS[@]} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}"
-    # run shell specific install
-    ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} ${LCL_ABK_SCRIPT_TO_EXECUTE}_${ABK_SHELL} failed"
+
+    for USER_SHELL_CONFIG_FILE in "${ABK_USER_SHELL_CONFIG_FILES[@]}"; do
+        __uninstall_abkEnv_for_shell $USER_SHELL_CONFIG_FILE || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} __uninstall_abkEnv_for_shell $USER_SHELL_CONFIG_FILE failed"
+    done
+
+    __uninstall_abkEnv_common
+
+    AbkLib_SourceEnvironment $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
