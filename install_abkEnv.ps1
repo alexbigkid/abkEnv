@@ -76,7 +76,7 @@ if (-not (Confirm-FileExist $profile)) {
 
 # add abk environment to the powershell profile
 if (-not (Add-AbkEnvironmentSettings $profile "$HOME_BIN_DIR\$ABK_ENV_FILE")) {
-    PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_NEED_FILE_DOES_NOT_EXIST
+    PrintUsageAndExitWithCode $MyInvocation.MyCommand.Name $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST
 }
 
 & $profile

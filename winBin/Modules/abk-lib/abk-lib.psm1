@@ -4,10 +4,10 @@
 # exit codes
 [int64]$ERROR_CODE_SUCCESS=0
 [int64]$ERROR_CODE_GENERAL_ERROR=1
-[int64]$ERROR_CODE_NEED_FILE_DOES_NOT_EXIST=2
+[int64]$ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST=2
 # Set-Variable -Name ERROR_CODE_SUCCESS -Value ([int64]0) -Option Constant, AllScope -Force
 # Set-Variable -Name ERROR_CODE_GENERAL_ERROR -Value ([int64]1) -Option Constant, AllScope -Force
-# Set-Variable -Name ERROR_CODE_NEED_FILE_DOES_NOT_EXIST -Value ([int64]2) -Option Constant, AllScope -Force
+# Set-Variable -Name ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST -Value ([int64]2) -Option Constant, AllScope -Force
 
 # directory definitions
 [string]$BIN_DIR="abkBin"
@@ -91,11 +91,11 @@ function Confirm-CommandExist () {
     $oldPreference = $ErrorActionPreference
     $ErrorActionPreference =  "stop"
     $RESULT=$false
-   
+
     try { if(Get-Command -Name $command) { $RESULT=$true } }
     catch {}
     Finally {$ErrorActionPreference=$oldPreference}
-    
+
     Write-Host "<-" $MyInvocation.MyCommand.Name "($RESULT)" -ForegroundColor Yellow
     return $RESULT
 }
