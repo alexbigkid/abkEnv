@@ -73,6 +73,22 @@ __install_oh_my_bash() {
         LCL_RETURN_VAL=$?
     fi
 
+    # copy custom theme
+    if [ "$LCL_RETURN_VAL" -eq 0 ]; then
+        local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/custom/themes/abk_pl"
+        local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/custom/themes/"
+        cp -r $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
+        LCL_RETURN_VAL=$?
+    fi
+
+    # overwrite the history.sh since it has a bug
+    if [ "$LCL_RETURN_VAL" -eq 0 ]; then
+        local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/lib/history.sh"
+        local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/lib/"
+        cp -f $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
+        LCL_RETURN_VAL=$?
+    fi
+
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
     return $LCL_RETURN_VAL
 }
@@ -85,7 +101,6 @@ __install_oh_my_zsh() {
     local LCL_INSTALL_DIR="$HOME/.oh-my-zsh"
     if [ ! -d "$LCL_INSTALL_DIR" ]; then
         git clone https://github.com/ohmyzsh/ohmyzsh.git $LCL_INSTALL_DIR
-        # curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh
         LCL_RETURN_VAL=$?
     fi
 
