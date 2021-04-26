@@ -81,6 +81,28 @@ TEXT_TO_ADD
     return $LCL_RESULT
 }
 
+AbkLib_RemoveEnvironmentSettings() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_FILE_TO_REMOVE_CONTENT_FROM=$1
+    local LCL_RESULT=$FALSE
+
+    if [ -f "$LCL_FILE_TO_REMOVE_CONTENT_FROM" ]; then
+        echo "   [File $LCL_FILE_TO_REMOVE_CONTENT_FROM exist ...]"
+        LCL_RESULT=$TRUE
+        if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
+            [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment found removing it...]"
+            sed -i -e "/^$ABK_ENV_BEGIN$/,/^$ABK_ENV_END$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
+        else
+            [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment NOT found. Nothng to remove]"
+        fi
+    else
+        echo "   [File: $LCL_FILE_TO_REMOVE_CONTENT_FROM does not exist.]"
+    fi
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
 AbkLib_IsParameterHelp() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
@@ -123,28 +145,6 @@ AbkLib_IsStringInArray() {
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_MATCH_FOUND)"
     return $LCL_MATCH_FOUND
-}
-
-AbkLib_RemoveEnvironmentSettings() {
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
-    local LCL_FILE_TO_REMOVE_CONTENT_FROM=$1
-    local LCL_RESULT=$FALSE
-
-    if [ -f "$LCL_FILE_TO_REMOVE_CONTENT_FROM" ]; then
-        echo "   [File $LCL_FILE_TO_REMOVE_CONTENT_FROM exist ...]"
-        LCL_RESULT=$TRUE
-        if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
-            [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment found removing it...]"
-            sed -i -e "/^$ABK_ENV_BEGIN$/,/^$ABK_ENV_END$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
-        else
-            [ "$ABK_TRACE" -ge "$ABK_INFO_TRACE" ] && echo "   [ABK environment NOT found. Nothng to remove]"
-        fi
-    else
-        echo "   [File: $LCL_FILE_TO_REMOVE_CONTENT_FROM does not exist.]"
-    fi
-
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
-    return $LCL_RESULT
 }
 
 AbkLib_IsBrewInstalled() {
