@@ -223,30 +223,12 @@ AbkLib_InstallCascadiaFonts() {
         AbkLib_BrewInstallPackage "tap" "homebrew/cask-fonts"
         LCL_RESULT=$?
     fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-cascadia-code"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-cascadia-code-pl"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-cascadia-mono"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-cascadia-mono-pl"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-caskaydia-cove-nerd-font"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewInstallPackage "--cask" "font-droid-sans-mono-nerd-font"
-        LCL_RESULT=$?
-    fi
+    for LCL_FONT in "${ABK_FONTS[@]}"; do
+        if [ "$LCL_RESULT" == $TRUE ]; then
+            AbkLib_BrewInstallPackage "--cask" $LCL_FONT
+            LCL_RESULT=$?
+        fi
+    done
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
@@ -261,22 +243,12 @@ AbkLib_UninstallCascadiaFonts() {
         LCL_RESULT=$FALSE
     fi
 
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-code"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-code-pl"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-mono"
-        LCL_RESULT=$?
-    fi
-    if [ "$LCL_RESULT" == $TRUE ]; then
-        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-mono-pl"
-        LCL_RESULT=$?
-    fi
+    for LCL_FONT in "${ABK_FONTS[@]}"; do
+        if [ "$LCL_RESULT" == $TRUE ]; then
+            AbkLib_BrewUninstallPackage "--cask" $LCL_FONT
+            LCL_RESULT=$?
+        fi
+    done
     if [ "$LCL_RESULT" == $TRUE ]; then
         AbkLib_BrewUninstallPackage "untap" "homebrew/cask-fonts"
         LCL_RESULT=$?
