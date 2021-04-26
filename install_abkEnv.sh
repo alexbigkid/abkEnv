@@ -14,7 +14,6 @@ PrintUsageAndExitWithCode() {
     exit $1
 }
 
-
 __install_abkEnv_uninstall_old() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
     if [ -d "$HOME/env" ]; then
@@ -27,7 +26,6 @@ __install_abkEnv_uninstall_old() {
     fi
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
 }
-
 
 __install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
@@ -49,7 +47,6 @@ __install_abkEnv_common() {
     return $LCL_RETURN_VAL
 }
 
-
 __install_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -65,7 +62,6 @@ __install_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
-
 
 __install_oh_my_bash() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
@@ -98,7 +94,6 @@ __install_oh_my_bash() {
     return $LCL_RETURN_VAL
 }
 
-
 __install_oh_my_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -119,6 +114,14 @@ __install_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
+    # install pre-configured powerlevel10k
+    local LCL_PL10K_CONFIG_SRC_FILE="./macBin/env/zsh/themes_config/.p10.zsh"
+    local LCL_PL10K_CONFIG_DST_FILE="~/.p10.zsh"
+    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -f "$LCL_PL10K_CONFIG_DST_FILE" ]; then
+        cp $LCL_PL10K_CONFIG_SRC_FILE $LCL_PL10K_CONFIG_DST_FILE
+        LCL_RETURN_VAL=$?
+    fi
+
     # install zsh-autosuggestion custom plugin
     local LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR="${ZSH_CUSTOM:-$LCL_INSTALL_DIR/custom}/plugins/zsh-autosuggestions"
     if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -d "$LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR" ]; then
@@ -136,7 +139,6 @@ __install_oh_my_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
-
 
 #---------------------------
 # main
