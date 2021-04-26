@@ -36,8 +36,10 @@ echo "LCL_ABK_COLORS = $LCL_ABK_COLORS"
 # internal variables definitions
 # -----------------------------------------------------------------------------
 # for here document to add to the profile
-ABK_ENV_BEGIN="# >>>>>> DO_NOT_REMOVE >>>>>> ABK_ENV >>>> BEGIN"
-ABK_ENV_END="# <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
+ABK_ENV_BEGIN="# BEGIN >>>>>> DO_NOT_REMOVE >>>>>> ABK_ENV"
+ABK_ENV_END="# END <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV"
+ABK_P10K_ZSH_ENV_BEGIN="# BEGIN >>>>>> DO_NOT_REMOVE >>>>>> ABK_P10K_ZSH_ENV"
+ABK_P10K_ZSH_ENV_END="# END <<<<<< DO_NOT_REMOVE <<<<<< ABK_P10K_ZSH_ENV"
 ABK_FONTS=(
     "font-cascadia-code"
     "font-cascadia-code-pl"
