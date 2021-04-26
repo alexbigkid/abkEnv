@@ -115,10 +115,11 @@ __install_oh_my_zsh() {
     fi
 
     # install pre-configured powerlevel10k
-    local LCL_PL10K_CONFIG_SRC_FILE="./macBin/env/zsh/themes_config/.p10.zsh"
-    local LCL_PL10K_CONFIG_DST_FILE="~/.p10.zsh"
+    local LCL_PL10K_CONFIG_SRC_FILE=./macBin/env/zsh/themes_config/.p10k.zsh
+    local LCL_PL10K_CONFIG_DST_FILE=~/.p10k.zsh
     if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -f "$LCL_PL10K_CONFIG_DST_FILE" ]; then
-        cp $LCL_PL10K_CONFIG_SRC_FILE $LCL_PL10K_CONFIG_DST_FILE
+        echo "copying $LCL_PL10K_CONFIG_SRC_FILE $LCL_PL10K_CONFIG_DST_FILE"
+        cp $LCL_PL10K_CONFIG_SRC_FILE $HOME
         LCL_RETURN_VAL=$?
     fi
 

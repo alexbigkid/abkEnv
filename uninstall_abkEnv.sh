@@ -14,7 +14,6 @@ PrintUsageAndExitWithCode() {
     exit $1
 }
 
-
 __uninstall_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -30,7 +29,6 @@ __uninstall_abkEnv_common() {
     return 0
 }
 
-
 __uninstall_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -40,7 +38,6 @@ __uninstall_abkEnv_for_shell() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
-
 
 __uninstall_oh_my_bash() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
@@ -56,7 +53,6 @@ __uninstall_oh_my_bash() {
     return $LCL_RETURN_VAL
 }
 
-
 __uninstall_oh_my_zsh() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
@@ -67,16 +63,18 @@ __uninstall_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
-    local LCL_PL10K_CONFIG_DST_FILE="~/.p10.zsh"
-    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ -f "$LCL_PL10K_CONFIG_DST_FILE" ]; then
-        rm $LCL_PL10K_CONFIG_DST_FILE
+    echo "LCL_RETURN_VAL = $LCL_RETURN_VAL"
+
+    local LCL_PL10K_CONFIG_FILE=~/.p10k.zsh
+    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ -f "$LCL_PL10K_CONFIG_FILE" ]; then
+        echo "rm $LCL_PL10K_CONFIG_FILE"
+        rm $LCL_PL10K_CONFIG_FILE
         LCL_RETURN_VAL=$?
     fi
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
-
 
 #---------------------------
 # main
@@ -119,7 +117,6 @@ uninstall_abkEnv_main() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
-
 
 echo ""
 echo "-> $0 ($@)"
