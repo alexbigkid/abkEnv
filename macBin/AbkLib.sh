@@ -18,7 +18,6 @@ echo "basename: $(basename $0)"
 echo "dirname: $(dirname $0)"
 echo "dirname/readlink: $(dirname $(readlink -f $0))"
 
-
 #---------------------------
 # vars definition
 #---------------------------
@@ -39,6 +38,14 @@ echo "LCL_ABK_COLORS = $LCL_ABK_COLORS"
 # for here document to add to the profile
 ABK_ENV_BEGIN="# >>>>>> DO_NOT_REMOVE >>>>>> ABK_ENV >>>> BEGIN"
 ABK_ENV_END="# <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV <<<< END"
+ABK_FONTS=(
+    "font-cascadia-code"
+    "font-cascadia-code-pl"
+    "font-cascadia-mono"
+    "font-cascadia-mono-pl"
+    "font-caskaydia-cove-nerd-font"
+    "font-droid-sans-mono-nerd-font"
+)
 
 #---------------------------
 # functions
@@ -132,6 +139,147 @@ AbkLib_RemoveEnvironmentSettings() {
         fi
     else
         echo "   [File: $LCL_FILE_TO_REMOVE_CONTENT_FROM does not exist.]"
+    fi
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
+AbkLib_IsBrewInstalled() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_RESULT=$TRUE
+    # homebrew installed?
+    if [[ $(command -v brew) == "" ]]; then
+        LCL_RESULT=$FALSE
+        echo "WARNING: Hombrew is not installed, please install with:"
+        echo "/usr/bin/ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
+    fi
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
+AbkLib_BrewInstallPackage() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_BREW_INSTALLATION_TYPE=$1
+    local LCL_BREW_PACKAGE=$2
+    local LCL_INSTALL=""
+    local LCL_IS_BREW_PACKAGE_INSTALLED=""
+    local LCL_RESULT=$TRUE
+
+    if [ "$LCL_BREW_INSTALLATION_TYPE" != "tap" ]; then
+        LCL_IS_BREW_PACKAGE_INSTALLED=$(brew list | grep $LCL_BREW_PACKAGE)
+        LCL_INSTALL="install"
+    else
+        echo "$(brew tap-info --installed | grep $LCL_BREW_PACKAGE)"
+        LCL_IS_BREW_PACKAGE_INSTALLED=$(brew tap-info "--installed" | grep $LCL_BREW_PACKAGE)
+    fi
+
+    if [ "$LCL_IS_BREW_PACKAGE_INSTALLED" == "" ]; then
+        echo "   [brew $LCL_INSTALL $LCL_BREW_INSTALLATION_TYPE $LCL_BREW_PACKAGE ...]"
+        brew $LCL_INSTALL $LCL_BREW_INSTALLATION_TYPE $LCL_BREW_PACKAGE
+        LCL_RESULT=$?
+    fi
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
+AbkLib_BrewUninstallPackage() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_BREW_UNINSTALLATION_TYPE=$1
+    local LCL_BREW_PACKAGE=$2
+    local LCL_UNINSTALL=""
+    local LCL_IS_BREW_PACKAGE_INSTALLED=""
+    local LCL_RESULT=$TRUE
+
+    if [ "$LCL_BREW_UNINSTALLATION_TYPE" != "untap" ]; then
+        LCL_IS_BREW_PACKAGE_INSTALLED=$(brew list | grep $LCL_BREW_PACKAGE)
+        LCL_UNINSTALL="uninstall"
+    else
+        echo "$(brew tap-info --installed | grep $LCL_BREW_PACKAGE)"
+        LCL_IS_BREW_PACKAGE_INSTALLED=$(brew tap-info "--installed" | grep $LCL_BREW_PACKAGE)
+    fi
+
+    if [ "$LCL_IS_BREW_PACKAGE_INSTALLED" != "" ]; then
+        echo "   [brew $LCL_UNINSTALL $LCL_BREW_UNINSTALLATION_TYPE $LCL_BREW_PACKAGE ...]"
+        brew $LCL_UNINSTALL $LCL_BREW_UNINSTALLATION_TYPE $LCL_BREW_PACKAGE
+        LCL_RESULT=$?
+    fi
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
+AbkLib_InstallCascadiaFonts() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_RESULT=$TRUE
+
+    if [ AbkLib_IsBrewInstalled == $FALSE ]; then
+        "${RED}ERROR:${NC} The homebrew tool is not installed, the required Cascadia fonts cannot be installed"
+        LCL_RESULT=$FALSE
+    fi
+
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "tap" "homebrew/cask-fonts"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-cascadia-code"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-cascadia-code-pl"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-cascadia-mono"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-cascadia-mono-pl"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-caskaydia-cove-nerd-font"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewInstallPackage "--cask" "font-droid-sans-mono-nerd-font"
+        LCL_RESULT=$?
+    fi
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    return $LCL_RESULT
+}
+
+AbkLib_UninstallCascadiaFonts() {
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    local LCL_RESULT=$TRUE
+
+    if [ AbkLib_IsBrewInstalled == $FALSE ]; then
+        "${RED}ERROR:${NC} The homebrew tool is not installed, the required Cascadia fonts cannot be uninstalled"
+        LCL_RESULT=$FALSE
+    fi
+
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-code"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-code-pl"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-mono"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewUninstallPackage "--cask" "font-cascadia-mono-pl"
+        LCL_RESULT=$?
+    fi
+    if [ "$LCL_RESULT" == $TRUE ]; then
+        AbkLib_BrewUninstallPackage "untap" "homebrew/cask-fonts"
+        LCL_RESULT=$?
     fi
 
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"

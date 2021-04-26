@@ -24,6 +24,8 @@ __uninstall_abkEnv_common() {
         rm $HOME_BIN_DIR
     fi
 
+    AbkLib_UninstallCascadiaFonts
+
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }

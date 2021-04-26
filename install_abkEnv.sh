@@ -32,16 +32,21 @@ __install_abkEnv_uninstall_old() {
 __install_abkEnv_common() {
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "-> ${FUNCNAME[0]} ($@)"
 
+    local LCL_RETURN_VAL=0
+
     # Figure out what directory this script is executed from
     local LCL_CURRENT_DIR=$PWD
     # echo "LCL_CURRENT_DIR = $LCL_CURRENT_DIR"
     if [ ! -d $HOME_BIN_DIR ]; then
         echo "   [Creating $HOME_BIN_DIR directory link to $LCL_CURRENT_DIR/$SH_BIN_DIR ...]"
         ln -s "$LCL_CURRENT_DIR/$SH_BIN_DIR" $HOME_BIN_DIR
+        LCL_RETURN_VAL=$?
     fi
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
-    return 0
+    AbkLib_InstallCascadiaFonts || PrintUsageAndExitWithCode $? "${YELLOW}WARNING:${NC} Cascadia fonts cannot be installed"
+
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
+    return $LCL_RETURN_VAL
 }
 
 
@@ -99,8 +104,32 @@ __install_oh_my_zsh() {
 
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-zsh"
+
+    # install oh-my-zsh
     if [ ! -d "$LCL_INSTALL_DIR" ]; then
         git clone https://github.com/ohmyzsh/ohmyzsh.git $LCL_INSTALL_DIR
+        LCL_RETURN_VAL=$?
+    fi
+
+    # install powerlevel10k custom theme for oh-my-zsh
+    local LCL_PL10K_THEME_DIR="${ZSH_CUSTOM:-$LCL_INSTALL_DIR/custom}/themes/powerlevel10k"
+    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -d "$LCL_PL10K_THEME_DIR" ]; then
+        # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $LCL_INSTALL_DIR/custom/themes/powerlevel10k
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $LCL_PL10K_THEME_DIR
+        LCL_RETURN_VAL=$?
+    fi
+
+    # install zsh-autosuggestion custom plugin
+    local LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR="${ZSH_CUSTOM:-$LCL_INSTALL_DIR/custom}/plugins/zsh-autosuggestions"
+    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -d "$LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR" ]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions $LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR
+        LCL_RETURN_VAL=$?
+    fi
+
+    # install zsh-syntax-highlighting custom plugin
+    local LCL_ZSH_SYNTAX_HIGHLIGHTING_PLUGIN_DIR="${ZSH_CUSTOM:-$LCL_INSTALL_DIR/custom}/plugins/zsh-syntax-highlighting"
+    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -d "$LCL_ZSH_SYNTAX_HIGHLIGHTING_PLUGIN_DIR" ]; then
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $LCL_ZSH_SYNTAX_HIGHLIGHTING_PLUGIN_DIR
         LCL_RETURN_VAL=$?
     fi
 
