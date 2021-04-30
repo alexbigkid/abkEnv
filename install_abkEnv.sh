@@ -114,15 +114,6 @@ __install_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
-    # install pre-configured powerlevel10k
-    local LCL_PL10K_CONFIG_SRC_FILE=./macBin/env/zsh/themes_config/.p10k.zsh
-    local LCL_PL10K_CONFIG_DST_FILE=~/.p10k.zsh
-    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -f "$LCL_PL10K_CONFIG_DST_FILE" ]; then
-        echo "copying $LCL_PL10K_CONFIG_SRC_FILE $LCL_PL10K_CONFIG_DST_FILE"
-        cp $LCL_PL10K_CONFIG_SRC_FILE $HOME
-        LCL_RETURN_VAL=$?
-    fi
-
     # install zsh-autosuggestion custom plugin
     local LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR="${ZSH_CUSTOM:-$LCL_INSTALL_DIR/custom}/plugins/zsh-autosuggestions"
     if [ "$LCL_RETURN_VAL" -eq 0 ] && [ ! -d "$LCL_ZSH_AUTOSUGGESTION_PLUGIN_DIR" ]; then

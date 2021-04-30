@@ -63,15 +63,6 @@ __uninstall_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
-    echo "LCL_RETURN_VAL = $LCL_RETURN_VAL"
-
-    local LCL_PL10K_CONFIG_FILE=~/.p10k.zsh
-    if [ "$LCL_RETURN_VAL" -eq 0 ] && [ -f "$LCL_PL10K_CONFIG_FILE" ]; then
-        echo "rm $LCL_PL10K_CONFIG_FILE"
-        rm $LCL_PL10K_CONFIG_FILE
-        LCL_RETURN_VAL=$?
-    fi
-
     [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
     return 0
 }
