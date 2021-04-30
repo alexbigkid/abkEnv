@@ -9,7 +9,7 @@ Setting up bash or zsh on Mac and PowerShell on Windows
 ## MacOS (bash or zsh shell)
 After cloning the abkEnv repository, to install execute
 ```html
-    ./install_abkEnv.sh
+./install_abkEnv.sh
 ```
 
 
@@ -20,7 +20,7 @@ After cloning the abkEnv repository, to install execute
 
 - to install brew:
 ```html
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 
@@ -47,7 +47,7 @@ After cloning the abkEnv repository, to install execute
 ## Windows 10 (PowerShell)
 After cloning the abkEnv repository, to install execute
 ```html
-    ./install_abkEnv.ps1
+install_abkEnv.ps1
 ```
 
 The installation on Windows has many manual steps, which still needs to be improved. SInce I don't own  a Windows PC it is hard to automate it.
