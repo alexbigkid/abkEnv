@@ -13,6 +13,15 @@ After cloning the abkEnv repository, to install execute
 ```
 
 
+### MacOS shells supported by abkEnv
+- [x] /bin/bash
+- [ ] /bin/csh
+- [ ] /bin/ksh
+- [ ] /bin/sh
+- [ ] /bin/tcsh
+- [x] /bin/zsh
+
+
 ### MacOS Prerequisites
 | tool      | description                                                  |
 | :-------- | :----------------------------------------------------------- |
@@ -32,6 +41,7 @@ After cloning the abkEnv repository, to install execute
 | syntax-highlighting | zsh plugin will be installed automatically into the ~/.zsh/custom/plugins/zzsh-syntax-highlighting              |
 | Cascadia fonts      | Cascadia fonts needed to display power line symbols. It will be installed, but config needs to be done manually |
 
+
 ### MacOS bash additional tool installations
 | tool           | description                                                                                                     |
 | :------------- | :-------------------------------------------------------------------------------------------------------------- |
@@ -39,6 +49,20 @@ After cloning the abkEnv repository, to install execute
 | abk_pl         | powerline custom theme will be installed into custom/themes/abk_pl                                              |
 | history        | default config of the the oh-my-bash has a bug it will be corrected in lib/history.sh                           |
 | Cascadia fonts | Cascadia fonts needed to display power line symbols. It will be installed, but config needs to be done manually |
+
+
+### MacOS default shell config:
+- to check which shell your terminal is running: echo $SHELL
+- if you want to change to bash: chsh -s /bin/bash
+- if you want to change to zsh: chsh -s /bin/zsh
+
+
+### MacOS Terminal: powerline 10k configuration (supported only by zsh)
+- if you changed to zsh shell for first time, you will be automatically requested to configure powerline 10k
+- to customize your powerline 10k prompt, execute: p10k configure
+- follow the p10k config steps to your liking
+- the p10k configuration is saved in the file: ~/.p10k.zsh
+- the p10k is initialization is happening in the ~/.zshrc. Youwill see p10k line added after executing: p10k configure
 
 
 ### MacOS Terminal: custom theme and font configuration
