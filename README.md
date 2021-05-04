@@ -42,8 +42,13 @@ After cloning the abkEnv repository, to install execute
 
 
 ### MacOS Terminal custom theme and font configuration
-
-
+- open terminal app
+- "Cmd + ," - keyboard shortcut or from Menu: Terminal / Preferences
+- select Profile tab
+- Click on "..." and select Import
+- e.g. select one of the predefined terminal themes from this repo. E.g.: macBin/env/themes/abk_pl.terminal
+- set the imported theme as default by clicking on "Default"
+- Close terminal with: "Cmd + q" and re-open terminal app
 
 
 ## Windows 10 (PowerShell)
