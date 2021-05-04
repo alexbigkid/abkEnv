@@ -67,7 +67,7 @@ After cloning the abkEnv repository, to install execute
 
 ### MacOS Terminal: custom theme and font configuration
 - open terminal app
-- "Cmd + ," - keyboard shortcut or from Menu: Terminal / Preferences
+- Press: <kbd>&#8984;</kbd> + <kbd>,</kbd>" or from Menu: Terminal / Preferences
 - select Profile tab
 - Click on "..." and select Import
 - e.g. select one of the predefined terminal themes from this repo. E.g.: macBin/env/themes/abk_pl.terminal
