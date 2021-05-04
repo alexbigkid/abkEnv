@@ -67,22 +67,22 @@ After cloning the abkEnv repository, to install execute
 
 ### MacOS Terminal: custom theme and font configuration
 - open terminal app
-- Press: <kbd>&#8984;</kbd> + <kbd>,</kbd>" or from Menu: Terminal / Preferences
+- Press: <kbd>&#8984;</kbd> + <kbd>,</kbd> or from Menu: Terminal / Preferences
 - select Profile tab
 - Click on "..." and select Import
 - e.g. select one of the predefined terminal themes from this repo. E.g.: macBin/env/themes/abk_pl.terminal
 - set the imported theme as default by clicking on "Default"
-- Close terminal with: "Cmd + q" and re-open terminal app
+- Close terminal with: <kbd>&#8984;</kbd> + <kbd>q</kbd> and re-open terminal app
 
 ### MacOS Visual Studio Code: Integrated Terminal font configuration
 - open vscode app
-- "Cmd + ," - keyboard shortcut or from Menu: Code / Preferences / Settings
+- Press: <kbd>&#8984;</kbd> + <kbd>,</kbd> or from Menu: Code / Preferences / Settings
 - search for: "Font Terminal"
 - Set for "Terminal > Integrated: Font Family": 'CaskaydiaCove Nerd Font'
 
 ### MacOS Visual Studio Code: Editor font configuration
 - open vscode app
-- "Cmd + ," - keyboard shortcut or from Menu: Code / Preferences / Settings
+- Press: <kbd>&#8984;</kbd> + <kbd>,</kbd> or from Menu: Code / Preferences / Settings
 - search for: "Editor: Font Family"
 - Make sure that for "Editor: Font Family" entry the font 'Cascadia Code PL' is 1st in the list of comma separated font names
 
