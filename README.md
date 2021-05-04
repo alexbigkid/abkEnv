@@ -13,7 +13,7 @@ After cloning the abkEnv repository, to install execute
 ```
 
 
-## MacOS Prerequisites
+### MacOS Prerequisites
 | tool      | description                                                  |
 | :-------- | :----------------------------------------------------------- |
 | home brew | brew is a command line tool to install apps and tools on Mac |
@@ -24,7 +24,7 @@ After cloning the abkEnv repository, to install execute
 ```
 
 
-## MacOS zsh additional tool installations
+### MacOS zsh additional tool installations
 | tool                | description                                                                                                     |
 | :------------------ | :-------------------------------------------------------------------------------------------------------------- |
 | oh-my-zsh           | It will be installed automatically in ~/.oh-my-zsh                                                              |
@@ -32,7 +32,7 @@ After cloning the abkEnv repository, to install execute
 | syntax-highlighting | zsh plugin will be installed automatically into the ~/.zsh/custom/plugins/zzsh-syntax-highlighting              |
 | Cascadia fonts      | Cascadia fonts needed to display power line symbols. It will be installed, but config needs to be done manually |
 
-## MacOS bash additional tool installations
+### MacOS bash additional tool installations
 | tool           | description                                                                                                     |
 | :------------- | :-------------------------------------------------------------------------------------------------------------- |
 | oh-my-bash     | It will be installed automatically in ~/.oh-my-bash                                                             |
@@ -40,6 +40,8 @@ After cloning the abkEnv repository, to install execute
 | history        | default config of the the oh-my-bash has a bug it will be corrected in lib/history.sh                           |
 | Cascadia fonts | Cascadia fonts needed to display power line symbols. It will be installed, but config needs to be done manually |
 
+
+### MacOS Terminal custom theme and font configuration
 
 
 
