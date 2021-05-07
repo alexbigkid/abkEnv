@@ -128,8 +128,8 @@ __install_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
-    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} (0)"
-    return 0
+    [ "$ABK_TRACE" -ge "$ABK_FUNCTION_TRACE" ] && echo "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
+    return $LCL_RETURN_VAL
 }
 
 #---------------------------
