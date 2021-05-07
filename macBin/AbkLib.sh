@@ -8,9 +8,9 @@ export TRUE=0
 export FALSE=1
 
 ABK_LIB_FILE_DIR=$(dirname "$BASH_SOURCE")
-echo "ABK_LIB_FILE_DIR = $ABK_LIB_FILE_DIR"
+# echo "ABK_LIB_FILE_DIR = $ABK_LIB_FILE_DIR"
 ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
-echo "ABK_ENV_FILE = $ABK_ENV_FILE"
+# echo "ABK_ENV_FILE = $ABK_ENV_FILE"
 
 # echo "pwd: $(pwd)"
 # echo "\$0: $0"
@@ -22,14 +22,14 @@ echo "ABK_ENV_FILE = $ABK_ENV_FILE"
 # vars definition
 #---------------------------
 LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
-echo "LCL_ABK_VARS = $LCL_ABK_VARS"
+# echo "LCL_ABK_VARS = $LCL_ABK_VARS"
 [ -f "$LCL_ABK_VARS" ] && . $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
 
 #---------------------------
 # color definitions
 #---------------------------
 LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
-echo "LCL_ABK_COLORS = $LCL_ABK_COLORS"
+# echo "LCL_ABK_COLORS = $LCL_ABK_COLORS"
 [ -f "$LCL_ABK_COLORS" ] && . $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
 
 # -----------------------------------------------------------------------------
