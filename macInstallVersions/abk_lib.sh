@@ -38,6 +38,17 @@ local LCL_ABK_COLORS="../macBin/env/abk_colors.env"
 #---------------------------
 # functions
 #---------------------------
+function AbkLib_PrintTrace() {
+    local LCL_TRACE_LEVEL=$1
+    shift
+    local LCL_PRINT_STRING=("$@")
+    if [ "$LCL_TRACE_LEVEL" -eq "$TRACE_FUNCTION" ]; then
+        [ "$TRACE_LEVEL" -ge "$LCL_TRACE_LEVEL" ] && echo -e "${CYAN}${LCL_PRINT_STRING[@]}${NC}"
+    else
+        [ "$TRACE_LEVEL" -ge "$LCL_TRACE_LEVEL" ] && echo -e "${LCL_PRINT_STRING[@]}"
+    fi
+}
+
 AbkLib_GetAbsolutePath () {
     local DIR_NAME=$(dirname "$1")
     pushd "$DIR_NAME" > /dev/null
@@ -89,8 +100,8 @@ AbkLib_DeleteLink () {
 AbkLib_CheckNumberOfParameters () {
     echo "-> ${FUNCNAME[0]} ($@)"
     local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
-    local LCL_ALL_PARAMS=($@)
-    local LCL_PARAMETERS_PASSED_IN=(${LCL_ALL_PARAMS[@]:1:$#})
+    shift
+    local LCL_PARAMETERS_PASSED_IN=("$@")
     if [ $LCL_EXPECTED_NUMBER_OF_PARAMS -ne ${#LCL_PARAMETERS_PASSED_IN[@]} ]; then
         echo "ERROR: invalid number of parameters."
         echo "  expected number:  $LCL_EXPECTED_NUMBER_OF_PARAMS"
