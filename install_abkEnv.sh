@@ -49,15 +49,19 @@ __install_abkEnv_common() {
 
 __install_abkEnv_for_shell() {
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
-
     local LCL_USER_SHELL_CONFIG_FILE=$HOME/$1
+    local LCL_CONTENT_TO_ADD_ARRAY=(
+        "if [ -f $ABK_ENV_FILE ]; then"
+        "    . $ABK_ENV_FILE"
+        "fi"
+    )
 
     if [ ! -f "$LCL_USER_SHELL_CONFIG_FILE" ]; then
         echo "   [Creating user profile: $LCL_USER_SHELL_CONFIG_FILE ...]"
         touch "$LCL_USER_SHELL_CONFIG_FILE"
     fi
 
-    AbkLib_AddEnvironmentSettings "$LCL_USER_SHELL_CONFIG_FILE" "$ABK_ENV_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: one of the files do not exist${NC}"
+    AbkLib_AddEnvironmentSettings "$ABK_ENV_NAME" "$LCL_USER_SHELL_CONFIG_FILE" "${LCL_CONTENT_TO_ADD_ARRAY[@]}" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: failed update environment in $LCL_USER_SHELL_CONFIG_FILE${NC}"
 
     AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0

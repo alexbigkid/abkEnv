@@ -36,10 +36,9 @@ LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
 # internal variables definitions
 # -----------------------------------------------------------------------------
 # for here document to add to the profile
-ABK_ENV_BEGIN="# BEGIN >>>>>> DO_NOT_REMOVE >>>>>> ABK_ENV"
-ABK_ENV_END="# END <<<<<< DO_NOT_REMOVE <<<<<< ABK_ENV"
-ABK_P10K_ZSH_ENV_BEGIN="# BEGIN >>>>>> DO_NOT_REMOVE >>>>>> ABK_P10K_ZSH_ENV"
-ABK_P10K_ZSH_ENV_END="# END <<<<<< DO_NOT_REMOVE <<<<<< ABK_P10K_ZSH_ENV"
+ABK_ENV_BEGIN="# BEGIN >>>>>> DO_NOT_REMOVE >>>>>>"
+ABK_ENV_END="# END <<<<<< DO_NOT_REMOVE <<<<<<"
+ABK_ENV_NAME="ABK_ENV"
 ABK_FONTS=(
     "font-cascadia-code"
     "font-cascadia-code-pl"
@@ -65,27 +64,28 @@ AbkLib_PrintTrace() {
 
 AbkLib_AddEnvironmentSettings() {
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
-    local LCL_FILE_TO_ADD_CONTENT_TO=$1
-    local LCL_SETTING_FILE_TO_INCLUDE=$2
+    local LCL_ENV_NAME=$1
+    local LCL_FILE_TO_ADD_CONTENT_TO=$2
+    shift
+    shift
+    local LCL_SETTINGS_TO_ADD=("$@")
     local LCL_RESULT=$FALSE
 
-    if [ -f "$LCL_FILE_TO_ADD_CONTENT_TO" ] && [ -f "$LCL_SETTING_FILE_TO_INCLUDE" ]; then
+    if [ "$LCL_ENV_NAME" != "" ] && [ -f "$LCL_FILE_TO_ADD_CONTENT_TO" ] && [ ${#LCL_SETTINGS_TO_ADD[@]} -ne 0 ]; then
         LCL_RESULT=$TRUE
 
-        if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_ADD_CONTENT_TO; then
-            AbkLib_PrintTrace $TRACE_INFO "   [ABK environment already added. Nothing to do here.]"
+        if grep -q -e "$IROBOT_ENV_BEGIN $LCL_ENV_NAME" $LCL_FILE_TO_ADD_CONTENT_TO; then
+            AbkLib_PrintTrace $TRACE_INFO "\t[Environment already added. Nothing to do here.]"
         else
-            AbkLib_PrintTrace $TRACE_INFO "   [adding ABK environment ...]"
+            AbkLib_PrintTrace $TRACE_INFO "\t[Adding $LCL_ENV_NAME environment ...]"
             cat >>$LCL_FILE_TO_ADD_CONTENT_TO <<-TEXT_TO_ADD
-$ABK_ENV_BEGIN
-if [ -f "$LCL_SETTING_FILE_TO_INCLUDE" ]; then
-    . $LCL_SETTING_FILE_TO_INCLUDE
-fi
-$ABK_ENV_END
+$ABK_ENV_BEGIN $LCL_ENV_NAME
+$(printf "%s\n" "${LCL_SETTINGS_TO_ADD[@]}")
+$ABK_ENV_END $LCL_ENV_NAME
 TEXT_TO_ADD
         fi
     else
-        echo -e "${RED}   One or both files do not exist: $LCL_FILE_TO_ADD_CONTENT_TO, $LCL_SETTING_FILE_TO_INCLUDE${NC}"
+        AbkLib_PrintTrace $TRACE_CRITICAL "${RED}\tInvalid parameters passed in${NC}"
     fi
 
     AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
@@ -94,15 +94,16 @@ TEXT_TO_ADD
 
 AbkLib_RemoveEnvironmentSettings() {
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
-    local LCL_FILE_TO_REMOVE_CONTENT_FROM=$1
+    local LCL_ENV_NAME=$1
+    local LCL_FILE_TO_REMOVE_CONTENT_FROM=$2
     local LCL_RESULT=$FALSE
 
     if [ -f "$LCL_FILE_TO_REMOVE_CONTENT_FROM" ]; then
         echo "   [File $LCL_FILE_TO_REMOVE_CONTENT_FROM exist ...]"
         LCL_RESULT=$TRUE
-        if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
+        if grep -q -e "$ABK_ENV_BEGIN $LCL_ENV_NAME" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
             AbkLib_PrintTrace $TRACE_INFO "   [ABK environment found removing it...]"
-            sed -i -e "/^$ABK_ENV_BEGIN$/,/^$ABK_ENV_END$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
+            sed -i -e "/^$ABK_ENV_BEGIN $LCL_ENV_NAME$/,/^$ABK_ENV_END $LCL_ENV_NAME$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
         else
             AbkLib_PrintTrace $TRACE_INFO "   [ABK environment NOT found. Nothng to remove]"
         fi
