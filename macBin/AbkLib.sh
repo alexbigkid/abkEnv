@@ -183,7 +183,7 @@ AbkLib_BrewInstallPackage() {
         LCL_IS_BREW_PACKAGE_INSTALLED=$(brew list | grep $LCL_BREW_PACKAGE)
         LCL_INSTALL="install"
     else
-        echo "$(brew tap-info --installed | grep $LCL_BREW_PACKAGE)"
+        # echo "$(brew tap-info --installed | grep $LCL_BREW_PACKAGE)"
         LCL_IS_BREW_PACKAGE_INSTALLED=$(brew tap-info "--installed" | grep $LCL_BREW_PACKAGE)
     fi
 
