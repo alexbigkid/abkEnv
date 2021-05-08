@@ -15,7 +15,7 @@ PrintUsageAndExitWithCode() {
 }
 
 __uninstall_abkEnv_common() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
 
     # remove the abkEnv directory from user's home dir
     if [ -d $HOME_BIN_DIR ]; then
@@ -25,22 +25,22 @@ __uninstall_abkEnv_common() {
 
     AbkLib_UninstallCascadiaFonts
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
 __uninstall_abkEnv_for_shell() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
 
     local LCL_USER_SHELL_CONFIG_FILE=$HOME/$1
     AbkLib_RemoveEnvironmentSettings "$LCL_USER_SHELL_CONFIG_FILE" || PrintUsageAndExitWithCode $ERROR_CODE_NEEDED_FILE_DOES_NOT_EXIST "${RED}ERROR: $HOME/$LCL_USER_SHELL_CONFIG_FILE file does not exist${NC}"
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
 __uninstall_oh_my_bash() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
 
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-bash"
@@ -49,12 +49,12 @@ __uninstall_oh_my_bash() {
         LCL_RETURN_VAL=$?
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
     return $LCL_RETURN_VAL
 }
 
 __uninstall_oh_my_zsh() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
 
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-zsh"
@@ -63,7 +63,7 @@ __uninstall_oh_my_zsh() {
         LCL_RETURN_VAL=$?
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 
@@ -77,7 +77,7 @@ uninstall_abkEnv_main() {
     local LCL_ABK_LIB_FILE="./macBin/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [BIN_DIR           = $BIN_DIR]"
     [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
     [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [SH_BIN_DIR        = $SH_BIN_DIR]"
@@ -105,7 +105,7 @@ uninstall_abkEnv_main() {
 
     AbkLib_SourceEnvironment $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (0)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0
 }
 

@@ -64,7 +64,7 @@ AbkLib_PrintTrace() {
 }
 
 AbkLib_AddEnvironmentSettings() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_ADD_CONTENT_TO=$1
     local LCL_SETTING_FILE_TO_INCLUDE=$2
     local LCL_RESULT=$FALSE
@@ -88,12 +88,12 @@ TEXT_TO_ADD
         echo -e "${RED}   One or both files do not exist: $LCL_FILE_TO_ADD_CONTENT_TO, $LCL_SETTING_FILE_TO_INCLUDE${NC}"
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_RemoveEnvironmentSettings() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_FILE_TO_REMOVE_CONTENT_FROM=$1
     local LCL_RESULT=$FALSE
 
@@ -110,19 +110,19 @@ AbkLib_RemoveEnvironmentSettings() {
         echo "   [File: $LCL_FILE_TO_REMOVE_CONTENT_FROM does not exist.]"
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_IsParameterHelp() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local NUMBER_OF_PARAMETERS=$1
     local PARAMETER=$2
     if [ $NUMBER_OF_PARAMETERS -eq 1 ] && [ "$PARAMETER" == "--help" ]; then
-        [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (TRUE)"
+        AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (TRUE)"
         return $TRUE
     else
-        [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]} (FALSE)"
+        AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (FALSE)"
         return $FALSE
     fi
 }
@@ -141,7 +141,7 @@ AbkLib_GetPathFromLink() {
 }
 
 AbkLib_IsStringInArray() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_STRING_TO_SEARCH_FOR=$1
     shift
     local LCL_ARRAY_TO_SEARCH_IN=("$@")
@@ -154,12 +154,12 @@ AbkLib_IsStringInArray() {
         fi
     done
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_MATCH_FOUND)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_MATCH_FOUND)"
     return $LCL_MATCH_FOUND
 }
 
 AbkLib_IsBrewInstalled() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_RESULT=$TRUE
     # homebrew installed?
     if [[ $(command -v brew) == "" ]]; then
@@ -167,12 +167,12 @@ AbkLib_IsBrewInstalled() {
         echo "WARNING: Hombrew is not installed, please install with:"
         echo "/usr/bin/ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
     fi
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_BrewInstallPackage() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_BREW_INSTALLATION_TYPE=$1
     local LCL_BREW_PACKAGE=$2
     local LCL_INSTALL=""
@@ -193,12 +193,12 @@ AbkLib_BrewInstallPackage() {
         LCL_RESULT=$?
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_BrewUninstallPackage() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_BREW_UNINSTALLATION_TYPE=$1
     local LCL_BREW_PACKAGE=$2
     local LCL_UNINSTALL=""
@@ -219,12 +219,12 @@ AbkLib_BrewUninstallPackage() {
         LCL_RESULT=$?
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_InstallCascadiaFonts() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_RESULT=$TRUE
 
     if [ AbkLib_IsBrewInstalled == $FALSE ]; then
@@ -243,12 +243,12 @@ AbkLib_InstallCascadiaFonts() {
         fi
     done
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
 AbkLib_UninstallCascadiaFonts() {
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "-> ${FUNCNAME[0]} ($@)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     local LCL_RESULT=$TRUE
 
     if [ AbkLib_IsBrewInstalled == $FALSE ]; then
@@ -267,7 +267,7 @@ AbkLib_UninstallCascadiaFonts() {
         LCL_RESULT=$?
     fi
 
-    [ "$TRACE_LEVEL" -ge "$TRACE_FUNCTION" ] && echo "<- ${FUNCNAME[0]}($LCL_RESULT)"
+    AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]}($LCL_RESULT)"
     return $LCL_RESULT
 }
 
