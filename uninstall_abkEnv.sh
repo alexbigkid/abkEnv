@@ -78,13 +78,13 @@ uninstall_abkEnv_main() {
     [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
 
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [BIN_DIR           = $BIN_DIR]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [SH_BIN_DIR        = $SH_BIN_DIR]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [SH_PACKAGES_DIR   = $SH_PACKAGES_DIR]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [ABK_ENV_FILE      = $ABK_ENV_FILE]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [HOME              = $HOME]"
-    [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo
+    AbkLib_PrintTrace $TRACE_INFO "   [BIN_DIR           = $BIN_DIR]"
+    AbkLib_PrintTrace $TRACE_INFO "   [HOME_BIN_DIR      = $HOME_BIN_DIR]"
+    AbkLib_PrintTrace $TRACE_INFO "   [SH_BIN_DIR        = $SH_BIN_DIR]"
+    AbkLib_PrintTrace $TRACE_INFO "   [SH_PACKAGES_DIR   = $SH_PACKAGES_DIR]"
+    AbkLib_PrintTrace $TRACE_INFO "   [ABK_ENV_FILE      = $ABK_ENV_FILE]"
+    AbkLib_PrintTrace $TRACE_INFO "   [HOME              = $HOME]"
+    AbkLib_PrintTrace $TRACE_INFO
 
     # Is parameter --help?
     [ "$#" -eq 1 ] && [ "$1" == "--help" ] && PrintUsageAndExitWithCode $ERROR_CODE_SUCCESS

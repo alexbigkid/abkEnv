@@ -73,9 +73,9 @@ AbkLib_AddEnvironmentSettings() {
         LCL_RESULT=$TRUE
 
         if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_ADD_CONTENT_TO; then
-            [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [ABK environment already added. Nothing to do here.]"
+            AbkLib_PrintTrace $TRACE_INFO "   [ABK environment already added. Nothing to do here.]"
         else
-            [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [adding ABK environment ...]"
+            AbkLib_PrintTrace $TRACE_INFO "   [adding ABK environment ...]"
             cat >>$LCL_FILE_TO_ADD_CONTENT_TO <<-TEXT_TO_ADD
 $ABK_ENV_BEGIN
 if [ -f "$LCL_SETTING_FILE_TO_INCLUDE" ]; then
@@ -101,10 +101,10 @@ AbkLib_RemoveEnvironmentSettings() {
         echo "   [File $LCL_FILE_TO_REMOVE_CONTENT_FROM exist ...]"
         LCL_RESULT=$TRUE
         if grep -q -e "$ABK_ENV_BEGIN" $LCL_FILE_TO_REMOVE_CONTENT_FROM; then
-            [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [ABK environment found removing it...]"
+            AbkLib_PrintTrace $TRACE_INFO "   [ABK environment found removing it...]"
             sed -i -e "/^$ABK_ENV_BEGIN$/,/^$ABK_ENV_END$/d" "$LCL_FILE_TO_REMOVE_CONTENT_FROM"
         else
-            [ "$TRACE_LEVEL" -ge "$TRACE_INFO" ] && echo "   [ABK environment NOT found. Nothng to remove]"
+            AbkLib_PrintTrace $TRACE_INFO "   [ABK environment NOT found. Nothng to remove]"
         fi
     else
         echo "   [File: $LCL_FILE_TO_REMOVE_CONTENT_FROM does not exist.]"
@@ -129,9 +129,9 @@ AbkLib_IsParameterHelp() {
 
 AbkLib_GetAbsolutePath() {
     local DIR_NAME=$(dirname "$1")
-    pushd "$DIR_NAME" > /dev/null
+    pushd "$DIR_NAME" >/dev/null
     local RESULT_PATH=$PWD
-    popd > /dev/null
+    popd >/dev/null
     echo $RESULT_PATH
 }
 
