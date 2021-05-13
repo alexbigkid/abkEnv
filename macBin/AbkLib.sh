@@ -26,6 +26,17 @@ LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/abk_vars.env"
 [ -f "$LCL_ABK_VARS" ] && . $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
 
 #---------------------------
+# Trace configuration
+#---------------------------
+TRACE_NONE=0
+TRACE_CRITICAL=1
+TRACE_FUNCTION=2
+TRACE_INFO=3
+TRACE_DETAILED=4
+TRACE_ALL=5
+TRACE_LEVEL=$TRACE_ALL
+
+#---------------------------
 # color definitions
 #---------------------------
 LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
@@ -276,4 +287,23 @@ AbkLib_SourceEnvironment() {
     local LCL_USER_SHELL_CONFIG_FILE=$1
     # todo: find a way to re-fresh environment from the shell script. As of now it does not work for zsh
     # source $LCL_USER_SHELL_CONFIG_FILE
+}
+
+AbkLib_CheckNumberOfParameters() {
+    AbkLib_PrintTrace $TRACE_FUNCTION "\n-> ${FUNCNAME[0]} ($@)"
+    local LCL_EXPECTED_NUMBER_OF_PARAMS=$1
+    shift
+    local LCL_PARAMETERS_PASSED_IN=("$@")
+
+    if [ $LCL_EXPECTED_NUMBER_OF_PARAMS -ne ${#LCL_PARAMETERS_PASSED_IN[@]} ]; then
+        AbkLib_PrintTrace $TRACE_CRITICAL "${RED}ERROR: invalid number of parameters.${NC}"
+        AbkLib_PrintTrace $TRACE_INFO "\texpected number:\t$LCL_EXPECTED_NUMBER_OF_PARAMS"
+        AbkLib_PrintTrace $TRACE_INFO "\tpassed in number:\t${#LCL_PARAMETERS_PASSED_IN[@]}"
+        AbkLib_PrintTrace $TRACE_INFO "\tparameters passed in:\t${LCL_PARAMETERS_PASSED_IN[@]}"
+        AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (FALSE)"
+        return $FALSE
+    else
+        AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (TRUE)"
+        return $TRUE
+    fi
 }
