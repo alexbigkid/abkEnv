@@ -5,4 +5,3 @@ macPackages/bci_*.txt
 macPackages/*_brew_update.txt
 macBin/bingwallpaper.py
 macBin/exif_rename.pl
-macBin/env/abk_work.env
