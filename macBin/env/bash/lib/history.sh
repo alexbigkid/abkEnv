@@ -29,8 +29,9 @@ shopt -s lithist
 PROMPT_COMMAND='history -a'
 
 # Huge history. Doesn't appear to slow things down, so why not?
-HISTSIZE=500000
-HISTFILESIZE=100000
+HISTSIZE=99999
+SAVEHIST=$HISTSIZE
+HISTFILESIZE=999999
 
 # Avoid duplicate entries
 HISTCONTROL="ignoreboth"
@@ -42,7 +43,7 @@ HISTCONTROL="ignoreboth"
 export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear:h"
 
 # Use standard ISO 8601 timestamp
-# %F equivalent to %Y-%m-%d                                                                                      
+# %F equivalent to %Y-%m-%d
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
