@@ -23,6 +23,13 @@ git config --global alias.st status
 git config --global alias.today "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=midnight"
 git config --global alias.unstage "reset HEAD --"
 git config --global alias.yesterday "log --pretty=format:'%Cred%h %Cgreen%cd%Creset | %s%C(auto)%d %Cgreen[%an]%Creset' --date=local --since=yesterday.midnight --until=midnight"
+git config --global alias.unstaged 'diff --name-only'
+git config --global alias.staged 'diff --name-only --cached'
+git config --global alias.untracked 'ls-files --exclude-standard --others'
+git config --global alias.ignored 'ls-files --exclude-standard --others --ignored'
+
+git config --global alias.stash-staged '!bash -c "git stash --keep-index; git stash push -m "staged" --keep-index; git stash pop stash@{1}"'
+git config --global alias.move-staged '!bash -c "git stash-staged;git commit -m "temp"; git stash; git reset --hard HEAD^; git stash pop"'
 
 # git config --global alias.bclean "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
 # git config --global alias.mbr "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" }; f"
