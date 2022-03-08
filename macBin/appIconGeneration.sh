@@ -1,17 +1,17 @@
 #!/bin/bash
 #
 # Copyright (C) 2018 smallmuou <smallmuou@163.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is furnished
 # to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@ info() {
 }
 
 cmdcheck() {
-    command -v $1>/dev/null 2>&1 || { error >&2 "Please install command $1 first."; exit 1; }   
+    command -v $1>/dev/null 2>&1 || { error >&2 "Please install command $1 first."; exit 1; }
 }
 
 error() {
@@ -53,14 +53,14 @@ warn() {
 }
 
 yesno() {
-    while true;do
-    read -p "$1 (y/n)" yn
-    case $yn in
-        [Yy]) $2;break;;
-        [Nn]) exit;;
-        *) echo 'please enter y or n.'
-    esac
-done
+    while true; do
+        read -p "$1 (y/n)" yn
+        case $yn in
+            [Yy]) $2;break;;
+            [Nn]) exit;;
+            *) echo 'please enter y or n.'
+        esac
+    done
 }
 
 curdir() {
@@ -133,7 +133,7 @@ dst_path=$2
 # check source file
 [ ! -f "$src_file" ] && { error "The source file $src_file does not exist, please check it."; exit -1; }
 
-# check width and height 
+# check width and height
 src_width=`sips -g pixelWidth $src_file 2>/dev/null|awk '/pixelWidth:/{print $NF}'`
 src_height=`sips -g pixelHeight $src_file 2>/dev/null|awk '/pixelHeight:/{print $NF}'`
 
@@ -143,7 +143,7 @@ if [ $src_width -ne $src_height ];then
     warn "The height and width of the source image are different, will cause image deformation."
 fi
 
-# create dst directory 
+# create dst directory
 [ ! -d "$dst_path" ] && mkdir -p "$dst_path"
 
 #------------------------------
@@ -158,8 +158,8 @@ fi
 # ios sizes refer to https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/app-icon/
 # macos sizes refer to https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/app-icon/
 # watchos sizes refer to https://developer.apple.com/design/human-interface-guidelines/watchos/icons-and-images/home-screen-icons/
-# 
-# 
+#
+#
 # name size
 sizes_mapper=`cat << EOF
 Icon-16         16
