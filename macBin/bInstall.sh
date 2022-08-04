@@ -27,7 +27,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 BREW_PACKAGE=$1
 BREW_CASK=$2
 
-PrintUsage ()
+PrintUsageAndExitWithCode ()
 {
     echo "$0 - installs brew package and logs in bi_<package name>.txt file"
     echo "usage: $0 <brew package name> [cask]"
@@ -120,19 +120,19 @@ fi
 # check if it is bash shell
 ABK_SHELL="${SHELL##*/}"
 if [ "$ABK_SHELL" != "bash" ] && [ "$ABK_SHELL" != "zsh" ]; then
-    PrintUsage $ERROR_CODE_NOT_BASH_SHELL
+    PrintUsageAndExitWithCode $ERROR_CODE_NOT_BASH_SHELL
 fi
 
 # if parameter is --help
 if [ $# -eq 1 ] && [ $1 = "--help" ]; then
-    PrintUsage $ERROR_CODE_SUCCESS
+    PrintUsageAndExitWithCode $ERROR_CODE_SUCCESS
 fi
 
 # if not 1 parameters
 if [[ ( $# -ne 1 ) && ! ( $# -eq 2 && "$2" == "cask" ) ]]; then
     echo "number of parametres passed in: $#"
     echo "parameters: $@"
-    PrintUsage $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
+    PrintUsageAndExitWithCode $ERROR_CODE_NOT_VALID_NUM_OF_PARAMETERS
 fi
 
 # is brew installed?
