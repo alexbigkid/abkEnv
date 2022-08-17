@@ -28,4 +28,3 @@ InstallLib_GetVersion () {
     echo "<- ${FUNCNAME[0]} (0 $LCL_RETURN_VAL)"
     return $LCL_EXIT_CODE
 }
-
