@@ -21,7 +21,7 @@ ABK_ENV_FILE="$PWD/$ABK_LIB_FILE_DIR/env/abk_env.env"
 #---------------------------
 # vars definition
 #---------------------------
-LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/000_vars.env"
+LCL_ABK_VARS="$ABK_LIB_FILE_DIR/env/001_vars.env"
 # echo "LCL_ABK_VARS = $LCL_ABK_VARS"
 [ -f "$LCL_ABK_VARS" ] && . $LCL_ABK_VARS || echo "ERROR: vars definition file ($LCL_ABK_VARS) could not be found"
 
