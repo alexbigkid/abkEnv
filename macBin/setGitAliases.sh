@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ABK_COLOR_FILE="env/abk_colors.env"
+ABK_COLOR_FILE="env/002_colors.env"
 [ -f $ABK_COLOR_FILE ] && . $ABK_COLOR_FILE
 
 echo -e "${YELLOW}-> $0${NC}"

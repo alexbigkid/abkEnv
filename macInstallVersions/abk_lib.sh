@@ -31,7 +31,7 @@ ERROR_CODE=$ERROR_CODE_SUCCESS
 #---------------------------
 # color definitions
 #---------------------------
-local LCL_ABK_COLORS="../macBin/env/abk_colors.env"
+local LCL_ABK_COLORS="../macBin/env/002_colors.env"
 [ -f "$LCL_ABK_COLORS" ] && . $LCL_ABK_COLORS || echo "ERROR: colors could not be included"
 
 

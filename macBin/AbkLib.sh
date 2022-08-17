@@ -39,7 +39,7 @@ TRACE_LEVEL=$TRACE_ALL
 #---------------------------
 # color definitions
 #---------------------------
-LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/abk_colors.env"
+LCL_ABK_COLORS="$ABK_LIB_FILE_DIR/env/002_colors.env"
 # echo "LCL_ABK_COLORS = $LCL_ABK_COLORS"
 [ -f "$LCL_ABK_COLORS" ] && . $LCL_ABK_COLORS || echo "ERROR: colors definition file ($LCL_ABK_COLORS) could not be found"
 
