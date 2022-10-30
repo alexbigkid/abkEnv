@@ -73,7 +73,7 @@ __install_oh_my_bash() {
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-bash"
     if [ ! -d "$LCL_INSTALL_DIR" ]; then
-        git clone git://github.com/ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
+        git clone git@github.com:ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
         # curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh
         LCL_RETURN_VAL=$?
     fi
