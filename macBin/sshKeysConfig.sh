@@ -109,7 +109,7 @@ PrintUsageAndExitWithCode ()
         echo "ERROR: $LOCAL_ERROR_MESSAGE"
     fi
     echo ""
-    echo "$0 configures ssh on Mac/Linux/Unix to work with huntermob git repo"
+    echo "$0 configures ssh on Mac/Linux/Unix to work with git"
     echo "This script ($0) must be called with $EXPECTED_NUMBER_OF_PARAMS parameters."
     echo "  $0 -a <user name> <ssh service> - create ssh keys and adds the private key to the shh agent"
     echo "  $0 -d <user name> <ssh service> - removes ssh private key from ssh agent and deletes the ssh keys"
@@ -175,9 +175,8 @@ AddSshKeyToSshConfig ()
     if [[ $FIND_CONTENT == "" ]]; then
         echo "   inserting config for ssh key: $SSH_DIR/$SSH_PRIVATE_KEY_NAME to $SSH_DIR/config file ..."
         LOCAL_CONFIG_TO_INSERT=$"$BEGIN_OF_CONFIG_SECTION $LOCAL_SSH_DIR/$LOCAL_SSH_PRIVATE_KEY
-# --- VSO git ssh repo for Hunterindustries ---
-Host vs-ssh.visualstudio.com
-	HostName vs-ssh.visualstudio.com
+Host $LOCAL_SSH_PRIVATE_KEY
+	HostName $LOCAL_SSH_PRIVATE_KEY
 	User $LOCAL_USER
 	PreferredAuthentications publickey
 	IdentityFile $LOCAL_SSH_DIR/$LOCAL_SSH_PRIVATE_KEY
@@ -433,8 +432,8 @@ PrintSshPublicKeyAdditionUserInstruction ()
     local LOCAL_SSH_PUB_KEY_FILE_NAME=$1
     echo "   \$LOCAL_SSH_PUB_KEY_FILE_NAME = $LOCAL_SSH_PUB_KEY_FILE_NAME"
 
-    echo -e "${PURPLE}   Please add the file content: \"$LOCAL_SSH_PUB_KEY_FILE_NAME\" to your huntermob git repo account:${NC}"
-    echo -e "${PURPLE}     1. Login to your git repo account${NC}"
+    echo -e "${PURPLE}   Please add the file content: \"$LOCAL_SSH_PUB_KEY_FILE_NAME\" to your git account:${NC}"
+    echo -e "${PURPLE}     1. Login to your git account${NC}"
     echo -e "${PURPLE}     2. Click on your account icon, top right corner.${NC}"
     echo -e "${PURPLE}     3. Select Security from the drop down menu.${NC}"
     echo -e "${PURPLE}     4. Click on the \"SSH public keys\" on the left frame.${NC}"
@@ -455,8 +454,8 @@ PrintSshPublicKeyRemovalUserInstruction ()
     local LOCAL_SSH_PUB_KEY_FILE_NAME=$1
     echo "   \$LOCAL_SSH_PUB_KEY_FILE_NAME = $LOCAL_SSH_PUB_KEY_FILE_NAME"
 
-    echo -e "${PURPLE}   Please remove the file content: \"$LOCAL_SSH_PUB_KEY_FILE_NAME\" from your huntermob git repo account:${NC}"
-    echo -e "${PURPLE}     1. Login to your huntermob git repo account${NC}"
+    echo -e "${PURPLE}   Please remove the file content: \"$LOCAL_SSH_PUB_KEY_FILE_NAME\" from your git account:${NC}"
+    echo -e "${PURPLE}     1. Login to your git account${NC}"
     echo -e "${PURPLE}     2. Click on your account icon, top right corner.${NC}"
     echo -e "${PURPLE}     3. Select Security from the drop down menu.${NC}"
     echo -e "${PURPLE}     4. Click on the \"SSH public keys\" on the left frame.${NC}"
