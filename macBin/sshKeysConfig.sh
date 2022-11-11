@@ -269,7 +269,7 @@ CreatePlistFileInAgentDirectory()
     <key>ProgramArguments</key>
     <array>
         <string>ssh-add</string>
-        <string>-K</string>
+        <string>--apple-use-keychain</string>
         <string>$LOCAL_SSH_KEY_FULL_NAME</string>
     </array>
     <key>RunAtLoad</key>
@@ -401,7 +401,7 @@ EnsureSshKeyIsLoaded ()
     echo "   \$LOCAL_SSH_PUBLIC_KEY     = $LOCAL_SSH_PUBLIC_KEY"
     if [[ $LOCAL_SSH_KEY_LOADED != $LOCAL_SSH_PUBLIC_KEY ]]; then
         echo "   laoding ssh key to the ssh agent ..."
-        local LOCAL_LOAD_SSH_KEY_TO_SSH_AGENT=$(ssh-add -K $LOCAL_SSH_DIR/$LOCAL_SSH_PRIVATE_KEY)
+        local LOCAL_LOAD_SSH_KEY_TO_SSH_AGENT=$(ssh-add --apple-use-keychain $LOCAL_SSH_DIR/$LOCAL_SSH_PRIVATE_KEY)
         LOCAL_EXIT_CODE=$?
     fi
 
