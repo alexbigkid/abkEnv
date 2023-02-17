@@ -12,6 +12,8 @@ git config --global alias.brr "!git fetch -p && git branch -r"
 git config --global alias.ci commit
 git config --global alias.co checkout
 git config --global alias.dbranch "!git checkout master && git branch -D $1 && git push origin --delete $1"
+git config --global alias.art "!git tag release && git push origin release"
+git config --global alias.rrt "!git tag --delete release && git push --delete origin release"
 git config --global alias.drbranch "!git checkout master && git push origin --delete $1"
 git config --global alias.cob "checkout -b"
 git config --global alias.hist "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
