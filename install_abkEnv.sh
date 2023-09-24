@@ -83,6 +83,7 @@ __install_oh_my_bash() {
     if [ "$LCL_RETURN_VAL" -eq 0 ]; then
         local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/custom/themes/abk_pl"
         local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/custom/themes/"
+        mkdir -p $LCL_CUSTOM_THEME_DST_DIR
         cp -r $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
         LCL_RETURN_VAL=$?
     fi
@@ -91,6 +92,7 @@ __install_oh_my_bash() {
     if [ "$LCL_RETURN_VAL" -eq 0 ]; then
         local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/lib/history.sh"
         local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/lib/"
+        mkdir -p $LCL_CUSTOM_THEME_DST_DIR
         cp -f $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
         LCL_RETURN_VAL=$?
     fi
