@@ -62,7 +62,7 @@ After cloning the abkEnv repository, to install execute
 - to customize your powerline 10k prompt, execute: p10k configure
 - follow the p10k config steps to your liking
 - the p10k configuration is saved in the file: ~/.p10k.zsh
-- the p10k is initialization is happening in the ~/.zshrc. Youwill see p10k line added after executing: p10k configure
+- the p10k is initialization is happening in the ~/.zshrc. You will see p10k line added after executing: p10k configure
 
 
 ### MacOS Terminal: custom theme and font configuration
