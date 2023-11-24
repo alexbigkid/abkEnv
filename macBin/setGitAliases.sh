@@ -7,6 +7,7 @@ echo -e "${YELLOW}-> $0${NC}"
 echo '----- GIT alias configuration ------'
 
 git config --global alias.alias "config --get-regexp ^alias\."
+git config --global alias.lcnf 'config --list --show-origin'
 git config --global alias.br branch
 git config --global alias.brr "!git fetch -p && git branch -r"
 git config --global alias.ci commit

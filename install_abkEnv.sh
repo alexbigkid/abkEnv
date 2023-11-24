@@ -73,7 +73,8 @@ __install_oh_my_bash() {
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-bash"
     if [ ! -d "$LCL_INSTALL_DIR" ]; then
-        git clone git@github.com:ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
+        git clone https://github.com/ohmybash/ohmybash.github.io.git $LCL_INSTALL_DIR
+        # git clone git@github.com:ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
         # curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh
         LCL_RETURN_VAL=$?
     fi
@@ -82,6 +83,7 @@ __install_oh_my_bash() {
     if [ "$LCL_RETURN_VAL" -eq 0 ]; then
         local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/custom/themes/abk_pl"
         local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/custom/themes/"
+        mkdir -p $LCL_CUSTOM_THEME_DST_DIR
         cp -r $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
         LCL_RETURN_VAL=$?
     fi
@@ -90,6 +92,7 @@ __install_oh_my_bash() {
     if [ "$LCL_RETURN_VAL" -eq 0 ]; then
         local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/lib/history.sh"
         local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/lib/"
+        mkdir -p $LCL_CUSTOM_THEME_DST_DIR
         cp -f $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
         LCL_RETURN_VAL=$?
     fi
