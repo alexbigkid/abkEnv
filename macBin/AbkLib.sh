@@ -53,10 +53,8 @@ ABK_ENV_NAME="ABK_ENV"
 ABK_FONTS=(
     "font-cascadia-code"
     "font-cascadia-code-pl"
-    "font-cascadia-mono"
-    "font-cascadia-mono-pl"
     "font-caskaydia-cove-nerd-font"
-    "font-droid-sans-mono-nerd-font"
+    "font-hack-nerd-font"
 )
 
 #---------------------------
