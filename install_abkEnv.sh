@@ -29,7 +29,7 @@ __install_abkEnv_uninstall_old() {
 
 __install_abkEnv_common() {
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
-
+    local LCL_BREW_INSTALLED=$1
     local LCL_RETURN_VAL=0
 
     # Figure out what directory this script is executed from
@@ -41,7 +41,9 @@ __install_abkEnv_common() {
         LCL_RETURN_VAL=$?
     fi
 
-    AbkLib_InstallCascadiaFonts || PrintUsageAndExitWithCode $? "${YELLOW}WARNING:${NC} Cascadia fonts cannot be installed"
+    if [ $LCL_BREW_INSTALLED -eq $TRUE ]; then
+        AbkLib_InstallCascadiaFonts || PrintUsageAndExitWithCode $? "${YELLOW}WARNING:${NC} Cascadia fonts cannot be installed"
+    fi
 
     AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
     return $LCL_RETURN_VAL
@@ -73,7 +75,8 @@ __install_oh_my_bash() {
     local LCL_RETURN_VAL=0
     local LCL_INSTALL_DIR="$HOME/.oh-my-bash"
     if [ ! -d "$LCL_INSTALL_DIR" ]; then
-        git clone https://github.com/ohmybash/ohmybash.github.io.git $LCL_INSTALL_DIR
+        git clone https://github.com/ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
+        # git clone https://github.com/ohmybash/ohmybash.github.io.git $LCL_INSTALL_DIR
         # git clone git@github.com:ohmybash/oh-my-bash.git $LCL_INSTALL_DIR
         # curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh
         LCL_RETURN_VAL=$?
@@ -89,13 +92,13 @@ __install_oh_my_bash() {
     fi
 
     # overwrite the history.sh since it has a bug
-    if [ "$LCL_RETURN_VAL" -eq 0 ]; then
-        local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/lib/history.sh"
-        local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/lib/"
-        mkdir -p $LCL_CUSTOM_THEME_DST_DIR
-        cp -f $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
-        LCL_RETURN_VAL=$?
-    fi
+    # if [ "$LCL_RETURN_VAL" -eq 0 ]; then
+    #     local LCL_CUSTOM_THEME_SRC_FILE="./macBin/env/bash/lib/history.sh"
+    #     local LCL_CUSTOM_THEME_DST_DIR="$LCL_INSTALL_DIR/lib/"
+    #     mkdir -p $LCL_CUSTOM_THEME_DST_DIR
+    #     cp -f $LCL_CUSTOM_THEME_SRC_FILE $LCL_CUSTOM_THEME_DST_DIR
+    #     LCL_RETURN_VAL=$?
+    # fi
 
     AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} ($LCL_RETURN_VAL)"
     return $LCL_RETURN_VAL
@@ -148,6 +151,8 @@ install_abkEnv_main() {
     local LCL_ABK_INSTALL_OH_MY="__install_oh_my"
     local LCL_ABK_LIB_FILE="./macBin/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
+    local LCL_BREW_INSTALLED=$FALSE
+    [ "$(command -v brew)" != "" ] && LCL_BREW_INSTALLED=$TRUE
 
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     AbkLib_PrintTrace $TRACE_INFO "   [BIN_DIR           = $BIN_DIR]"
@@ -166,7 +171,7 @@ install_abkEnv_main() {
     AbkLib_IsStringInArray $ABK_SHELL "${ABK_SUPPORTED_SHELLS[@]}" || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} $ABK_SHELL is not supported.\nPlease consider using one of those shells: ${ABK_SUPPORTED_SHELLS[*]}"
 
     __install_abkEnv_uninstall_old
-    __install_abkEnv_common
+    __install_abkEnv_common $LCL_BREW_INSTALLED
 
     for USER_SHELL_CONFIG_FILE in "${ABK_USER_SHELL_CONFIG_FILES[@]}"; do
         __install_abkEnv_for_shell $USER_SHELL_CONFIG_FILE || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} __install_abkEnv_for_shell $USER_SHELL_CONFIG_FILE failed"

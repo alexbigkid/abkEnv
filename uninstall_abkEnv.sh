@@ -16,6 +16,7 @@ PrintUsageAndExitWithCode() {
 
 __uninstall_abkEnv_common() {
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
+    local LCL_BREW_INSTALLED=$1
 
     # remove the abkEnv directory from user's home dir
     if [ -d $HOME_BIN_DIR ]; then
@@ -23,7 +24,9 @@ __uninstall_abkEnv_common() {
         rm $HOME_BIN_DIR
     fi
 
-    AbkLib_UninstallCascadiaFonts
+    if [ $LCL_BREW_INSTALLED -eq $TRUE ]; then
+        AbkLib_UninstallCascadiaFonts
+    fi
 
     AbkLib_PrintTrace $TRACE_FUNCTION "<- ${FUNCNAME[0]} (0)"
     return 0
@@ -76,6 +79,8 @@ uninstall_abkEnv_main() {
     local LCL_ABK_UNINSTALL_OH_MY="__uninstall_oh_my"
     local LCL_ABK_LIB_FILE="./macBin/AbkLib.sh"
     [ -f $LCL_ABK_LIB_FILE ] && . $LCL_ABK_LIB_FILE || PrintUsageAndExitWithCode 1 "${LCL_RED}ERROR:${LCL_NC} $LCL_ABK_LIB_FILE could not be found."
+    local LCL_BREW_INSTALLED=$FALSE
+    [ "$(command -v brew)" != "" ] && LCL_BREW_INSTALLED=$TRUE
 
     AbkLib_PrintTrace $TRACE_FUNCTION "-> ${FUNCNAME[0]} ($@)"
     AbkLib_PrintTrace $TRACE_INFO "   [BIN_DIR           = $BIN_DIR]"
@@ -101,7 +106,7 @@ uninstall_abkEnv_main() {
         __uninstall_abkEnv_for_shell $USER_SHELL_CONFIG_FILE || PrintUsageAndExitWithCode $? "${RED}ERROR:${NC} __uninstall_abkEnv_for_shell $USER_SHELL_CONFIG_FILE failed"
     done
 
-    __uninstall_abkEnv_common
+    __uninstall_abkEnv_common $LCL_BREW_INSTALLED
 
     AbkLib_SourceEnvironment $HOME/$ABK_USER_SHELL_CONFIG_FILE
 
