@@ -100,8 +100,7 @@ However when I get a Windows computer, I will make it happen in more automatic w
 
 
 #### Tested working on:
-- [x] MacOS Big Sur
-- [x] MacOS Catalina
+- [x] MacOS
 - [x] Windows 10
 - [x] Linux Debian
 - [x] Linux Ubuntu
