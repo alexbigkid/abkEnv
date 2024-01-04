@@ -13,6 +13,10 @@ git config --global alias.brr "!git fetch -p && git branch -r"
 git config --global alias.ci commit
 git config --global alias.co checkout
 git config --global alias.dbranch "!git checkout master && git branch -D $1 && git push origin --delete $1"
+git config --global alias.adt "!git tag dev && git push origin dev"
+git config --global alias.rdt "!git tag --delete dev && git push --delete origin dev"
+git config --global alias.aqt "!git tag qa && git push origin qa"
+git config --global alias.rqt "!git tag --delete qa && git push --delete origin qa"
 git config --global alias.art "!git tag release && git push origin release"
 git config --global alias.rrt "!git tag --delete release && git push --delete origin release"
 git config --global alias.drbranch "!git checkout master && git push origin --delete $1"
