@@ -103,7 +103,8 @@ However when I get a Windows computer, I will make it happen in more automatic w
 - [x] MacOS Big Sur
 - [x] MacOS Catalina
 - [x] Windows 10
-- [ ] Linux (not working at the moment)
+- [x] Linux Debian
+- [x] Linux Ubuntu
 
 
 :checkered_flag:
