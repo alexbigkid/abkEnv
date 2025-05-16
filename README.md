@@ -104,10 +104,10 @@ However when I get a Windows computer, I will make it happen in more automatic w
 
 
 #### Tested working on:
-- [x] MacOS Big Sur
-- [x] MacOS Catalina
+- [x] MacOS
 - [x] Windows 10
-- [ ] Linux (not working at the moment)
+- [x] Linux Debian
+- [x] Linux Ubuntu
 
 
 :checkered_flag:
