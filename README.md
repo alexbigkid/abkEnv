@@ -1,3 +1,7 @@
+# ⚠️ DEPRECATED
+Further development has moved to [abk_env](https://github.com/alexbigkid/abk_env/) The MacOS/Linux Environment has been renamed to abk_env. <b>It is recommended to run <code>./uninstall.sh</code> script from this repo, before starting to use new environment setup in abk_env.</b>
+
+
 # :octocat: abkEnv - environment on Mac and Windows :octocat:
 Setting up bash or zsh on Mac and PowerShell on Windows
 
